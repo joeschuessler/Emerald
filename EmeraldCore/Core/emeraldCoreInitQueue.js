@@ -1,6 +1,6 @@
 let emerald = client.emerald;
 
-queue = emerald.queue = {q:[],qf:[],repeat:false};
+var queue = emerald.queue = {q:[],qf:[],repeat:false};
 
 queue.add = (cmd, free = false) => {
   if (free) {

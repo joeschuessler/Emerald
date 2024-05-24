@@ -11,9 +11,7 @@ if (client.version == undefined) nexusVersion = 2;
 
 if (nexusVersion == 3) {
 
-  //retain old data if reset, new obj if fresh load
   client.emerald = client.emerald || {};
-
   var emerald = client.emerald;
   
   emerald.configs = {
@@ -30,8 +28,10 @@ if (nexusVersion == 3) {
   emerald.dreamform = false;
   emerald.paused = false;
   
-  ['Note','Vitals','Bals','Flags','Prompt','Queue','Skills'].forEach(coreModule => {
-    run_function(`emeraldCoreInit${coreModule}`,'','EmeraldCore');
+  let coremodules = ['Note','Vitals','Bals','Flags','Prompt','Queue','Skills'];
+
+  coremodules.forEach(cm => {
+    run_function(`emeraldCoreInit${cm}`,'','EmeraldCore');
   });
                
   
@@ -78,7 +78,7 @@ if (nexusVersion == 3) {
   send_command('');
 
   emerald.plugins = {};
-  ['Bash'].forEach(p => {
+  ['Bash','Factions'].forEach(p => {
     run_function('onInstall','',`Emerald${p}`);
   }); 
 } else {

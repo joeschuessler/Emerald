@@ -44,6 +44,9 @@ emerald.bash.targets = {
   //Etherwilde
 
   //Etherglom
+  'a shadow spider': {alias:'spider', priority: 0},
+  'a shadow hawk': {alias:'hawk', priority:0},
+  'a shadow centipede': {alias:'centipede', priority:0},
 
   //Mount Dio
   'a snow white skara': {alias:'skara', priority: 0},
