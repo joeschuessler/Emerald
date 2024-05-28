@@ -1,3 +1,8 @@
+/**
+ * Script component of the emerald_factions_names trigger. Will split and parse every word of every line
+ * Trigger line: ^.*?$
+ */
+
 let factions = client.emerald.factions
 const words = [...args[0].matchAll(/\b(.+?)\b/gi)];
 words.forEach(w => {

@@ -1,11 +1,11 @@
 let emerald = client.emerald
 let prompt = emerald.prompt = {};
 
-prompt.onPrompt = (silent = false) => {
-  if (!silent) emerald.prompt.draw();
+prompt.onPrompt = (gag = false) => {
+  if (!gag) emerald.prompt.draw();
   if (!emerald.paused) {
     emerald.queue.run();
-    if (emerald.plugins.bash) emerald.bash.try();
+    emerald.plugins.bash && emerald.bash.try();
     if (emerald.skills.has('zarakido') && emerald.bals.ef && emerald.vitals.eflow <= 70 && !emerald.flags.get('tryingtea')) {
       emerald.debugmsg(emerald.skills.has('zarakido'));
       send_command('sip greentea harmonic');
@@ -73,7 +73,7 @@ prompt.draw = () => {
   if (emerald.vitals.prone) pflags += 'p';
   if (emerald.cloaked) pflags += '<>'
   emerald.note.build(pflags+'- ',emerald.bals.onbal ? 'goldenrod' : 'grey','');
-  emerald.prompt.drawTags();
+  prompt.drawTags();
   for (const d of ['hp','mp','ego','pow','xp','essence','awp','eflow']) {
     let diff = emerald.vitals['diff'+d]
     if (diff != 0) {
