@@ -19,7 +19,7 @@ mapper.roomWeights = JSON.parse(get_variable('emerald_mapper_roomweights')) || {
 };
 
 mapper.getArea = (vnum) => {
-  let areas = mapper.map.querySelectorAll("area");
+  let areas = mapper.mapxml.querySelectorAll("area");
   let returnValue = '';
   areas.forEach(a => {
     if (a.getAttribute('id') == vnum) returnValue = a.getAttribute('name');
@@ -28,10 +28,10 @@ mapper.getArea = (vnum) => {
 }
 
 mapper.getRoom = (roomName) => {
-  let rooms = mapper.map.querySelectorAll("room");
+  let rooms = mapper.mapxml.querySelectorAll("room");
   emerald.note.clear();
   emerald.note.build('[Mapper]:','silver','seagreen',' ','silver','');
-  emerald.note.build(`Scanning ${String(mapper.map.getElementsByTagName("room").length)} rooms for "`,emerald.configs.ui_white,'');
+  emerald.note.build(`Scanning ${String(mapper.mapxml.getElementsByTagName("room").length)} rooms for "`,emerald.configs.ui_white,'');
   emerald.note.build(roomName, emerald.configs.ui_green, '', '"...',emerald.configs.ui_white,'');
   emerald.note.display();
   let foundRooms = 0;
@@ -58,24 +58,62 @@ mapper.getRoom = (roomName) => {
 }
 
 mapper.getPath = (origin, dest) => {
-  let r = mapper.map.querySelector(`room#${origin}`)
+  let r = mapper.mapxml.querySelector(`room#${origin}`)
 }
 
 //Load and parse map
 emerald.emnote('Cartographing the Basin of Life...', 'Mapper');
-fetch('https://www.lusternia.com/maps/map.xml')
-.then(res => {
-  if (!res.ok) {
-    emerald.emnote('Error retrieving master map.', 'Mapper');
-  }
-  return res.text();
-})
-.then(mapText => {
-  let t = String(mapText);
-  let parser = new DOMParser();
-  mapper.map = parser.parseFromString(t, "text/xml");
-  emerald.emnote(`Successfully mapped ${mapper.map.getElementsByTagName("room").length} rooms in ${mapper.map.getElementsByTagName("area").length} areas.`,'Mapper');
-})
-.catch(error => {
-  emerald.emnote(`Error parsing master map: ${error}`,'Mapper');
-});
+mapper.loadmap = () => {
+  fetch('https://www.lusternia.com/maps/map.xml')
+  .then(res => {
+    if (!res.ok) {
+      emerald.emnote('Error retrieving master map.', 'Mapper');
+    }
+    return res.text();
+  })
+  .then(mapText => {
+    let t = String(mapText);
+    let parser = new DOMParser();
+    mapper.mapxml = parser.parseFromString(t, "text/xml");
+    emerald.emnote(`Successfully mapped ${mapper.mapxml.getElementsByTagName("room").length} rooms in ${mapper.mapxml.getElementsByTagName("area").length} areas.`,'Mapper');
+  })
+  .then(() => {
+    let rooms = mapper.mapxml.getElementsByTagName("room");
+    rooms.forEach(r => {
+      let id = r.getAttribute('id');
+      mapper.rooms[id] = {
+        area: r.getAttribute('area'),
+        title: r.getAttribute('title'),
+        exits: {}
+      };
+      r.children.forEach(c => {
+        if (c.tagName === "exit") {
+          let dir = c.getAttribute('direction');
+          mapper.rooms[id].exits[dir] = {target : c.getAttribute('target'), weight: 1};
+          if (c.getAttribute('tgarea') !== null) {mapper.rooms[id].exits[dir]["tgarea"] = c.getAttribute('tgarea')}
+          /*mapper.rooms[35].exits["east"] = {target: "41", weight: 1};
+          mapper.rooms = {
+            "35" : {
+              area: "2",
+              title: "before Avechna the Avenger"
+              exits: {
+                "east" : {
+                  target: "41",
+                  weight: 1
+                },
+                "down" : {
+                  target: "6154",
+                  weight: 1,
+                  tgarea: "10"
+                }
+              }
+            }
+          }*/
+        }
+      })
+    })
+  })
+  .catch(error => {
+    emerald.emnote(`Error parsing master map: ${error}`,'Mapper');
+  });
+}
