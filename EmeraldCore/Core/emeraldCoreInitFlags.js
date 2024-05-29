@@ -1,5 +1,5 @@
 let emerald = client.emerald;
-let flags = client.emerald.flags = {};
+let flags = emerald.flags = {};
 
 flags.set = (name, val, timer, callback = undefined) => {
   flags[name] = {'value': val, 'id': parseInt(setTimeout(() => {flags.clear(name, callback !== undefined)},timer)), 'callback':callback};

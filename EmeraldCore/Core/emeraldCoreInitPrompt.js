@@ -2,7 +2,7 @@ let emerald = client.emerald
 let prompt = emerald.prompt = {};
 
 prompt.onPrompt = (gag = false) => {
-  if (!gag) emerald.prompt.draw();
+  if (!gag) prompt.draw();
   if (!emerald.paused) {
     emerald.queue.run();
     emerald.plugins.bash && emerald.bash.try();

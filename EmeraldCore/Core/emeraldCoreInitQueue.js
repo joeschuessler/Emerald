@@ -24,7 +24,7 @@ queue.run = () => {
       }
     }
     if (queue.q.length > 0 && !emerald.flags.get('tryqueue')) {
-      curCmd = queue.q.shift();
+      let curCmd = queue.q.shift();
       cmds.push(curCmd);
       if (queue.repeat) queue.q.push(curCmd);
       emerald.flags.set('tryqueue',true,250);

@@ -42,6 +42,9 @@ emerald.bash.targets = {
   'a slavering stoneghast': {alias:'stoneghast', priority: 1},
 
   //Etherwilde
+  'an ethereal opossum': {alias:'opossum', priority: 0},
+  'an ethereal white peacock': {alias:'peacock', priority: 0},
+  'an ethereal stag': {alias:'stag', priority:0},
 
   //Etherglom
   'a shadow spider': {alias:'spider', priority: 0},

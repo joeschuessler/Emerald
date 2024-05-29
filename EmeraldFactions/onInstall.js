@@ -1,5 +1,8 @@
-client.emerald.factions = {};
-let factions = client.emerald.factions;
+let emerald = client.emerald;
+let factions = emerald.factions = {
+  name: 'EmeraldFactions',
+  version: '0.0.1.20240528'
+};
 
 factions.colors = {
   'Serenwilde': 'seagreen',
@@ -23,7 +26,8 @@ factions.add = (name) => {
     return res.json();
   }).then(data => {
     if (String(data).includes(' was not found')) {
-      //thing
+      client.emerald.emnote(`${name} was not found. Removing from name list.`);
+      delete factions.names[name];
     } else {
       let org;
       if (['Spindle','Skein','Bobbins'].includes(name) || data.level == 'Infinite') {
@@ -37,3 +41,5 @@ factions.add = (name) => {
     }
   })
 }
+emerald.plugins['factions'] = true;
+client.emerald.emnote(`${factions.name} v${factions.version} initialised.`);
