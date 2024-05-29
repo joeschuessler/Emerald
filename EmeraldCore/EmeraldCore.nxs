@@ -1,0 +1,328 @@
+{
+  "description": "Core module for Emerald",
+  "enabled": true,
+  "items": [{
+      "code": "let emerald = client.emerald;\nemerald.note.clear();\nemerald.note.build('\\n                             #############\\n','seagreen');\nemerald.note.build('                  ##############    ##  ##\\n','seagreen');\nemerald.note.build('            #########            ##    ###\\n','seagreen');\nemerald.note.build('           ###                ##      ####\\n','seagreen');\nemerald.note.build('           ## +           ##         ## # \\n','seagreen');\nemerald.note.build('           ##  #       ##           -#  # \\n','seagreen');\nemerald.note.build('           ##  ##   #              ###  # \\n','seagreen');\nemerald.note.build('          ##    ####              ###   # \\n','seagreen');\nemerald.note.build('          ##    ## ###           ###    # \\n','seagreen');\nemerald.note.build('          ##   ##   ###         ###    ## \\n','seagreen');\nemerald.note.build('          ##   #      ###      ###     ## \\n','seagreen');\nemerald.note.build('         ##   #         ###   ###      ## \\n','seagreen');\nemerald.note.build('         ##  ##           ######       ## \\n','seagreen');\nemerald.note.build('         #   #            ######      ##  \\n','seagreen');\nemerald.note.build('        ##  #        ####     #####   ##  \\n','seagreen');\nemerald.note.build('        ## #     ####             ######  \\n','seagreen');\nemerald.note.build('        ###  ###                    ####  \\n','seagreen');\nemerald.note.build('        ## ##            ############     \\n','seagreen');\nemerald.note.build('        ###    #############              \\n','seagreen');\nemerald.note.build('  \t#########                         \\n','seagreen');\nemerald.note.display();\nemerald.note.clear();",
+      "enabled": true,
+      "name": "emeraldSplash",
+      "type": "function"
+    }, {
+      "code": "set_variable('_emerald_core_version','0.0.1.20240528');\nrun_function('_emerald_core_chkupdates','Core','EmeraldCore')\n\nfunction htmlChars(str) {\n\treturn String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\"/g,'&quot;');\n}\n\nlet nexusVersion = 3\nif (client.version == undefined) nexusVersion = 2;\n\nif (nexusVersion == 3) {\n\n  client.emerald = client.emerald || {};\n  var emerald = client.emerald;\n  \n  emerald.configs = {\n    'debug': false,\n    'ui_white':'silver',\n    'ui_blue': 'steelblue',\n    'ui_green': 'seagreen',\n    'ui_yellow': 'lemonchiffon',\n    'ui_orange': 'sandybrown',\n    'ui_red': 'lightcoral'\n  };\n\n  emerald.cloaked = false;\n  emerald.dreamform = false;\n  emerald.paused = false;\n  \n  let coremodules = ['Note','Vitals','Bals','Flags','Prompt','Queue','Skills'];\n\n  coremodules.forEach(cm => {\n    run_function(`emeraldCoreInit${cm}`,'','EmeraldCore');\n  });\n               \n  \n  emerald.wounds = {};\n  emerald.defs = [];\n\n  // Used to parse and concat a series of strings with various color sets into a single output\n  emerald.html_parse = (...args) => {\n    let fg, bg;\n    let output = '';\n    for (let i = 0; i < args.length; i += 3) {\n      let text = htmlChars(args[i]);\n      let link = '';\n        if (text.startsWith('«') && text.includes('»')) {\n          let a = text.split('»');\n          link = a[0].substring(1);\n          text = a[1];\n        }\n        i+1 < args.length ? fg = args[i+1] : fg = 'grey';\n        i+2 < args.length ? bg = args[i+2] : bg = 'black';\n        if (link != '') output += `<a class=\"mxp.send\" href=\"#\" rel=\"${link}\">`;\n        output += `<span style=\"color:${fg};`;\n        if (bg != 'black') output += ` background-color:${bg};`;\n        output += `\">${text}</span>`;\n        if (link != '') output += '</a>';\n    }\n    return output;\n  };\n  \n  // Outputs an Emerald system notice using html\n  emerald.emnote = (str, tag='Emerald') => {\n    emerald.note.clear();\n    emerald.note.build(`[${tag}]:`,'silver','seagreen',' ','silver','',`${str}`,emerald.configs.ui_white,'');\n    emerald.note.display();\n  }\n\n  // Shorthand function for wrapping debug messages in emnote();\n  emerald.debugmsg = (str) => {\n    if (emerald.configs.debug) emerald.emnote(str,'Debugs');\n  }\n  \n  run_function('emeraldSplash','','EmeraldCore');\n  emerald.emnote('Emerald Core v'+get_variable('_emerald_core_version')+' initialised.');\n  send_command('');\n\n  emerald.plugins = {};\n  ['Bash','Factions'].forEach(p => {\n    run_function('onInstall','',`Emerald${p}`);\n  }); \n} else {\n  /** Handle Nexus 2 client; refer to CrystalNotices\n  *\n  */\n}\n",
+      "enabled": true,
+      "name": "onInstall",
+      "type": "function"
+    }, {
+      "code": "// Place any code here you'd like to autorun when the package is uninstalled",
+      "enabled": true,
+      "name": "onUninstall",
+      "type": "function"
+    }, {
+      "code": "run_function(\"onInstall\",\"\",\"EmeraldCore\");",
+      "enabled": true,
+      "name": "onLoad",
+      "type": "function"
+    }, {
+      "code": "if (args.gmcp_method == \"Char.Vitals\") {\n\n  var emerald = client.emerald\n\n  emerald.vitals.awp = to_number(args.gmcp_args.awp);\n  emerald.vitals.maxawp = to_number(args.gmcp_args.maxawp);\n  if (args.gmcp_args.stance) emerald.vitals.stance = args.gmcp_args.stance\n  for (const s of [\"hp\",\"mp\",\"ego\",\"pow\",\"xp\",\"essence\",\"awp\"]){\n    //save prev\n    emerald.vitals[\"prev\"+s] = emerald.vitals[s];\n    //set current\n    emerald.vitals[s] = 0 || to_number(args.gmcp_args[s]);\n    //calc diff\n    emerald.vitals[\"diff\"+s] = emerald.vitals[s] - emerald.vitals[\"prev\"+s] || 0;\n    //set max\n    if (!([\"essence\",\"xp\"].includes(s))) {\n      emerald.vitals[\"max\"+s] = to_number(args.gmcp_args[\"max\"+s]);\n    }\n    //calc percent\n    emerald.vitals[\"pct\"+s] = emerald.vitals[s]/emerald.vitals[\"max\"+s]*100;\n  }\n  emerald.vitals.preveflow = emerald.vitals.eflow;\n  emerald.vitals.eflow = to_number(args.gmcp_args.enigmaticflow);\n  emerald.vitals.diffeflow = emerald.vitals.eflow - emerald.vitals.preveflow || 0;\n\n  emerald.bals.B = to_number(args.gmcp_args.beastbal) == 1;\n  emerald.bals.eq = to_number(args.gmcp_args.equilibrium) == 1;\n  emerald.bals.la = to_number(args.gmcp_args.left_arm) == 1;\n  emerald.bals.ra = to_number(args.gmcp_args.right_arm) == 1;\n  emerald.bals.ll = to_number(args.gmcp_args.left_leg) == 1;\n  emerald.bals.rl = to_number(args.gmcp_args.right_leg) == 1;\n  emerald.bals.x = to_number(args.gmcp_args.balance) == 1;\n  emerald.bals.s = to_number(args.gmcp_args.psisub) == 1;\n  emerald.bals.S = to_number(args.gmcp_args.psisuper) == 1;\n  emerald.bals.i = to_number(args.gmcp_args.psiid) == 1;\n  emerald.bals.ef = to_number(args.gmcp_args.eflowbal) == 1;\n  emerald.bals.onbal = emerald.bals.eq && emerald.bals.x && emerald.bals.la && emerald.bals.ra && emerald.bals.ll && emerald.bals.rl && emerald.bals.s && emerald.bals.S && emerald.bals.i && !(emerald.vitals.prone);\n  for (const b of [\"slush\",\"ice\",\"steam\",\"dust\",\"healing\",\"sparkleberry\",\"scroll\",\"allheale\"]) {\n    emerald.bals[b] = to_number(args.gmcp_args[b]) == 1;\n  }\n  for (const v of [\"blind\",\"deaf\",\"prone\",\"kafe\"]) {\n    emerald.vitals[v] = to_number(args.gmcp_args[v]) == 1;\n  }\n}\n\nif (args.gmcp_method == \"Char.Skills.Groups\") {\n  let emerald = client.emerald;\n  let coreSkills = ['aethercraft','arts','beastmastery','combat','discernment','discipline','dramatics','environment','influence','planar'];\n  let toClear = [];\n  emerald.debugmsg('Skills have changed! Updating lists.');\n  let allVars = Object.keys(client.variables().vars);\n  for (let v in allVars) {\n    if (allVars[v].includes('emerald_skills_')) {\n      let s = allVars[v].replace('emerald_skills_','');\n      if (!coreSkills.includes(s)) toClear.push(s);\n    }\n  }\n  while (toClear.length > 0) {\n    delete_variable(`emerald_skills_${toClear.pop()}`);\n  }\n  run_function('emeraldCoreInitSkills','','EmeraldCore');\n  for (let g in args.gmcp_args) { //Groups are returned in an array of objects\n    emerald.skills[args.gmcp_args[g].name] = [];\n    send_GMCP('Char.Skills.Get', {group:args.gmcp_args[g].name});\n  }\n\t//set_variable('emerald_skills_groups', JSON.stringify(emerald.skills));\n}\n\nif (args.gmcp_method == \"Char.Skills.List\") {\n\tclient.emerald.skills[args.gmcp_args.group] = args.gmcp_args.list;\n\tset_variable(`emerald_skills_${args.gmcp_args.group}`,args.gmcp_args.list.join('|'));\n}\n\n  //TODO: aethercraft module\n\n",
+      "enabled": true,
+      "name": "onGMCP",
+      "type": "function"
+    }, {
+      "enabled": true,
+      "items": [{
+          "actions": [{
+              "enabled": true,
+              "fn": "onInstall",
+              "type": "function"
+            }
+          ],
+          "case_sensitive": true,
+          "enabled": true,
+          "matching": "regexp",
+          "name": "",
+          "prefix_suffix": true,
+          "text": "^(?:emerald|mrd)\\s(?:install|init)$",
+          "type": "alias",
+          "whole_words": true
+        }, {
+          "actions": [{
+              "enabled": true,
+              "script": "client.emerald.paused = args[1] == 'pause';\nclient.emerald.emnote(`${args[1].charAt(0).toUpperCase()+args[1].slice(1)}d`);",
+              "type": "script"
+            }
+          ],
+          "case_sensitive": true,
+          "enabled": true,
+          "matching": "regexp",
+          "name": "",
+          "prefix_suffix": true,
+          "text": "^((?:un)?pause)$",
+          "type": "alias",
+          "whole_words": true
+        }, {
+          "actions": [{
+              "enabled": true,
+              "fn": "onInstall",
+              "type": "function"
+            }
+          ],
+          "case_sensitive": false,
+          "enabled": true,
+          "matching": "regexp",
+          "name": "",
+          "prefix_suffix": true,
+          "text": "^reset$",
+          "type": "alias",
+          "whole_words": true
+        }, {
+          "actions": [{
+              "enabled": true,
+              "script": "client.emerald.configs.debug = args[1] == 'on';\nclient.emerald.emnote(`Debugging ${args[1]}`);",
+              "type": "script"
+            }
+          ],
+          "case_sensitive": true,
+          "enabled": true,
+          "matching": "regexp",
+          "name": "",
+          "prefix_suffix": true,
+          "text": "^debug (on|off)$",
+          "type": "alias",
+          "whole_words": true
+        }, {
+          "actions": [{
+              "enabled": true,
+              "script": "if (!client.emerald.paused) {\n  send_command(`${get_variable('emerald_config_announce')} targeting ${args[1]}`);\n  send_command(`t ${args[1]}`);\n}",
+              "type": "script"
+            }
+          ],
+          "case_sensitive": true,
+          "enabled": true,
+          "matching": "regexp",
+          "name": "",
+          "prefix_suffix": true,
+          "text": "^a\\s+(.+?)",
+          "type": "alias",
+          "whole_words": true
+        }, {
+          "actions": [{
+              "enabled": true,
+              "script": "set_variable('emerald_config_announce',args[1]);\nclient.emerald.emnote(`Announcer command set to: ${args[1].toUpperCase()}`);",
+              "type": "script"
+            }
+          ],
+          "case_sensitive": true,
+          "enabled": true,
+          "matching": "regexp",
+          "name": "",
+          "prefix_suffix": true,
+          "text": "^cfg ann(?:ounce)? (.+?)$",
+          "type": "alias",
+          "whole_words": true
+        }, {
+          "actions": [{
+              "enabled": true,
+              "script": "set_variable('emerald_target',args[1]);\nclient.emerald.emnote(`Targeting - ${args[1]}`);",
+              "type": "script"
+            }
+          ],
+          "case_sensitive": true,
+          "enabled": false,
+          "matching": "regexp",
+          "name": "",
+          "prefix_suffix": true,
+          "text": "^t\\s+(\\w+)$",
+          "type": "alias",
+          "whole_words": true
+        }, {
+          "actions": [{
+              "enabled": true,
+              "script": "args[2].split(',').forEach(a => {\n  client.emerald.queue.add(a.trim(), args[1] == 'f');\n})\nclient.emerald.queue.run();",
+              "type": "script"
+            }
+          ],
+          "case_sensitive": true,
+          "enabled": true,
+          "matching": "regexp",
+          "name": "emerald_core_addqueue",
+          "prefix_suffix": true,
+          "text": "^q(f)?\\s+(.+?)$",
+          "type": "alias",
+          "whole_words": true
+        }, {
+          "actions": [{
+              "enabled": true,
+              "script": "let queue = client.emerald.queue\nqueue.add(args[1]);\nqueue.repeat = true;\nqueue.run();\nclient.emerald.emnote(`Repeating action - ${args[1]}`);",
+              "type": "script"
+            }
+          ],
+          "case_sensitive": true,
+          "enabled": true,
+          "matching": "regexp",
+          "name": "",
+          "prefix_suffix": true,
+          "text": "^rpq\\s+(.+?)$",
+          "type": "alias",
+          "whole_words": true
+        }, {
+          "actions": [{
+              "enabled": true,
+              "script": "client.emerald.queue.reset();",
+              "type": "script"
+            }
+          ],
+          "case_sensitive": true,
+          "enabled": true,
+          "matching": "regexp",
+          "name": "",
+          "prefix_suffix": true,
+          "text": "^rq$",
+          "type": "alias",
+          "whole_words": true
+        }
+      ],
+      "name": "Commands",
+      "type": "group"
+    }, {
+      "enabled": true,
+      "items": [{
+          "actions": [{
+              "enabled": true,
+              "script": "client.emerald.emnote(args[1])",
+              "type": "script"
+            }
+          ],
+          "case_sensitive": true,
+          "enabled": true,
+          "matching": "regexp",
+          "name": "",
+          "prefix_suffix": true,
+          "text": "^emnote\\s+(.*?)$",
+          "type": "alias",
+          "whole_words": true
+        }, {
+          "actions": [{
+              "enabled": true,
+              "script": "display_notice(JSON.stringify(client.emerald.vitals,\"\",2));",
+              "type": "script"
+            }
+          ],
+          "case_sensitive": true,
+          "enabled": true,
+          "matching": "begins",
+          "name": "",
+          "prefix_suffix": true,
+          "text": "emerald vitals",
+          "type": "alias",
+          "whole_words": true
+        }, {
+          "actions": [{
+              "enabled": true,
+              "script": "if (args[0]) {\n  client.emerald.emnote(client.emerald.bals[args[0]],'Bals')\n} else {\n  for (const k of client.emerald.bals) {\n    client.emerald.emnote(`${k} - ${client.emerald.bals[k]}`, 'Bals')\n  }\n}",
+              "type": "script"
+            }
+          ],
+          "case_sensitive": true,
+          "enabled": true,
+          "matching": "begins",
+          "name": "",
+          "prefix_suffix": true,
+          "text": "bals",
+          "type": "alias",
+          "whole_words": true
+        }, {
+          "actions": [{
+              "enabled": true,
+              "script": "send_command('debug on')\nclient.emerald.flags.set(args[1],args[2] == 'true' ? true : args[2],args[3]);",
+              "type": "script"
+            }
+          ],
+          "case_sensitive": true,
+          "enabled": true,
+          "matching": "regexp",
+          "name": "",
+          "prefix_suffix": true,
+          "text": "^setflag (\\w+) (\\w+) (\\d+)$",
+          "type": "alias",
+          "whole_words": true
+        }, {
+          "actions": [{
+              "enabled": true,
+              "script": "client.emerald.flags.clear('test1');\n//display_notice(setTimeout(() => {display_notice('and done')}, 4000));",
+              "type": "script"
+            }
+          ],
+          "case_sensitive": true,
+          "enabled": true,
+          "matching": "regexp",
+          "name": "",
+          "prefix_suffix": true,
+          "text": "^cl$",
+          "type": "alias",
+          "whole_words": true
+        }
+      ],
+      "name": "Debug",
+      "type": "group"
+    }, {
+      "enabled": true,
+      "items": [{
+          "actions": [{
+              "enabled": true,
+              "type": "gag"
+            }, {
+              "enabled": true,
+              "script": "client.emerald.prompt.onPrompt();",
+              "type": "script"
+            }
+          ],
+          "case_sensitive": true,
+          "enabled": true,
+          "matching": "regexp",
+          "name": "emerald_core_prompt",
+          "text": "^(?:\\d+h)?\\,?\\s?(?:\\d+m)?\\,?\\s?(?:\\d+e)?\\,?\\s?(?:\\d+p)?\\s*?(?:\\[(?:N|B|TL|TH|C|SL|SH|K)\\])?\\s?[BelrxsSipdbk]*\\-$",
+          "type": "trigger",
+          "whole_words": true
+        }, {
+          "code": "let emerald = client.emerald;\nlet bals = emerald.bals = {};\n\nbals.set = (tag) => {\n  bals[tag] = true;\n};\n\nbals.use = (tag) => {\n  bals[tag] = false;\n};\n",
+          "enabled": true,
+          "name": "emeraldCoreInitBals",
+          "type": "function"
+        }, {
+          "code": "let emerald = client.emerald;\nlet flags = emerald.flags = {};\n\nflags.set = (name, val, timer, callback = undefined) => {\n  flags[name] = {'value': val, 'id': parseInt(setTimeout(() => {flags.clear(name, callback !== undefined)},timer)), 'callback':callback};\n  emerald.debugmsg(`Flag ${flags[name].id} ${name} RAISED: ${val} for ${to_number(timer)/1000} seconds${callback ? ` with callback: ${callback}`:''}`);\n}\n\nflags.get = (name) => {\n  if (flags.hasOwnProperty(name)) {\n      emerald.debugmsg(`Flag ${name}: ${JSON.stringify(flags[name])}`)\n      return flags[name].value;\n  } else {\n      return undefined;\n  }\n}\n\nflags.clear = (name, exec = false) => {\n  if (flags.hasOwnProperty(name)) {\n    if (exec) {\n      emerald.debugmsg(`Flag ${name} CLEARED with callback: ${flags[name].callback}`);\n      eval(flags[name].callback)\n    } else {\n      emerald.debugmsg(`Flag ${name} CLEARED!!`);\n    }\n    clearTimeout(flags[name].id);\n    delete flags[name];\n  }\n}",
+          "enabled": true,
+          "name": "emeraldCoreInitFlags",
+          "type": "function"
+        }, {
+          "code": "let emerald = client.emerald\nlet note = emerald.note = {};\n\nvar multinote = '';\n\nnote.clear = () => {\n  multinote = '';\n}\n\nnote.build = (...args) => {\n  multinote += emerald.html_parse(...args);\n}\n\nnote.display = () => {\n  display_html_line(multinote);\n}\n\nnote.pctcolor = (pct) => {\n  let clr;\n  switch (true) {\n    case (pct > 100):\n      clr = emerald.configs.ui_blue;\n      break;\n    case (pct >= 70):\n      clr = emerald.configs.ui_green;\n      break;\n    case (pct >= 30):\n      clr = emerald.configs.ui_yellow;\n      break;\n    case (pct > 0):\n      clr = emerald.configs.ui_red;\n      break;\n    default:\n      clr = emerald.configs.ui_white;\n  }\n  return clr;\n}",
+          "enabled": true,
+          "name": "emeraldCoreInitNote",
+          "type": "function"
+        }, {
+          "code": "let emerald = client.emerald\nlet prompt = emerald.prompt = {};\n\nprompt.onPrompt = (gag = false) => {\n  if (!gag) prompt.draw();\n  if (!emerald.paused) {\n    emerald.queue.run();\n    emerald.plugins.bash && emerald.bash.try();\n    if (emerald.skills.has('zarakido') && emerald.bals.ef && emerald.vitals.eflow <= 70 && !emerald.flags.get('tryingtea')) {\n      emerald.debugmsg(emerald.skills.has('zarakido'));\n      send_command('sip greentea harmonic');\n      emerald.flags.set('tryingtea',500);\n    }\n  }\n}\n\nprompt.draw = () => {\n  emerald.note.clear();\n  emerald.note.build('[',emerald.configs.ui_white,'');\n  emerald.note.build(emerald.vitals.hp,emerald.note.pctcolor(emerald.vitals.pcthp),'','h',emerald.configs.ui_white,'');\n  emerald.note.build('|',emerald.configs.ui_white,'');\n  emerald.note.build(emerald.vitals.mp,emerald.note.pctcolor(emerald.vitals.pctmp),'','m',emerald.configs.ui_white,'');\n  emerald.note.build('|',emerald.configs.ui_white,'');\n  emerald.note.build(emerald.vitals.ego,emerald.note.pctcolor(emerald.vitals.pctego),'','e',emerald.configs.ui_white,'');\n  emerald.note.build('|',emerald.configs.ui_white,'');\n  emerald.note.build(emerald.vitals.pow,emerald.note.pctcolor(emerald.vitals.pctpow),'','p',emerald.configs.ui_white,'');\n  emerald.note.build('] ',emerald.configs.ui_white,'');\n  if (emerald.skills.has('kata')) {\n    emerald.note.build(' [',emerald.configs.ui_white,'')\n    switch(emerald.vitals.stance) {\n      case '[n]':\n        emerald.note.build('N ',emerald.configs.ui_white,'')\n        break;\n      case '[b]':\n        emerald.note.build('B',emerald.configs.ui_blue,'');\n        break;\n      case '[tl]':\n        emerald.note.build('TL',emerald.configs.ui_green,'');\n        break;\n      case '[th]':\n        emerald.note.build('TH',emerald.configs.ui_green,'');\n        break;\n      case '[c]':\n        emerald.note.build('C',emerald.configs.ui_yellow,'');\n        break;\n      case '[sl]':\n        emerald.note.build('SL',emerald.configs.ui_orange,'');\n        break;\n      case '[sh]':\n        emerald.note.build('SH',emerald.configs.ui_orange,'');\n        break;\n      case '[k]':\n        emerald.note.build('K',emerald.configs.ui_red,'');\n        break;\n    }\n    emerald.note.build('] ',emerald.configs.ui_white,'');\n  }\n  if (emerald.skills.has('zarakido')) {\n    emerald.note.build(emerald.vitals.eflow,emerald.note.pctcolor(emerald.vitals.eflow),'','ef ',emerald.configs.ui_white,'');\n  }\n  \n  let pflags = '';\n  emerald.bals.B ? pflags += 'B' : pflags += '-';\n  emerald.bals.eq ? pflags += 'e' : pflags += '-';\n  emerald.bals.x ? pflags += 'x' : pflags += '-';\n  if (emerald.skills.has('blademaster') || emerald.skills.has('bonecrusher') || emerald.skills.has('kata')) emerald.bals.la ? pflags += 'l' : pflags += '-';\n  if (emerald.skills.has('kata')) emerald.bals.ll ? pflags += 'L' : pflags += '-';\n  if (emerald.skills.has('blademaster') || emerald.skills.has('bonecrusher') || emerald.skills.has('kata')) emerald.bals.ra ? pflags += 'r' : pflags += '-';\n  if (emerald.skills.has('kata')) emerald.bals.rl ? pflags += 'R' : pflags += '-';\n  if (emerald.vitals.kafe) pflags += 'k';\n  if (emerald.vitals.deaf) pflags += 'd';\n  if (emerald.vitals.blind) pflags += 'b';\n  if (emerald.vitals.prone) pflags += 'p';\n  if (emerald.cloaked) pflags += '<>'\n  emerald.note.build(pflags+'- ',emerald.bals.onbal ? 'goldenrod' : 'grey','');\n  prompt.drawTags();\n  for (const d of ['hp','mp','ego','pow','xp','essence','awp','eflow']) {\n    let diff = emerald.vitals['diff'+d]\n    if (diff != 0) {\n      if (diff > 0) {\n        emerald.note.build(' [',emerald.configs.ui_white,'',`+${diff}${d=='pow'?'p':d=='essence'?'ess':d}`,emerald.configs.ui_green,'',']',emerald.configs.ui_white,'');\n      } else {\n        emerald.note.build(' [',emerald.configs.ui_white,'',`${diff}${d=='pow'?'p':d=='essence'?'ess':d}`,emerald.configs.ui_red,'',']',emerald.configs.ui_white,'');\n      }\n    }\n  }\n  emerald.note.display();\n}\n\nprompt.drawTags = () => {\n  emerald.paused && emerald.note.build('[PAUSED]','silver','seagreen',' ','silver','');\n  emerald.plugins.bash && emerald.bash.active && emerald.note.build('[BASHING]','blue','seagreen',' ','silver','');\n}",
+          "enabled": true,
+          "name": "emeraldCoreInitPrompt",
+          "type": "function"
+        }, {
+          "code": "let emerald = client.emerald;\n\nvar queue = emerald.queue = {q:[],qf:[],repeat:false};\n\nqueue.add = (cmd, free = false) => {\n  if (free) {\n    emerald.debugmsg(`Action queued free - ${cmd}`);\n    queue.qf.push(cmd);\n  } else {\n    emerald.debugmsg(`Action queued - ${cmd}`);\n    queue.q.push(cmd);\n  }\n}\n\nqueue.run = () => {\n  if (emerald.paused || !(queue.q.length > 0 || queue.qf.length > 0)) return;\n\n  //Roadmap: beastbal and mounted status\n  let cmds = [];\n  if (emerald.bals.onbal) {\n    if (queue.qf.length > 0) {\n      while (queue.qf.length > 0) {\n        cmds.push(queue.qf.shift());\n      }\n    }\n    if (queue.q.length > 0 && !emerald.flags.get('tryqueue')) {\n      let curCmd = queue.q.shift();\n      cmds.push(curCmd);\n      if (queue.repeat) queue.q.push(curCmd);\n      emerald.flags.set('tryqueue',true,250);\n    }\n  }\n  if (cmds.length > 0) send_command(cmds.join('|'));\n}\n\nqueue.reset = () => {\n  queue.q = [];\n  queue.qf = [];\n  queue.repeat = false;\n  \n}",
+          "enabled": true,
+          "name": "emeraldCoreInitQueue",
+          "type": "function"
+        }, {
+          "code": "let emerald = client.emerald;\nlet skills = emerald.skills = {};\n\nskills.has = (skill, ab = undefined) => {\n  client.emerald.debugmsg(JSON.stringify(emerald.skills[skill]));\n  if (ab) {\n    return emerald.skills[skill] && emerald.skills[skill][ab];\n  } else {\n    return emerald.skills[skill];\n  }\n}",
+          "enabled": true,
+          "name": "emeraldCoreInitSkills",
+          "type": "function"
+        }, {
+          "code": "client.emerald.vitals = {};",
+          "enabled": true,
+          "name": "emeraldCoreInitVitals",
+          "type": "function"
+        }
+      ],
+      "name": "Core",
+      "type": "group"
+    }
+  ],
+  "name": "EmeraldCore",
+  "type": "group"
+}

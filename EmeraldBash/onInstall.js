@@ -37,7 +37,7 @@ bash.retarget = () => {
     //start scanning queue at 0
     let targetIndex = 0
     if(bash.queue.length > 1) {
-      var currentPriority = bash.queue[targetIndex].priority;
+      let currentPriority = bash.queue[targetIndex].priority;
       for (let t in bash.queue) {
         //If any target in the queue has a higher priority, that resets the bar.
         if (bash.queue[t].priority > currentPriority) {

@@ -26,7 +26,7 @@ factions.add = (name) => {
     return res.json();
   }).then(data => {
     if (String(data).includes(' was not found')) {
-      client.emerald.emnote(`${name} was not found. Removing from name list.`);
+      client.emerald.emnote(`${name} was not found. Removing from name list.`, 'Factions');
       delete factions.names[name];
     } else {
       let org;

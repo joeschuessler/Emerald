@@ -1,19 +1,27 @@
 let emerald = client.emerald;
 
 emerald.bash.targets = {
+
+  //Grimkeep
+  'a stonewrought sentinel':{alias: 'sentinel', priority:5},
+  'a misshapen koirakko':{alias: 'koirakko', priority: 4},
+  'a putrescent excoropox':{alias: 'excoropox', priority: 3},
+  'a ghostly battlecharger':{alias: 'battlecharger', priority:2},
+  'a spectral artificer':{alias: 'artificer', priority:1},
+
   //Astral beasts
-  'a ravenous fesix': {alias:'fesix', priority: 0},
-  'a robed obesefessor': {alias:'obesefessor', priority: 0},
-  'an emaciated virgin': {alias:'virgin', priority: 0},
-  'a gargantuan red scorpion': {alias:'scorpion', priority: 0},
-  'a floating urn': {alias:'urn', priority: 0},
-  'a hulking three-horned bull': {alias:'bull',priority: 0},
-  'a two-headed eagle': {alias:'eagle', priority: 0},
-  'a bloated parasite': {alias:'parasite',priority: 0},
-  'a two-headed abhorrence': {alias:'abhorrence', priority: 0},
-  'a sadistic mitran': {alias:'mitran', priority: 0},
-  'a stainless steel goat': {alias:'goat', priority: 0},
-  'a monstrous lobstrosity': {alias:'lobstrosity', priority: 0},
+  'a ravenous fesix': {alias:'fesix', priority: 1},
+  'a robed obesefessor': {alias:'obesefessor', priority: 1},
+  'an emaciated virgin': {alias:'virgin', priority: 1},
+  'a gargantuan red scorpion': {alias:'scorpion', priority: 1},
+  'a floating urn': {alias:'urn', priority: 1},
+  'a hulking three-horned bull': {alias:'bull',priority: 1},
+  'a two-headed eagle': {alias:'eagle', priority: 1},
+  'a bloated parasite': {alias:'parasite',priority: 1},
+  'a two-headed abhorrence': {alias:'abhorrence', priority: 1},
+  'a sadistic mitran': {alias:'mitran', priority: 1},
+  'a stainless steel goat': {alias:'goat', priority: 1},
+  'a monstrous lobstrosity': {alias:'lobstrosity', priority: 1},
 
   //Domoth beasts
   'a king of justice': {alias:'justice',priority:0},

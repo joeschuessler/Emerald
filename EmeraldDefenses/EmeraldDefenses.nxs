@@ -1,0 +1,1168 @@
+{
+  "description": "Defense definition triggers",
+  "enabled": true,
+  "items": [{
+      "enabled": true,
+      "items": [{
+          "actions": [{
+              "enabled": true,
+              "script": "client.emerald.defs['keeneye'] = true;",
+              "type": "script"
+            }
+          ],
+          "case_sensitive": true,
+          "enabled": true,
+          "matching": "regexp",
+          "name": "",
+          "text": "^You begin to observe your surroundings with a keen eye\\.$",
+          "type": "trigger",
+          "whole_words": true
+        }, {
+          "actions": [{
+              "enabled": true,
+              "script": "client.emerald.defs['sixthsense'] = true;",
+              "type": "script"
+            }
+          ],
+          "case_sensitive": true,
+          "enabled": true,
+          "matching": "regexp",
+          "name": "",
+          "text": "^You (?:now|already) possess the (?:gift of )?the sixth\\s?sense\\.$",
+          "type": "trigger",
+          "whole_words": true
+        }, {
+          "actions": [{
+              "enabled": true,
+              "script": "client.emerald.defs['deathsight'] = true;",
+              "type": "script"
+            }
+          ],
+          "case_sensitive": true,
+          "enabled": true,
+          "matching": "regexp",
+          "name": "",
+          "text": "^You shut your eyes and concentrate on the end of life\\. A moment later\\, you feel inextricably linked with the strings of fate\\.$",
+          "type": "trigger",
+          "whole_words": true
+        }, {
+          "actions": [{
+              "enabled": true,
+              "script": "client.emerald.defs['thirdeye'] = true;",
+              "type": "script"
+            }
+          ],
+          "case_sensitive": true,
+          "enabled": true,
+          "matching": "regexp",
+          "name": "",
+          "text": "^You (?:now|already) possess the (?:gift of )? the third\\s?eye\\.$",
+          "type": "trigger",
+          "whole_words": true
+        }, {
+          "actions": [{
+              "enabled": true,
+              "script": "client.emerald.defs['grounded'] = true;",
+              "type": "script"
+            }
+          ],
+          "case_sensitive": true,
+          "enabled": true,
+          "matching": "regexp",
+          "name": "",
+          "text": "^Muttering the secret names of Malkuth\\, you trace glowing geometric patterns in the air which settle around you\\, grounding you to the earth\\.$",
+          "type": "trigger",
+          "whole_words": true
+        }, {
+          "actions": [{
+              "enabled": true,
+              "script": "client.emerald.defs['yesod'] = true;",
+              "type": "script"
+            }
+          ],
+          "case_sensitive": true,
+          "enabled": true,
+          "matching": "substring",
+          "name": "",
+          "text": "^Muttering the secret names of Yesod\\, you trace a glowing circle in front of you\\. You step into the circle of energy\\, coming out of it cloaked in invisibility\\.",
+          "type": "trigger",
+          "whole_words": true
+        }, {
+          "actions": [{
+              "enabled": true,
+              "script": "client.emerald.defs['netzach'] = true;",
+              "type": "script"
+            }
+          ],
+          "case_sensitive": true,
+          "enabled": true,
+          "matching": "regexp",
+          "name": "",
+          "text": "^Muttering the secret names of Netzach\\, you trace the glowing symbol of a rose before you\\. You smile as the rose floats towards you and enters your chest\\, making your personality sparkle\\.$",
+          "type": "trigger",
+          "whole_words": true
+        }, {
+          "actions": [{
+              "enabled": true,
+              "script": "client.emerald.defs['geburah'] = true;",
+              "type": "script"
+            }
+          ],
+          "case_sensitive": true,
+          "enabled": true,
+          "matching": "regexp",
+          "name": "",
+          "text": "^Muttering the secret names of Geburah\\, you trace the glowing symbol of a sword before you\\. The sword enters your chest and you feel strength course through your veins\\/$",
+          "type": "trigger",
+          "whole_words": true
+        }, {
+          "actions": [{
+              "enabled": true,
+              "script": "client.emerald.defs['chockmah'] = true;",
+              "type": "script"
+            }
+          ],
+          "case_sensitive": true,
+          "enabled": true,
+          "matching": "regexp",
+          "name": "",
+          "text": "^Muttering the secret names of Chockmah\\, you trace complex glowing symbols before you\\. As the symbols fade away\\, the area around you seems to become clearer and more defined\\, revealing all that is hidden\\.$",
+          "type": "trigger",
+          "whole_words": true
+        }, {
+          "actions": [{
+              "enabled": true,
+              "script": "client.emerald.defs['truehearing'] = true;",
+              "type": "script"
+            }
+          ],
+          "case_sensitive": true,
+          "enabled": true,
+          "matching": "regexp",
+          "name": "",
+          "text": "^You (?:now|already) possess (?:the gift of )?truehearing\\.$",
+          "type": "trigger",
+          "whole_words": true
+        }, {
+          "actions": [{
+              "enabled": true,
+              "script": "client.emerald.defs['metawake'] = true;",
+              "type": "script"
+            }
+          ],
+          "case_sensitive": true,
+          "enabled": true,
+          "matching": "regexp",
+          "name": "",
+          "text": "^You order your mind to ensure you will not journey far into the dreamworld\\.$",
+          "type": "trigger",
+          "whole_words": true
+        }, {
+          "actions": [{
+              "enabled": true,
+              "script": "client.emerald.defs['limber'] = true;",
+              "type": "script"
+            }
+          ],
+          "case_sensitive": true,
+          "enabled": true,
+          "matching": "regexp",
+          "name": "",
+          "text": "^You stretch your muscles, focusing on swift and nimble movements\\.$",
+          "type": "trigger",
+          "whole_words": true
+        }, {
+          "actions": [{
+              "enabled": true,
+              "script": "client.emerald.defs['keeneye'] = true;",
+              "type": "script"
+            }
+          ],
+          "case_sensitive": true,
+          "enabled": true,
+          "matching": "regexp",
+          "name": "",
+          "text": "^You begin to observe your surroundings with a keen eye\\.$",
+          "type": "trigger",
+          "whole_words": true
+        }, {
+          "actions": [{
+              "enabled": true,
+              "script": "client.emerald.defs['balancing'] = true;",
+              "type": "script"
+            }
+          ],
+          "case_sensitive": true,
+          "enabled": true,
+          "matching": "regexp",
+          "name": "",
+          "text": "^You dance as nimbly as a cat\\, maintaining your balance on the balls of your feet\\.$",
+          "type": "trigger",
+          "whole_words": true
+        }, {
+          "actions": [{
+              "enabled": true,
+              "script": "client.emerald.defs['falling'] = true;",
+              "type": "script"
+            }
+          ],
+          "case_sensitive": true,
+          "enabled": true,
+          "matching": "regexp",
+          "name": "",
+          "text": "^Casting a wary eye about your surroundings\\, you ready yourself for a fall\\.$",
+          "type": "trigger",
+          "whole_words": true
+        }, {
+          "actions": [{
+              "enabled": true,
+              "script": "client.emerald.defs['elasticity'] = true;",
+              "type": "script"
+            }
+          ],
+          "case_sensitive": true,
+          "enabled": true,
+          "matching": "regexp",
+          "name": "",
+          "text": "^Concentrating briefly\\, you will parts of your muscles to relax\\, giving them more elasticity to prevent damage\\.$",
+          "type": "trigger",
+          "whole_words": true
+        }, {
+          "actions": [{
+              "enabled": true,
+              "script": "client.emerald.defs['adroitness'] = true;",
+              "type": "script"
+            }
+          ],
+          "case_sensitive": true,
+          "enabled": true,
+          "matching": "regexp",
+          "name": "",
+          "text": "^You inhale a deep breath\\, ready to run quickly if the need arises\\.$",
+          "type": "trigger",
+          "whole_words": true
+        }, {
+          "actions": [{
+              "enabled": true,
+              "script": "client.emerald.defs['hyperventilate'] = true;",
+              "type": "script"
+            }
+          ],
+          "case_sensitive": true,
+          "enabled": true,
+          "matching": "regexp",
+          "name": "",
+          "text": "^You breathe in and exhale in a regular\\, steady rhythm\\, mastering your control over your breathing\\.$",
+          "type": "trigger",
+          "whole_words": true
+        }, {
+          "actions": [{
+              "enabled": true,
+              "script": "client.emerald.defs['gripping'] = true;",
+              "type": "script"
+            }
+          ],
+          "case_sensitive": true,
+          "enabled": true,
+          "matching": "regexp",
+          "name": "",
+          "text": "^You concentrate on gripping tightly with your hands\\.$",
+          "type": "trigger",
+          "whole_words": true
+        }, {
+          "actions": [{
+              "enabled": true,
+              "script": "client.emerald.defs['moodflux'] = true;",
+              "type": "script"
+            }
+          ],
+          "case_sensitive": true,
+          "enabled": true,
+          "matching": "regexp",
+          "name": "",
+          "text": "^You focus on shifting ailments with your Mood Flux\\.$",
+          "type": "trigger",
+          "whole_words": true
+        }, {
+          "actions": [{
+              "enabled": true,
+              "script": "client.emerald.defs['aethersight'] = true;",
+              "type": "script"
+            }
+          ],
+          "case_sensitive": true,
+          "enabled": true,
+          "matching": "regexp",
+          "name": "",
+          "text": "^You open your eyes wide\\, concentrating on the small strands of aether around you\\.$",
+          "type": "trigger",
+          "whole_words": true
+        }
+      ],
+      "name": "Add",
+      "type": "group"
+    }, {
+      "enabled": false,
+      "items": [{
+          "actions": [{
+              "enabled": true,
+              "type": "gag"
+            }, {
+              "enabled": true,
+              "script": "client.emerald.emnote(`XP Bonus - ${args[1]}%`,'Defs')",
+              "type": "script"
+            }
+          ],
+          "case_sensitive": true,
+          "enabled": true,
+          "matching": "regexp",
+          "name": "emerald_defs_xpbonus",
+          "text": "^You are benefit*ing from a (\\d+)\\% experience bonus\\.$",
+          "type": "trigger",
+          "whole_words": true
+        }, {
+          "actions": [{
+              "enabled": true,
+              "type": "gag"
+            }, {
+              "enabled": true,
+              "script": "client.emerald.defs['gripping'] = true;\nclient.emerald.emnote('Gripping','Defs');",
+              "type": "script"
+            }
+          ],
+          "case_sensitive": true,
+          "enabled": true,
+          "matching": "regexp",
+          "name": "emerald_defs_gripping",
+          "text": "^Your hands are gripping your wielded items tightly\\.$",
+          "type": "trigger",
+          "whole_words": true
+        }, {
+          "actions": [{
+              "enabled": true,
+              "type": "gag"
+            }, {
+              "enabled": true,
+              "script": "client.emerald.defs['galvanism'] = true;\nclient.emerald.emnote('Galvanism','Defs');",
+              "type": "script"
+            }
+          ],
+          "case_sensitive": true,
+          "enabled": true,
+          "matching": "regexp",
+          "name": "emerald_defs_galvanism",
+          "text": "^Your skin prickles with muted energy\\.$",
+          "type": "trigger",
+          "whole_words": true
+        }, {
+          "actions": [{
+              "enabled": true,
+              "type": "gag"
+            }, {
+              "enabled": true,
+              "script": "client.emerald.emnote('Kafe','Defs');\nclient.emerald.defs['kafe'] = true;",
+              "type": "script"
+            }
+          ],
+          "case_sensitive": true,
+          "enabled": true,
+          "matching": "regexp",
+          "name": "emerald_defs_kafe",
+          "text": "^You have ingested the kafe bean and are feeling extremely energetic\\.$",
+          "type": "trigger",
+          "whole_words": true
+        }, {
+          "enabled": true,
+          "items": [{
+              "actions": [{
+                  "enabled": true,
+                  "type": "gag"
+                }, {
+                  "enabled": true,
+                  "script": "client.emerald.emnote(`Curio - 2/7 ${args[1]} dmg buff`,'Defs');",
+                  "type": "script"
+                }
+              ],
+              "case_sensitive": true,
+              "enabled": true,
+              "matching": "regexp",
+              "name": "emerald_defs_curiodmgbuff",
+              "text": "^You are using a curio for 2 (\\w+) damage enhancement\\.$",
+              "type": "trigger",
+              "whole_words": true
+            }, {
+              "actions": [{
+                  "enabled": true,
+                  "type": "gag"
+                }, {
+                  "enabled": true,
+                  "script": "client.emerald.emnote(`Curio - 1/7 ${args[1]} absorption`,'Defs');\nclient.emerald.emnote(`Curio - 1/7 ${args[2]} absorption`,'Defs');",
+                  "type": "script"
+                }
+              ],
+              "case_sensitive": true,
+              "enabled": true,
+              "matching": "regexp",
+              "name": "emerald_defs_curiodmgabsorb",
+              "text": "^You are using a curio for 1 (\\w+) \\& 1 (\\w+) damage absorption\\.$",
+              "type": "trigger",
+              "whole_words": true
+            }
+          ],
+          "name": "Curio",
+          "type": "group"
+        }, {
+          "enabled": true,
+          "items": [{
+              "actions": [{
+                  "enabled": true,
+                  "type": "gag"
+                }, {
+                  "enabled": true,
+                  "script": "client.emerald.defs['keeneye'] = true;\nclient.emerald.emnote('Keeneye','Defs');",
+                  "type": "script"
+                }
+              ],
+              "case_sensitive": true,
+              "enabled": true,
+              "matching": "regexp",
+              "name": "emerald_def_keeneye",
+              "text": "^You are observing with a keen eye\\.$",
+              "type": "trigger",
+              "whole_words": true
+            }
+          ],
+          "name": "Combat",
+          "type": "group"
+        }, {
+          "enabled": true,
+          "items": [{
+              "actions": [{
+                  "enabled": true,
+                  "type": "gag"
+                }, {
+                  "enabled": true,
+                  "script": "client.emerald.defs['yesod'] = true;\nclient.emerald.emnote('Yesod','Defs');",
+                  "type": "script"
+                }
+              ],
+              "case_sensitive": true,
+              "enabled": true,
+              "matching": "regexp",
+              "name": "emerald_defs_yesod",
+              "text": "^Your actions are cloaked in secrecy\\.$",
+              "type": "trigger",
+              "whole_words": true
+            }, {
+              "actions": [{
+                  "enabled": true,
+                  "type": "gag"
+                }, {
+                  "enabled": true,
+                  "script": "client.emerald.defs['geburah'] = true;\nclient.emerald.emnote('Geburah','Defs');",
+                  "type": "script"
+                }
+              ],
+              "case_sensitive": true,
+              "enabled": true,
+              "matching": "regexp",
+              "name": "emerald_defs_geburah",
+              "text": "^You are protected by Geburah\\.$",
+              "type": "trigger",
+              "whole_words": true
+            }, {
+              "actions": [{
+                  "enabled": true,
+                  "type": "gag"
+                }, {
+                  "enabled": true,
+                  "script": "client.emerald.defs['netzach'] = true;\nclient.emerald.emnote('Netzach','Defs');",
+                  "type": "script"
+                }
+              ],
+              "case_sensitive": true,
+              "enabled": true,
+              "matching": "regexp",
+              "name": "emerald_defs_netzach",
+              "text": "^Netzach\\.$",
+              "type": "trigger",
+              "whole_words": true
+            }, {
+              "actions": [{
+                  "enabled": true,
+                  "type": "gag"
+                }, {
+                  "enabled": true,
+                  "script": "client.emerald.defs['grounded'] = true;\nclient.emerald.emnote('Grounded','Defs');",
+                  "type": "script"
+                }
+              ],
+              "case_sensitive": true,
+              "enabled": true,
+              "matching": "regexp",
+              "name": "emerald_defs_malkuth",
+              "text": "^Your feet are more firmly rooted to the ground by geometric patterns\\.$",
+              "type": "trigger",
+              "whole_words": true
+            }
+          ],
+          "name": "Highmagic",
+          "type": "group"
+        }, {
+          "enabled": true,
+          "items": [{
+              "actions": [{
+                  "enabled": true,
+                  "type": "gag"
+                }, {
+                  "enabled": true,
+                  "script": "client.emerald.defs['moodflux'] = true;\nclient.emerald.emnote(`Moodflux - ${args[1] == 'harmoniously' ? 'Harmony' : 'Chaos'}`,'Defs');",
+                  "type": "script"
+                }
+              ],
+              "case_sensitive": true,
+              "enabled": true,
+              "matching": "regexp",
+              "name": "emerald_defs_moodflux",
+              "text": "^You are (harmoniously|chaotically) altering your mood with your Enigmatic Flow\\.$",
+              "type": "trigger",
+              "whole_words": true
+            }, {
+              "actions": [{
+                  "enabled": true,
+                  "type": "gag"
+                }, {
+                  "enabled": true,
+                  "script": "client.emerald.defs['precognitivewill'] = true;\nclient.emerald.emnote(`PrecognitiveWill - ${args[1] == 'harmoniously' ? 'Harmony' : 'Chaos'}`,'Defs');",
+                  "type": "script"
+                }
+              ],
+              "case_sensitive": true,
+              "enabled": true,
+              "matching": "regexp",
+              "name": "emerald_defs_precognitivewill",
+              "text": "^You are (harmoniously|chaotically) growing your Enigmatic Flow\\.$",
+              "type": "trigger",
+              "whole_words": true
+            }
+          ],
+          "name": "Zarakido",
+          "type": "group"
+        }, {
+          "enabled": true,
+          "items": [{
+              "actions": [{
+                  "enabled": true,
+                  "type": "gag"
+                }, {
+                  "enabled": true,
+                  "script": "client.emerald.defs['aethersight'] = true;\nclient.emerald.emnote('Aethersight','Defs');",
+                  "type": "script"
+                }
+              ],
+              "case_sensitive": true,
+              "enabled": true,
+              "matching": "regexp",
+              "name": "emerald_defs_aethersight",
+              "text": "^You are sensing disruptions in the aether\\.$",
+              "type": "trigger",
+              "whole_words": true
+            }, {
+              "actions": [{
+                  "enabled": true,
+                  "type": "gag"
+                }, {
+                  "enabled": true,
+                  "script": "client.emerald.defs['thirdeye'] = true;\nclient.emerald.emnote('Thirdeye','Defs');",
+                  "type": "script"
+                }
+              ],
+              "case_sensitive": true,
+              "enabled": true,
+              "matching": "regexp",
+              "name": "emerald_defs_thirdeye",
+              "text": "^You are viewing the world through the third eye\\.$",
+              "type": "trigger",
+              "whole_words": true
+            }, {
+              "actions": [{
+                  "enabled": true,
+                  "type": "gag"
+                }, {
+                  "enabled": true,
+                  "script": "client.emerald.defs['sixthsense'] = true;\nclient.emerald.emnote('Sixthsense','Defs');",
+                  "type": "script"
+                }
+              ],
+              "case_sensitive": true,
+              "enabled": true,
+              "matching": "regexp",
+              "name": "emerald_defs_sixthsense",
+              "text": "^The world is seen through your sixth sense\\.$",
+              "type": "trigger",
+              "whole_words": true
+            }, {
+              "actions": [{
+                  "enabled": true,
+                  "type": "gag"
+                }, {
+                  "enabled": true,
+                  "script": "client.emerald.defs['deathsight'] = true;\nclient.emerald.emnote('Deathsight','Defs');",
+                  "type": "script"
+                }
+              ],
+              "case_sensitive": true,
+              "enabled": true,
+              "matching": "regexp",
+              "name": "emerald_defs_deathsight",
+              "text": "^Your mind is linked with the strings of fate\\, bringing news of the dead\\.$",
+              "type": "trigger",
+              "whole_words": true
+            }
+          ],
+          "name": "Discernment",
+          "type": "group"
+        }, {
+          "enabled": true,
+          "items": [{
+              "actions": [{
+                  "enabled": true,
+                  "type": "gag"
+                }, {
+                  "enabled": true,
+                  "script": "client.emerald.defs['mercy'] = true;\nclient.emerald.emnote('Mercy','Defs');",
+                  "type": "script"
+                }
+              ],
+              "case_sensitive": true,
+              "enabled": true,
+              "matching": "regexp",
+              "name": "emerald_defs_mercy",
+              "text": "^So this is vitality\\! Mercy restores your health\\.$",
+              "type": "trigger",
+              "whole_words": true
+            }, {
+              "actions": [{
+                  "enabled": true,
+                  "type": "gag"
+                }, {
+                  "enabled": true,
+                  "script": "client.emerald.defs['beauty'] = true;\nclient.emerald.emnote('Beauty','Defs');",
+                  "type": "script"
+                }
+              ],
+              "case_sensitive": true,
+              "enabled": true,
+              "matching": "regexp",
+              "name": "emerald_defs_beauty",
+              "text": "^How gorgeous are you\\? Beauty replenishes your ego\\.$",
+              "type": "trigger",
+              "whole_words": true
+            }, {
+              "actions": [{
+                  "enabled": true,
+                  "type": "gag"
+                }, {
+                  "enabled": true,
+                  "script": "client.emerald.defs['kingdom'] = true;\nclient.emerald.emnote('Kingdom','Defs');",
+                  "type": "script"
+                }
+              ],
+              "case_sensitive": true,
+              "enabled": true,
+              "matching": "regexp",
+              "name": "emerald_defs_kingdom",
+              "text": "^Thou shalt not bleed\\, majesty\\. Kingdom hastens your clotting\\.$",
+              "type": "trigger",
+              "whole_words": true
+            }, {
+              "actions": [{
+                  "enabled": true,
+                  "type": "gag"
+                }, {
+                  "enabled": true,
+                  "script": "client.emerald.defs['perfection'] = true;\nclient.emerald.emnote('Perfection','Defs');",
+                  "type": "script"
+                }
+              ],
+              "case_sensitive": true,
+              "enabled": true,
+              "matching": "regexp",
+              "name": "emerald_defs_perfection",
+              "text": "^Perfection regenerates your paragon\\-like mana\\.$",
+              "type": "trigger",
+              "whole_words": true
+            }
+          ],
+          "name": "Enchantment",
+          "type": "group"
+        }, {
+          "enabled": true,
+          "items": [{
+              "actions": [{
+                  "enabled": true,
+                  "type": "gag"
+                }, {
+                  "enabled": true,
+                  "script": "client.emerald.defs['nimbus'] = true;\nclient.emerald.emnote('Nimbus','Defs');",
+                  "type": "script"
+                }
+              ],
+              "case_sensitive": true,
+              "enabled": true,
+              "matching": "regexp",
+              "name": "emerald_defs_nimbus",
+              "text": "^You are surrounded by a cosmic nimbus\\.$",
+              "type": "trigger",
+              "whole_words": true
+            }, {
+              "actions": [{
+                  "enabled": true,
+                  "type": "gag"
+                }, {
+                  "enabled": true,
+                  "script": "client.emerald.defs['acquisitio'] = true;\nclient.emerald.emnote('Acquisitio','Defs');",
+                  "type": "script"
+                }
+              ],
+              "case_sensitive": true,
+              "enabled": true,
+              "matching": "regexp",
+              "name": "emerald_defs_acquisitio",
+              "text": "^You are carrying a ball of magnetic crystal\\.$",
+              "type": "trigger",
+              "whole_words": true
+            }
+          ],
+          "name": "Cosmic",
+          "type": "group"
+        }, {
+          "enabled": true,
+          "items": [{
+              "actions": [{
+                  "enabled": true,
+                  "type": "gag"
+                }, {
+                  "enabled": true,
+                  "script": "client.emerald.defs['limber'] = true;\nclient.emerald.emnote('Limber','Defs');",
+                  "type": "script"
+                }
+              ],
+              "case_sensitive": true,
+              "enabled": true,
+              "matching": "regexp",
+              "name": "emerald_defs_limber",
+              "text": "^You are extremely limber\\.$",
+              "type": "trigger",
+              "whole_words": true
+            }, {
+              "actions": [{
+                  "enabled": true,
+                  "type": "gag"
+                }, {
+                  "enabled": true,
+                  "script": "client.emerald.defs['balancing'] = true;\nclient.emerald.emnote('Balancing','Defs');",
+                  "type": "script"
+                }
+              ],
+              "case_sensitive": true,
+              "enabled": true,
+              "matching": "regexp",
+              "name": "emerald_defs_balancing",
+              "text": "^You are balancing carefully\\.$",
+              "type": "trigger",
+              "whole_words": true
+            }, {
+              "actions": [{
+                  "enabled": true,
+                  "type": "gag"
+                }, {
+                  "enabled": true,
+                  "script": "client.emerald.defs['falling'] = true;\nclient.emerald.emnote('Falling','Defs');",
+                  "type": "script"
+                }
+              ],
+              "case_sensitive": true,
+              "enabled": true,
+              "matching": "regexp",
+              "name": "emerald_defs_falling",
+              "text": "^You are protected against falling suddenly\\.$",
+              "type": "trigger",
+              "whole_words": true
+            }, {
+              "actions": [{
+                  "enabled": true,
+                  "type": "gag"
+                }, {
+                  "enabled": true,
+                  "script": "client.emerald.defs['elasticity'] = true;\nclient.emerald.emnote('Elasticity','Defs');",
+                  "type": "script"
+                }
+              ],
+              "case_sensitive": true,
+              "enabled": true,
+              "matching": "regexp",
+              "name": "emerald_defs_elasticity",
+              "text": "^You are concentrating on providing your muscles with increased elasticity\\.$",
+              "type": "trigger",
+              "whole_words": true
+            }, {
+              "actions": [{
+                  "enabled": true,
+                  "type": "gag"
+                }, {
+                  "enabled": true,
+                  "script": "client.emerald.defs['adroitness'] = true;\nclient.emerald.emnote('Adroitness','Defs');",
+                  "type": "script"
+                }
+              ],
+              "case_sensitive": true,
+              "enabled": true,
+              "matching": "regexp",
+              "name": "emerald_defs_adroitness",
+              "text": "^You are moving at an increased rate of speed\\.$",
+              "type": "trigger",
+              "whole_words": true
+            }, {
+              "actions": [{
+                  "enabled": true,
+                  "type": "gag"
+                }, {
+                  "enabled": true,
+                  "script": "client.emerald.defs['hyperventilate'] = true;\nclient.emerald.emnote('Hyperventilate','Defs');",
+                  "type": "script"
+                }
+              ],
+              "case_sensitive": true,
+              "enabled": true,
+              "matching": "regexp",
+              "name": "emerald_defs_hyperventilate",
+              "text": "^You are hyperventilating to control your breathing\\.$",
+              "type": "trigger",
+              "whole_words": true
+            }
+          ],
+          "name": "Acrobatics",
+          "type": "group"
+        }, {
+          "enabled": true,
+          "items": [{
+              "actions": [{
+                  "enabled": true,
+                  "type": "gag"
+                }, {
+                  "enabled": true,
+                  "script": "client.emerald.defs['insomnia'] = true;\nclient.emerald.emnote('Insomnia','Defs');",
+                  "type": "script"
+                }
+              ],
+              "case_sensitive": true,
+              "enabled": true,
+              "matching": "regexp",
+              "name": "emerald_defs_insomnia",
+              "text": "^You have insomnia\\, and cannot easily go to sleep\\.$",
+              "type": "trigger",
+              "whole_words": true
+            }, {
+              "actions": [{
+                  "enabled": true,
+                  "type": "gag"
+                }, {
+                  "enabled": true,
+                  "script": "client.emerald.defs['truehearing'] = true;\nclient.emerald.emnote('Truehearing','Defs');",
+                  "type": "script"
+                }
+              ],
+              "case_sensitive": true,
+              "enabled": true,
+              "matching": "regexp",
+              "name": "emerald_defs_truehearing",
+              "text": "^Sounds are heard through your true hearing\\.$",
+              "type": "trigger",
+              "whole_words": true
+            }
+          ],
+          "name": "Discipline",
+          "type": "group"
+        }, {
+          "enabled": true,
+          "items": [{
+              "actions": [{
+                  "enabled": true,
+                  "type": "gag"
+                }, {
+                  "enabled": true,
+                  "script": "client.emerald.defs['waterwalk'] = true;\nclient.emerald.emnote('Waterwalk','Defs')",
+                  "type": "script"
+                }
+              ],
+              "case_sensitive": true,
+              "enabled": true,
+              "matching": "regexp",
+              "name": "emerald_defs_waterwalk",
+              "text": "^You are able to walk on water with consummate ease\\.$",
+              "type": "trigger",
+              "whole_words": true
+            }, {
+              "actions": [{
+                  "enabled": true,
+                  "type": "gag"
+                }, {
+                  "enabled": true,
+                  "script": "client.emerald.defs['waterbreathe'] = true;\nclient.emerald.emnote('Waterbreathe','Defs');",
+                  "type": "script"
+                }
+              ],
+              "case_sensitive": true,
+              "enabled": true,
+              "matching": "regexp",
+              "name": "emerald_defs_waterbreathe",
+              "text": "^Water is to you as air\\, and you shall not drown\\.$",
+              "type": "trigger",
+              "whole_words": true
+            }, {
+              "actions": [{
+                  "enabled": true,
+                  "type": "gag"
+                }, {
+                  "enabled": true,
+                  "script": "client.emerald.defs['levitate'] = true;\nclient.emerald.emnote('Levitate','Defs');",
+                  "type": "script"
+                }
+              ],
+              "case_sensitive": true,
+              "enabled": true,
+              "matching": "regexp",
+              "name": "emerald_defs_levitate",
+              "text": "^You are protected by Levitate\\.$",
+              "type": "trigger",
+              "whole_words": true
+            }
+          ],
+          "name": "Elementalism",
+          "type": "group"
+        }, {
+          "enabled": true,
+          "items": [{
+              "actions": [{
+                  "enabled": true,
+                  "type": "gag"
+                }, {
+                  "enabled": true,
+                  "script": "client.emerald.defs['avarice'] = true;\nclient.emerald.emnote('Avarice','Defs');",
+                  "type": "script"
+                }
+              ],
+              "case_sensitive": true,
+              "enabled": true,
+              "matching": "regexp",
+              "name": "emerald_defs_avarice",
+              "text": "^You are instilled with a need to hoard gold\\.$",
+              "type": "trigger",
+              "whole_words": true
+            }
+          ],
+          "name": "Tinkering",
+          "type": "group"
+        }, {
+          "enabled": true,
+          "items": [{
+              "actions": [{
+                  "enabled": true,
+                  "type": "gag"
+                }, {
+                  "enabled": true,
+                  "script": "client.emerald.defs['red'] = true;\nclient.emerald.emnote('Red Chakra','Defs');",
+                  "type": "script"
+                }
+              ],
+              "case_sensitive": true,
+              "enabled": true,
+              "matching": "regexp",
+              "name": "emerald_defs_red",
+              "text": "^Your feet are more firmly rooted to the ground by a red aura\\.$",
+              "type": "trigger",
+              "whole_words": true
+            }, {
+              "actions": [{
+                  "enabled": true,
+                  "type": "gag"
+                }, {
+                  "enabled": true,
+                  "script": "client.emerald.defs['orange'] = true;\nclient.emerald.emnote('Orange Chakra','Defs');",
+                  "type": "script"
+                }
+              ],
+              "case_sensitive": true,
+              "enabled": true,
+              "matching": "regexp",
+              "name": "emerald_defs_orange",
+              "text": "^You are protected from hunger by an orange aura\\.$",
+              "type": "trigger",
+              "whole_words": true
+            }, {
+              "actions": [{
+                  "enabled": true,
+                  "type": "gag"
+                }, {
+                  "enabled": true,
+                  "script": "client.emerald.defs['yellow'] = true;\nclient.emerald.emnote('Yellow Chakra','Defs');",
+                  "type": "script"
+                }
+              ],
+              "case_sensitive": true,
+              "enabled": true,
+              "matching": "regexp",
+              "name": "emerald_defs_yellow",
+              "text": "^Your constitution is enhanced by a yellow aura\\.$",
+              "type": "trigger",
+              "whole_words": true
+            }, {
+              "actions": [{
+                  "enabled": true,
+                  "type": "gag"
+                }, {
+                  "enabled": true,
+                  "script": "client.emerald.defs['blue'] = true;\nclient.emerald.emnote('Blue Chakra','Defs');",
+                  "type": "script"
+                }
+              ],
+              "case_sensitive": true,
+              "enabled": true,
+              "matching": "regexp",
+              "name": "emerald_defs_yellow",
+              "text": "^You have empowered your blue chakra\\.$",
+              "type": "trigger",
+              "whole_words": true
+            }
+          ],
+          "name": "Lowmagic",
+          "type": "group"
+        }, {
+          "enabled": true,
+          "items": [{
+              "actions": [{
+                  "enabled": true,
+                  "type": "gag"
+                }, {
+                  "enabled": true,
+                  "script": "client.emerald.defs['mindclock'] = true;\nclient.emerald.emnote('Mindclock','Defs');",
+                  "type": "script"
+                }
+              ],
+              "case_sensitive": true,
+              "enabled": true,
+              "matching": "regexp",
+              "name": "emerald_defs_mindclock",
+              "text": "^Your sense of time is heightened\\, and your reactions are speeded\\.$",
+              "type": "trigger",
+              "whole_words": true
+            }, {
+              "actions": [{
+                  "enabled": true,
+                  "type": "gag"
+                }, {
+                  "enabled": true,
+                  "script": "client.emerald.defs['timesense'] = true;\nclient.emerald.emnote('Timesense','Defs');",
+                  "type": "script"
+                }
+              ],
+              "case_sensitive": true,
+              "enabled": true,
+              "matching": "regexp",
+              "name": "emerald_defs_timesense",
+              "text": "^Your mind is racing\\, running far faster than normal\\.$",
+              "type": "trigger",
+              "whole_words": true
+            }
+          ],
+          "name": "Aeonics",
+          "type": "group"
+        }, {
+          "enabled": true,
+          "items": [{
+              "actions": [{
+                  "enabled": true,
+                  "type": "gag"
+                }, {
+                  "enabled": true,
+                  "script": "client.emerald.defs['attunement'] = true;\nclient.emerald.emnote(`Attuned - ${args[1]}`,'Defs');",
+                  "type": "script"
+                }
+              ],
+              "case_sensitive": true,
+              "enabled": true,
+              "matching": "regexp",
+              "name": "emerald_defs_attunement",
+              "text": "^You are attuned to being in the (\\w+) environment\\.$",
+              "type": "trigger",
+              "whole_words": true
+            }
+          ],
+          "name": "Environment",
+          "type": "group"
+        }
+      ],
+      "name": "Defs",
+      "type": "group"
+    }, {
+      "enabled": true,
+      "items": [{
+          "actions": [{
+              "enabled": true,
+              "type": "gag"
+            }, {
+              "enabled": true,
+              "name": "Defs",
+              "rtype": "group",
+              "type": "enable"
+            }, {
+              "enabled": true,
+              "script": "client.emerald.defs = {};",
+              "type": "script"
+            }
+          ],
+          "case_sensitive": true,
+          "enabled": true,
+          "matching": "regexp",
+          "name": "main_defs_start",
+          "text": "^You have the following defences active\\:$",
+          "type": "trigger",
+          "whole_words": true
+        }, {
+          "actions": [{
+              "enabled": true,
+              "type": "gag"
+            }, {
+              "enabled": true,
+              "name": "Defs",
+              "rtype": "group",
+              "type": "disable"
+            }
+          ],
+          "case_sensitive": true,
+          "enabled": true,
+          "matching": "regexp",
+          "name": "main_defs_end",
+          "text": "^You are protected by \\d+ defences\\.$",
+          "type": "trigger",
+          "whole_words": true
+        }, {
+          "code": "client.emerald.defs = [];",
+          "enabled": true,
+          "name": "onInstall",
+          "type": "function"
+        }, {
+          "code": "// Place any code here you'd like to autorun when the package is uninstalled",
+          "enabled": true,
+          "name": "onUninstall",
+          "type": "function"
+        }
+      ],
+      "name": "Main",
+      "type": "group"
+    }
+  ],
+  "name": "EmeraldDefenses",
+  "type": "group"
+}
