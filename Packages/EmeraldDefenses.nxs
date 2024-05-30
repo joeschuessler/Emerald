@@ -309,6 +309,23 @@
               "type": "gag"
             }, {
               "enabled": true,
+              "script": "client.emerald.defs['timesense'] = true;\nclient.emerald.emnote('CrystalSpire - Time Sense','Defs');",
+              "type": "script"
+            }
+          ],
+          "case_sensitive": true,
+          "enabled": true,
+          "matching": "regexp",
+          "name": "emerald_defs_crystalspire",
+          "text": "^You are more aware of the passage of time\\.$",
+          "type": "trigger",
+          "whole_words": true
+        }, {
+          "actions": [{
+              "enabled": true,
+              "type": "gag"
+            }, {
+              "enabled": true,
               "script": "client.emerald.emnote(`XP Bonus - ${args[1]}%`,'Defs')",
               "type": "script"
             }
@@ -352,6 +369,23 @@
           "matching": "regexp",
           "name": "emerald_defs_galvanism",
           "text": "^Your skin prickles with muted energy\\.$",
+          "type": "trigger",
+          "whole_words": true
+        }, {
+          "actions": [{
+              "enabled": true,
+              "type": "gag"
+            }, {
+              "enabled": true,
+              "script": "client.emerald.defs['speed'] = true;\nclient.emerald.emnote('Speed','Defs');",
+              "type": "script"
+            }
+          ],
+          "case_sensitive": true,
+          "enabled": true,
+          "matching": "regexp",
+          "name": "emerald_defs_speed",
+          "text": "^Your sense of time is heightened\\, and your reactions are speeded\\.$",
           "type": "trigger",
           "whole_words": true
         }, {
@@ -1046,23 +1080,6 @@
                   "type": "gag"
                 }, {
                   "enabled": true,
-                  "script": "client.emerald.defs['mindclock'] = true;\nclient.emerald.emnote('Mindclock','Defs');",
-                  "type": "script"
-                }
-              ],
-              "case_sensitive": true,
-              "enabled": true,
-              "matching": "regexp",
-              "name": "emerald_defs_mindclock",
-              "text": "^Your sense of time is heightened\\, and your reactions are speeded\\.$",
-              "type": "trigger",
-              "whole_words": true
-            }, {
-              "actions": [{
-                  "enabled": true,
-                  "type": "gag"
-                }, {
-                  "enabled": true,
                   "script": "client.emerald.defs['timesense'] = true;\nclient.emerald.emnote('Timesense','Defs');",
                   "type": "script"
                 }
@@ -1070,7 +1087,7 @@
               "case_sensitive": true,
               "enabled": true,
               "matching": "regexp",
-              "name": "emerald_defs_timesense",
+              "name": "emerald_defs_mindclock",
               "text": "^Your mind is racing\\, running far faster than normal\\.$",
               "type": "trigger",
               "whole_words": true

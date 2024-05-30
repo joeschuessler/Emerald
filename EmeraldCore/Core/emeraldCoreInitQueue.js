@@ -18,10 +18,8 @@ queue.run = () => {
   //Roadmap: beastbal and mounted status
   let cmds = [];
   if (emerald.bals.onbal) {
-    if (queue.qf.length > 0) {
-      while (queue.qf.length > 0) {
-        cmds.push(queue.qf.shift());
-      }
+    while (queue.qf.length > 0) {
+      cmds.push(queue.qf.shift());
     }
     if (queue.q.length > 0 && !emerald.flags.get('tryqueue')) {
       let curCmd = queue.q.shift();
@@ -29,13 +27,13 @@ queue.run = () => {
       if (queue.repeat) queue.q.push(curCmd);
       emerald.flags.set('tryqueue',true,250);
     }
+    while (cmds.length > 0) send_command(cmds.shift());
   }
-  if (cmds.length > 0) send_command(cmds.join('|'));
 }
 
 queue.reset = () => {
   queue.q = [];
   queue.qf = [];
   queue.repeat = false;
-  
+  emerald.emnote('Action queues reset!');
 }

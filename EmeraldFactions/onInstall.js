@@ -1,7 +1,7 @@
 let emerald = client.emerald;
 let factions = emerald.factions = {
   name: 'EmeraldFactions',
-  version: '0.0.1.20240528'
+  version: '0.0.1'
 };
 
 factions.colors = {
@@ -26,7 +26,7 @@ factions.add = (name) => {
     return res.json();
   }).then(data => {
     if (String(data).includes(' was not found')) {
-      client.emerald.emnote(`${name} was not found. Removing from name list.`, 'Factions');
+      client.emerald.emnote(`${name} was not found. Removing from name list.`);
       delete factions.names[name];
     } else {
       let org;

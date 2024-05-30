@@ -1,7 +1,7 @@
 let emerald = client.emerald;
 let bash = emerald.bash = {
   name: 'EmeraldBash',
-  version: '0.0.1.20240528',
+  version: '0.0.1',
 };
 
 bash.reset = () => {
@@ -22,8 +22,8 @@ bash.try = () => {
       emerald.debugmsg(`attempting bash command: ${cmd}`);
       if (emerald.bals.onbal) {
         emerald.flags.set('tryingBash',true,1500);
-        if (get_variable('emerald_bash_beastatk')=='true' && emerald.bals.B) emerald.queue.add(`beast order attack ${bash.targetname + bash.targetid}`,true);
-        emerald.queue.add(cmd.replace('@',bash.targetname).replace('#',bash.targetid));
+        if (get_variable('emerald_bash_beastatk')=='true' && emerald.bals.B) emerald.queue.add(`beast order attack ${bash.targetalias + bash.targetid}`,true);
+        emerald.queue.add(cmd.replace('@',bash.targetalias).replace('#',bash.targetid));
       } 
     } else {
       emerald.emnote('No targets found.','Bash');

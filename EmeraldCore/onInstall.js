@@ -1,4 +1,4 @@
-set_variable('_emerald_core_version','0.0.1.20240528');
+set_variable('_emerald_core_version','0.0.1');
 run_function('_emerald_core_chkupdates','Core','EmeraldCore')
 
 function htmlChars(str) {
