@@ -1,10 +1,13 @@
-let emerald = client.emerald;
+function QueueManager(core) {
+  this.q = [];
+  this.qf = [];
+  this.repeat = false;
+  this.core = core;
+}
 
-var queue = emerald.queue = {q:[],qf:[],repeat:false};
-
-queue.add = (cmd, free = false) => {
+QueueManager.prototype.add = (cmd, free = false) => {
   if (free) {
-    emerald.debugmsg(`Action queued free - ${cmd}`);
+    this.core.debugmsg(`Action queued free - ${cmd}`);
     queue.qf.push(cmd);
   } else {
     emerald.debugmsg(`Action queued - ${cmd}`);
@@ -12,7 +15,7 @@ queue.add = (cmd, free = false) => {
   }
 }
 
-queue.run = () => {
+QueueManager.prototype.run = () => {
   if (emerald.paused || !(queue.q.length > 0 || queue.qf.length > 0)) return;
 
   //Roadmap: beastbal and mounted status

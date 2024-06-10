@@ -3,70 +3,70 @@ let emerald = client.emerald;
 emerald.bash.targets = {
 
   //Grimkeep
-  'a stonewrought sentinel':{alias: 'sentinel', priority:5},
-  'a misshapen koirakko':{alias: 'koirakko', priority: 4},
-  'a putrescent excoropox':{alias: 'excoropox', priority: 3},
-  'a ghostly battlecharger':{alias: 'battlecharger', priority:2},
-  'a spectral artificer':{alias: 'artificer', priority:1},
+  'a stonewrought sentinel':{alias: 'sentinel', threat:1},
+  'a misshapen koirakko':{alias: 'koirakko', threat: 2},
+  'a putrescent excoropox':{alias: 'excoropox', threat: 3},
+  'a ghostly battlecharger':{alias: 'battlecharger', threat:4},
+  'a spectral artificer':{alias: 'artificer', threat:5},
 
   //Astral beasts
-  'a ravenous fesix': {alias:'fesix', priority: 1},
-  'a robed obesefessor': {alias:'obesefessor', priority: 1},
-  'an emaciated virgin': {alias:'virgin', priority: 1},
-  'a gargantuan red scorpion': {alias:'scorpion', priority: 1},
-  'a floating urn': {alias:'urn', priority: 1},
-  'a hulking three-horned bull': {alias:'bull',priority: 1},
-  'a two-headed eagle': {alias:'eagle', priority: 1},
-  'a bloated parasite': {alias:'parasite',priority: 1},
-  'a two-headed abhorrence': {alias:'abhorrence', priority: 1},
-  'a sadistic mitran': {alias:'mitran', priority: 1},
-  'a stainless steel goat': {alias:'goat', priority: 1},
-  'a monstrous lobstrosity': {alias:'lobstrosity', priority: 1},
+  'a ravenous fesix': {alias:'fesix', threat: 1},
+  'a robed obesefessor': {alias:'obesefessor', threat: 1},
+  'an emaciated virgin': {alias:'virgin', threat: 1},
+  'a gargantuan red scorpion': {alias:'scorpion', threat: 1},
+  'a floating urn': {alias:'urn', threat: 1},
+  'a hulking three-horned bull': {alias:'bull',threat: 1},
+  'a two-headed eagle': {alias:'eagle', threat: 1},
+  'a bloated parasite': {alias:'parasite',threat: 1},
+  'a two-headed abhorrence': {alias:'abhorrence', threat: 1},
+  'a sadistic mitran': {alias:'mitran', threat: 1},
+  'a stainless steel goat': {alias:'goat', threat: 1},
+  'a monstrous lobstrosity': {alias:'lobstrosity', threat: 1},
 
   //Domoth beasts
-  'a king of justice': {alias:'justice',priority:0},
-  'a lost soul of death': {alias:'death', priority: 0},
-  'a radiant defender of life': {alias:'life', priority:0},
+  'a king of justice': {alias:'justice',threat:0},
+  'a lost soul of death': {alias:'death', threat: 0},
+  'a radiant defender of life': {alias:'life', threat:0},
 
   //Elemental beasts
   //Air
-  'an aerial stalker': {alias:'stalker', priority: 0},
-  'a curlicued stormeater': {alias:'stormeater', priority: 0},
-  'a cloud carrion': {alias:'carrion', priority: 0},
+  'an aerial stalker': {alias:'stalker', threat: 0},
+  'a curlicued stormeater': {alias:'stormeater', threat: 0},
+  'a cloud carrion': {alias:'carrion', threat: 0},
 
   //Water
-  'a serpentine starsucker': {alias:'starsucker',priority: 0},
-  'a dream leech': {alias:'leech', priority: 0},
+  'a serpentine starsucker': {alias:'starsucker',threat: 0},
+  'a dream leech': {alias:'leech', threat: 0},
 
   //Fire
-  'a flame hog': {alias:'hog', priority: 0},
-  'a cinder crawler': {alias:'crawler', priority: 0},
-  'a fire mantis': {alias:'mantis', priority: 0},
+  'a flame hog': {alias:'hog', threat: 0},
+  'a cinder crawler': {alias:'crawler', threat: 0},
+  'a fire mantis': {alias:'mantis', threat: 0},
 
   //Earth
-  'a morbidly tainted grub': {alias:'grub', priority: 0},
-  'a huge lindwyrm': {alias:'lindwyrm', priority: 0},
-  'a decaying gargoyle': {alias:'gargoyle', priority: 0},
-  'a slavering stoneghast': {alias:'stoneghast', priority: 1},
+  'a morbidly tainted grub': {alias:'grub', threat: 0},
+  'a huge lindwyrm': {alias:'lindwyrm', threat: 0},
+  'a decaying gargoyle': {alias:'gargoyle', threat: 0},
+  'a slavering stoneghast': {alias:'stoneghast', threat: 1},
 
   //Etherwilde
-  'an ethereal opossum': {alias:'opossum', priority: 0},
-  'an ethereal white peacock': {alias:'peacock', priority: 0},
-  'an ethereal stag': {alias:'stag', priority:0},
+  'an ethereal opossum': {alias:'opossum', threat: 0},
+  'an ethereal white peacock': {alias:'peacock', threat: 0},
+  'an ethereal stag': {alias:'stag', threat:0},
 
   //Etherglom
-  'a shadow spider': {alias:'spider', priority: 0},
-  'a shadow hawk': {alias:'hawk', priority:0},
-  'a shadow centipede': {alias:'centipede', priority:0},
+  'a shadow spider': {alias:'spider', threat: 0},
+  'a shadow hawk': {alias:'hawk', threat:0},
+  'a shadow centipede': {alias:'centipede', threat:0},
 
   //Mount Dio
-  'a snow white skara': {alias:'skara', priority: 0},
-  'an ice blue skara': {alias:'skara', priority: 0},
-  'a crimson-scaled skara': {alias:'skara', priority: 1},
-  'a beastial garul': {alias:'garul', priority: 2},
-  'a massive ice worm': {alias:'worm', priority: 1},
+  'a snow white skara': {alias:'skara', threat: 0},
+  'an ice blue skara': {alias:'skara', threat: 0},
+  'a crimson-scaled skara': {alias:'skara', threat: 1},
+  'a beastial garul': {alias:'garul', threat: 2},
+  'a massive ice worm': {alias:'worm', threat: 1},
 
   //Undervault
-  'a hard-shelled, many-legged cave-fisher': {alias:'fisher',priority: 1},
-  'an algae-like phycomid': {alias:'phycomid', priority: 0}
+  'a hard-shelled, many-legged cave-fisher': {alias:'fisher',threat: 1},
+  'an algae-like phycomid': {alias:'phycomid', threat: 0}
 }

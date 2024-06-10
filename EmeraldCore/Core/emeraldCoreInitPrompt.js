@@ -73,7 +73,7 @@ prompt.draw = () => {
   if (emerald.vitals.blind) pflags += 'b';
   if (emerald.vitals.prone) pflags += 'p';
   if (emerald.cloaked) pflags += '<>'
-  emerald.note.build(pflags+'- ',emerald.bals.onbal ? 'goldenrod' : 'grey','');
+  emerald.note.build(pflags+'- ',emerald.bals.canAct() ? 'goldenrod' : 'grey','');
   prompt.drawTags();
   for (const d of ['hp','mp','ego','pow','xp','essence','awp','eflow']) {
     let diff = emerald.vitals['diff'+d]

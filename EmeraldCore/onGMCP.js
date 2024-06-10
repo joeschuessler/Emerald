@@ -23,23 +23,22 @@ if (args.gmcp_method == "Char.Vitals") {
   emerald.vitals.eflow = to_number(args.gmcp_args.enigmaticflow);
   emerald.vitals.diffeflow = emerald.vitals.eflow - emerald.vitals.preveflow || 0;
 
-  emerald.bals.B = to_number(args.gmcp_args.beastbal) == 1;
-  emerald.bals.eq = to_number(args.gmcp_args.equilibrium) == 1;
-  emerald.bals.la = to_number(args.gmcp_args.left_arm) == 1;
-  emerald.bals.ra = to_number(args.gmcp_args.right_arm) == 1;
-  emerald.bals.ll = to_number(args.gmcp_args.left_leg) == 1;
-  emerald.bals.rl = to_number(args.gmcp_args.right_leg) == 1;
-  emerald.bals.x = to_number(args.gmcp_args.balance) == 1;
-  emerald.bals.s = to_number(args.gmcp_args.psisub) == 1;
-  emerald.bals.S = to_number(args.gmcp_args.psisuper) == 1;
-  emerald.bals.i = to_number(args.gmcp_args.psiid) == 1;
-  emerald.bals.ef = to_number(args.gmcp_args.eflowbal) == 1;
-  emerald.bals.onbal = emerald.bals.eq && emerald.bals.x && emerald.bals.la && emerald.bals.ra && emerald.bals.ll && emerald.bals.rl && emerald.bals.s && emerald.bals.S && emerald.bals.i && !(emerald.vitals.prone);
+  emerald.bals.B = args.gmcp_args.beastbal == '1';
+  emerald.bals.eq = args.gmcp_args.equilibrium == '1';
+  emerald.bals.la = args.gmcp_args.left_arm == '1';
+  emerald.bals.ra = args.gmcp_args.right_arm == '1';
+  emerald.bals.ll = args.gmcp_args.left_leg == '1';
+  emerald.bals.rl = args.gmcp_args.right_leg == '1';
+  emerald.bals.x = args.gmcp_args.balance == '1';
+  emerald.bals.s = args.gmcp_args.psisub == '1';
+  emerald.bals.S = args.gmcp_args.psisuper == '1';
+  emerald.bals.i = args.gmcp_args.psiid == '1';
+  emerald.bals.ef = args.gmcp_args.eflowbal == '1';
   for (const b of ["slush","ice","steam","dust","healing","sparkleberry","scroll","allheale"]) {
-    emerald.bals[b] = to_number(args.gmcp_args[b]) == 1;
+    emerald.bals[b] = args.gmcp_args[b] == '1';
   }
   for (const v of ["blind","deaf","prone","kafe"]) {
-    emerald.vitals[v] = to_number(args.gmcp_args[v]) == 1;
+    emerald.vitals[v] = args.gmcp_args[v] == '1';
   }
 }
 
