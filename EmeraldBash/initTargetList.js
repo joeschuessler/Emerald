@@ -15,18 +15,24 @@ emerald.bash.targets = {
   'an emaciated virgin': {alias:'virgin', threat: 1},
   'a gargantuan red scorpion': {alias:'scorpion', threat: 1},
   'a floating urn': {alias:'urn', threat: 1},
-  'a hulking three-horned bull': {alias:'bull',threat: 1},
+  'a hulking three-horned bull': {alias:'bull', threat: 1},
   'a two-headed eagle': {alias:'eagle', threat: 1},
-  'a bloated parasite': {alias:'parasite',threat: 1},
+  'a bloated parasite': {alias:'parasite', threat: 1},
   'a two-headed abhorrence': {alias:'abhorrence', threat: 1},
   'a sadistic mitran': {alias:'mitran', threat: 1},
   'a stainless steel goat': {alias:'goat', threat: 1},
   'a monstrous lobstrosity': {alias:'lobstrosity', threat: 1},
 
   //Domoth beasts
-  'a king of justice': {alias:'justice',threat:0},
-  'a lost soul of death': {alias:'death', threat: 0},
-  'a radiant defender of life': {alias:'life', threat:0},
+  'a king of justice': {alias:'justice', threat:1},
+  'a lost soul of death': {alias:'death', threat:1},
+  'a radiant defender of life': {alias:'life', threat:1},
+  'a willowy fae of nature': {alias:'nature', threat:1},
+  'a manifested paradox of knowledge': {alias:'knowledge', threat:1},
+  'a champion of war': {alias:'war', threat:1},
+  'a glowing sphere of harmony': {alias:'harmony', threat:1},
+  'a two-headed hamster of chaos': {alias:'chaos', threat:1},
+  'an alluring siren of beauty': {alias:'beauty', threat:1},
 
   //Elemental beasts
   //Air
@@ -63,10 +69,20 @@ emerald.bash.targets = {
   'a snow white skara': {alias:'skara', threat: 0},
   'an ice blue skara': {alias:'skara', threat: 0},
   'a crimson-scaled skara': {alias:'skara', threat: 1},
+  'a black-scaled skara': {alias:'skara', threat:0},
   'a beastial garul': {alias:'garul', threat: 2},
   'a massive ice worm': {alias:'worm', threat: 1},
+  'an enormous white garul': {alias:'garul', threat:3},
+  'Rawari, a wiry garul': {alias:'garul', threat: 3},
 
   //Undervault
-  'a hard-shelled, many-legged cave-fisher': {alias:'fisher',threat: 1},
-  'an algae-like phycomid': {alias:'phycomid', threat: 0}
+  'a hard-shelled, many-legged cave-fisher': {alias:'fisher', threat: 1},
+  'an algae-like phycomid': {alias:'phycomid', threat: 0},
+  'a large, hairy solifugid': {alias:'solifugid', threat:0},
+  'a giant centipede': {alias:'centipede', threat:0},
+  'an inferno beetle': {alias:'beetle', threat:0},
+  'a deepstone rockeater': {alias:'rockeater', threat:0},
+  'a land urchin': {alias:'urchin', threat:0}
 }
+
+emerald.emnote(`${Object.keys(emerald.bash.targets).length} bash targets loaded.`,'Bash');

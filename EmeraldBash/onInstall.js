@@ -9,7 +9,7 @@ bash.reset = () => {
   bash.mode = 'none';
   bash.queue = [];
   bash.noTargetCount = 0;
-  bash.targetname = '';
+  bash.targetalias = '';
   bash.targetid = '';
 }
 
@@ -21,28 +21,28 @@ bash.try = () => {
       emerald.flags.get('targetshielded') ? cmd = get_variable('emerald_bash_raze') : cmd = get_variable('emerald_bash_attack');
       emerald.debugmsg(`attempting bash command: ${cmd}`);
       if (emerald.bals.onbal) {
-        emerald.flags.set('tryingBash',true,1500);
+        emerald.flags.set('tryingBash',true,250);
         if (get_variable('emerald_bash_beastatk')=='true' && emerald.bals.B) emerald.queue.add(`beast order attack ${bash.targetalias + bash.targetid}`,true);
-        emerald.queue.add(cmd.replace('@',bash.targetalias).replace('#',bash.targetid));
+        send_command(cmd.replace('@',bash.targetalias).replace('#',bash.targetid));
       } 
     } else {
       emerald.emnote('No targets found.','Bash');
       bash.reset();
-      emerald.prompt.onPrompt();
-    }    
+    }
   }
 }
 bash.retarget = () => {
   if(bash.queue.length > 0) {
     //start scanning queue at 0
+    emerald.emnote(`${bash.queue.length} target${bash.queue.length > 1 ? 's' : ''} remaining.`, 'Bash');
     let targetIndex = 0
     if(bash.queue.length > 1) {
-      let currentPriority = bash.queue[targetIndex].priority;
+      let currentThreat = bash.queue[targetIndex].threat;
       for (let t in bash.queue) {
-        //If any target in the queue has a higher priority, that resets the bar.
-        if (bash.queue[t].priority > currentPriority) {
+        //If any target in the queue has a higher threat, that resets the bar.
+        if (bash.queue[t].threat > currentThreat) {
           targetIndex = t;
-          currentPriority = bash.queue[t].priority;
+          currentThreat = bash.queue[t].threat;
         }
       } //next t
     }
@@ -69,7 +69,6 @@ bash.remove = (id) => {
     if (bash.mode == 'room') emerald.emnote('Room cleared.','Bash');
     bash.reset();
   }
-  emerald.debugmsg(`Remaining queue: ${JSON.stringify(bash.queue)}`);
 }
 
 bash.reset();
