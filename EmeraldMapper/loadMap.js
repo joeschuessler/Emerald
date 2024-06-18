@@ -17,25 +17,25 @@ fetch('https://www.lusternia.com/maps/map.xml')
 })
 .then(() => {
   let xmlareas = mapper.mapxml.getElementsByTagName("area");
-  for (a of xmlareas){
+  for (let a of xmlareas){
     mapper.areas[a.getAttribute('id')] = a.getAttribute('name');
-  };
+  }
   let xmlrooms = mapper.mapxml.getElementsByTagName("room");
-  for (r of xmlrooms) {
+  for (let r of xmlrooms) {
     mapper.rooms[r.getAttribute('id')] = {
       area: r.getAttribute('area'),
       title: r.getAttribute('title'),
       exits: {},
       weight: mapper.roomWeights[r.id] ? mapper.roomWeights[r.id] : 1
     };
-    r.children.forEach(c => {
+    for (let c of r.children) {
       if (c.tagName === "exit") {
         let dir = c.getAttribute('direction');
         mapper.rooms[r.id].exits[dir] = {target: c.getAttribute('target')};
         if (c.getAttribute('tgarea') !== null) {mapper.rooms[r.id].exits[dir]["tgarea"] = c.getAttribute('tgarea')}
       }
-    })
-  };
+    }
+  }
   emerald.emnote(`Successfully mapped ${Object.keys(mapper.rooms).length} rooms in ${Object.keys(mapper.areas).length} areas.`,'Mapper');
 })
 .then(() => {

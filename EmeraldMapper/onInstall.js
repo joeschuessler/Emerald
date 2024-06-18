@@ -2,10 +2,11 @@ let emerald = client.emerald
 var mapper = emerald.mapper = {
   name:'EmeraldMapper',
   version:'0.0.1',
-  map: {}
+  rooms: {},
+  areas: {}
 };
 
-if (get_variable('emerald_mapper_roomweights') !== null) {
+if (get_variable('emerald_mapper_roomweights')) {
   mapper.roomWeights = JSON.parse(get_variable('emerald_mapper_roomweights')) 
 } else {
   mapper.roomWeights = {
@@ -30,7 +31,25 @@ mapper.getArea = (vnum) => {
   return mapper.areas[mapper.rooms[vnum].area];
 }
 
-mapper.getRoom = (roomName) => {
+mapper.getRoomScent = (name, roomName) => {
+  let rooms = mapper.rooms;
+  for (const r of Object.keys(rooms)) {
+    if (rooms[r].title.includes(roomName.toLowerCase())) {
+      emerald.note.clear();
+      emerald.note.build('[Mapper]:','silver','seagreen',' ','silver','');
+      if (emerald.plugins['Factions'] && emerald.factions.names[name]) {
+        emerald.note.build(name,emerald.factions.colors[name],'',': ',emerald.configs.ui_white,'');
+      } else {
+        emerald.note.build(`${name}: `,emerald.configs.ui_white,'');
+      }
+      emerald.note.build(rooms[r].title,emerald.configs.ui_white,'');
+      emerald.note.build(` «pathgo ${rooms[r].id}»[${rooms[r].id}`,emerald.configs.ui_green,'',']',emerald.configs.ui_white,'');
+      emerald.note.display();
+    }
+  }
+}
+
+mapper.findRoom = (roomName) => {
   //let rooms = mapper.mapxml.querySelectorAll("room");
   let rooms = mapper.rooms;
   emerald.note.clear();
@@ -39,18 +58,18 @@ mapper.getRoom = (roomName) => {
   emerald.note.build(roomName, emerald.configs.ui_green, '', '"...',emerald.configs.ui_white,'');
   emerald.note.display();
   let foundRooms = 0;
-  rooms.forEach(r => {
-    if (r.title.includes(roomName.toLowerCase())) {
-      let area = mapper.findArea(r.id);
+  for (const r of Object.keys(rooms)) {
+    if (rooms[r].title.includes(roomName.toLowerCase())) {
+      let area = mapper.findArea(rooms[r].id);
       emerald.note.clear();
       emerald.note.build('[Mapper]:','silver','seagreen',' ','silver','');
-      emerald.note.build(`«pathgo ${r.id}»v${r.id}`,emerald.configs.ui_green,'',': ',emerald.configs.ui_white,'');
-      emerald.note.build(r.title,emerald.configs.ui_white,'');
+      emerald.note.build(`«pathgo ${rooms[r].id}»v${rooms[r].id}`,emerald.configs.ui_green,'',': ',emerald.configs.ui_white,'');
+      emerald.note.build(rooms[r].title,emerald.configs.ui_white,'');
       emerald.note.build(' [',emerald.configs.ui_blue,'', area,emerald.configs.ui_green,'',']',emerald.configs.ui_blue,'');
       emerald.note.display();
       foundRooms++;
     }
-  });
+  }
   if (foundRooms == 0) {
     emerald.emnote('ROOM NOT FOUND!','Mapper');
     emerald.note.clear();
