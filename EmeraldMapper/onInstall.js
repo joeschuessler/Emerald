@@ -31,21 +31,30 @@ mapper.getArea = (vnum) => {
   return mapper.areas[mapper.rooms[vnum].area];
 }
 
-mapper.getRoomScent = (name, roomName) => {
+mapper.scentGo = (name, roomName) => {
   let rooms = mapper.rooms;
+  let foundRoom = false;
   for (const r of Object.keys(rooms)) {
-    if (rooms[r].title.includes(roomName.toLowerCase())) {
+    if (rooms[r].title.toLowerCase() == roomName.toLowerCase()) {
+      emerald.debugmsg(JSON.stringify(rooms[r],null,2))
       emerald.note.clear();
       emerald.note.build('[Mapper]:','silver','seagreen',' ','silver','');
-      if (emerald.plugins['Factions'] && emerald.factions.names[name]) {
-        emerald.note.build(name,emerald.factions.colors[name],'',': ',emerald.configs.ui_white,'');
+      if (emerald.plugins['factions'] && emerald.factions.names[name]) {
+        emerald.note.build(name,emerald.factions.colors[emerald.factions.names[name]],'',': ',emerald.configs.ui_white,'');
       } else {
         emerald.note.build(`${name}: `,emerald.configs.ui_white,'');
       }
-      emerald.note.build(rooms[r].title,emerald.configs.ui_white,'');
-      emerald.note.build(` «pathgo ${rooms[r].id}»[${rooms[r].id}`,emerald.configs.ui_green,'',']',emerald.configs.ui_white,'');
+      emerald.note.build(`${rooms[r].title} `,emerald.configs.ui_white,'');
+      emerald.note.build('[',emerald.configs.ui_white,'',`«path track ${r}»v${r}`,emerald.configs.ui_green,'',']',emerald.configs.ui_white,'');
       emerald.note.display();
+      if (emerald.flags.get('scentgo') && name.toLowerCase().startsWith(get_variable('emerald_mapper_scenttarget'))) {
+        emerald.debugmsg('scenttarget found');
+        send_command(`path track ${r}`);
+        set_variable('emerald_mapper_scenttarget','');
+      }
+      foundRoom = true;
     }
+    if (foundRoom) break;
   }
 }
 
@@ -62,8 +71,8 @@ mapper.findRoom = (roomName) => {
     if (rooms[r].title.includes(roomName.toLowerCase())) {
       let area = mapper.findArea(rooms[r].id);
       emerald.note.clear();
-      emerald.note.build('[Mapper]:','silver','seagreen',' ','silver','');
-      emerald.note.build(`«pathgo ${rooms[r].id}»v${rooms[r].id}`,emerald.configs.ui_green,'',': ',emerald.configs.ui_white,'');
+      emerald.note.build('[Mapper]:','silver','seagreen',' [','silver','');
+      emerald.note.build(`«pathgo ${rooms[r].id}»${rooms[r].id}`,emerald.configs.ui_green,'',']: ',emerald.configs.ui_white,'');
       emerald.note.build(rooms[r].title,emerald.configs.ui_white,'');
       emerald.note.build(' [',emerald.configs.ui_blue,'', area,emerald.configs.ui_green,'',']',emerald.configs.ui_blue,'');
       emerald.note.display();

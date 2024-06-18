@@ -65,7 +65,7 @@
         }, {
           "actions": [{
               "enabled": true,
-              "script": "\n\nif (!client.emerald.factions.names[args[1]]) client.emerald.factions.add(args[1]);",
+              "script": "if (!client.emerald.factions.names[args[1]]) client.emerald.factions.add(args[1]);",
               "type": "script"
             }
           ],
@@ -95,6 +95,20 @@
       ],
       "name": "Emerald_Factions_NameCapture",
       "type": "group"
+    }, {
+      "actions": [{
+          "enabled": true,
+          "script": "send_command(`whois ${args[1]}`);",
+          "type": "script"
+        }
+      ],
+      "case_sensitive": true,
+      "enabled": true,
+      "matching": "regexp",
+      "name": "",
+      "text": "^The Portal of Fate flashes as (\\w+) steps through\\, now ready to begin a fresh life in Lusternia\\.$",
+      "type": "trigger",
+      "whole_words": true
     }
   ],
   "name": "EmeraldFactions",

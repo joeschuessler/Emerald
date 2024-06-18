@@ -2,15 +2,185 @@
   "description": "",
   "enabled": true,
   "items": [{
-      "code": "let emerald = client.emerald\nvar mapper = emerald.mapper = {map: {}};\n\nmapper.roomWeights = JSON.parse(get_variable('emerald_mapper_roomweights')) || {\n  931: 999, //prime seren\n  1337: 999, //prime glom\n  4136: 999, //prime mag\n  4555: 999, //celestia\n  4607: 999, //nil\n  4710: 999, //etherseren\n  4847: 999, //etherglom,\n  4865: 999, //earth\n  11152: 999, //prime halli\n  11401: 999, //prime gaudi\n  19519: 999, //continuum\n  19526: 999, //vortex\n  19663: 999, //fire\n  19765: 999, //air\n};\n\nmapper.getArea = (vnum) => {\n  let areas = mapper.mapxml.querySelectorAll(\"area\");\n  let returnValue = '';\n  areas.forEach(a => {\n    if (a.getAttribute('id') == vnum) returnValue = a.getAttribute('name');\n  });\n  return returnValue;\n}\n\nmapper.getRoom = (roomName) => {\n  let rooms = mapper.mapxml.querySelectorAll(\"room\");\n  emerald.note.clear();\n  emerald.note.build('[Mapper]:','silver','seagreen',' ','silver','');\n  emerald.note.build(`Scanning ${String(mapper.mapxml.getElementsByTagName(\"room\").length)} rooms for \"`,emerald.configs.ui_white,'');\n  emerald.note.build(roomName, emerald.configs.ui_green, '', '\"...',emerald.configs.ui_white,'');\n  emerald.note.display();\n  let foundRooms = 0;\n  rooms.forEach(r => {\n    let t = r.getAttribute('title');\n    if (t.includes(roomName.toLowerCase())) {\n      let roomId = r.getAttribute('id');\n      let area = mapper.findArea(roomId);\n      emerald.note.clear();\n      emerald.note.build('[Mapper]:','silver','seagreen',' ','silver','');\n      emerald.note.build(`«go ${roomId}»v${roomId}`,emerald.configs.ui_green,'',': ',emerald.configs.ui_white,'');\n      emerald.note.build(r.getAttribute('title'),emerald.configs.ui_white,'');\n      emerald.note.build(' [',emerald.configs.ui_blue,'', area,emerald.configs.ui_green,'',']',emerald.configs.ui_blue,'');\n      emerald.note.display();\n      foundRooms++;\n    }\n  });\n  if (foundRooms == 0) {\n    emerald.emnote('ROOM NOT FOUND!','Mapper');\n    emerald.note.clear();\n  } else {\n    emerald.emnote(`Found ${foundRooms} matching rooms.`,'Mapper');\n  }\n}\n\nmapper.getPath = (origin, dest) => {\n  let r = mapper.mapxml.querySelector(`room#${origin}`)\n}\n\n//Load and parse map\nemerald.emnote('Cartographing the Basin of Life...', 'Mapper');\nmapper.loadmap = () => {\n  fetch('https://www.lusternia.com/maps/map.xml')\n  .then(res => {\n    if (!res.ok) {\n      emerald.emnote('Error retrieving master map.', 'Mapper');\n    }\n    return res.text();\n  })\n  .then(mapText => {\n    let t = String(mapText);\n    let parser = new DOMParser();\n    mapper.mapxml = parser.parseFromString(t, \"text/xml\");\n    emerald.emnote(`Successfully mapped ${mapper.mapxml.getElementsByTagName(\"room\").length} rooms in ${mapper.mapxml.getElementsByTagName(\"area\").length} areas.`,'Mapper');\n  })\n  .then(() => {\n    let rooms = mapper.mapxml.getElementsByTagName(\"room\");\n    rooms.forEach(r => {\n      let id = r.getAttribute('id');\n      mapper.rooms[id] = {\n        area: r.getAttribute('area'),\n        title: r.getAttribute('title'),\n        exits: {}\n      };\n      r.children.forEach(c => {\n        if (c.tagName === \"exit\") {\n          let dir = c.getAttribute('direction');\n          mapper.rooms[id].exits[dir] = {target : c.getAttribute('target'), weight: 1};\n          if (c.getAttribute('tgarea') !== null) {mapper.rooms[id].exits[dir][\"tgarea\"] = c.getAttribute('tgarea')}\n          /*mapper.rooms[35].exits[\"east\"] = {target: \"41\", weight: 1};\n          mapper.rooms = {\n            \"35\" : {\n              area: \"2\",\n              title: \"before Avechna the Avenger\"\n              exits: {\n                \"east\" : {\n                  target: \"41\",\n                  weight: 1\n                },\n                \"down\" : {\n                  target: \"6154\",\n                  weight: 1,\n                  tgarea: \"10\"\n                }\n              }\n            }\n          }*/\n        }\n      })\n    })\n  })\n  .catch(error => {\n    emerald.emnote(`Error parsing master map: ${error}`,'Mapper');\n  });\n}\n",
+      "code": "let emerald = client.emerald\nvar mapper = emerald.mapper = {\n  name:'EmeraldMapper',\n  version:'0.0.1',\n  rooms: {},\n  areas: {}\n};\n\nif (get_variable('emerald_mapper_roomweights')) {\n  mapper.roomWeights = JSON.parse(get_variable('emerald_mapper_roomweights')) \n} else {\n  mapper.roomWeights = {\n    931: 999, //prime seren\n    1337: 999, //prime glom\n    4136: 999, //prime mag\n    4555: 999, //celestia\n    4607: 999, //nil\n    4710: 999, //etherseren\n    4847: 999, //etherglom,\n    4865: 999, //earth\n    11152: 999, //prime halli\n    11401: 999, //prime gaudi\n    19519: 999, //continuum\n    19526: 999, //vortex\n    19663: 999, //fire\n    19765: 999 //air\n  }\n}\n\nmapper.getArea = (vnum) => {\n  return mapper.areas[mapper.rooms[vnum].area];\n}\n\nmapper.scentGo = (name, roomName) => {\n  let rooms = mapper.rooms;\n  let foundRoom = false;\n  for (const r of Object.keys(rooms)) {\n    if (rooms[r].title.toLowerCase() == roomName.toLowerCase()) {\n      emerald.debugmsg(JSON.stringify(rooms[r],null,2))\n      emerald.note.clear();\n      emerald.note.build('[Mapper]:','silver','seagreen',' ','silver','');\n      if (emerald.plugins['factions'] && emerald.factions.names[name]) {\n        emerald.note.build(name,emerald.factions.colors[emerald.factions.names[name]],'',': ',emerald.configs.ui_white,'');\n      } else {\n        emerald.note.build(`${name}: `,emerald.configs.ui_white,'');\n      }\n      emerald.note.build(`${rooms[r].title} `,emerald.configs.ui_white,'');\n      emerald.note.build('[',emerald.configs.ui_white,'',`«path track ${r}»v${r}`,emerald.configs.ui_green,'',']',emerald.configs.ui_white,'');\n      emerald.note.display();\n      if (emerald.flags.get('scentgo') && name.toLowerCase().startsWith(get_variable('emerald_mapper_scenttarget'))) {\n        emerald.debugmsg('scenttarget found');\n        send_command(`path track ${r}`);\n        set_variable('emerald_mapper_scenttarget','');\n      }\n      foundRoom = true;\n    }\n    if (foundRoom) break;\n  }\n}\n\nmapper.findRoom = (roomName) => {\n  //let rooms = mapper.mapxml.querySelectorAll(\"room\");\n  let rooms = mapper.rooms;\n  emerald.note.clear();\n  emerald.note.build('[Mapper]:','silver','seagreen',' ','silver','');\n  emerald.note.build(`Scanning ${Object.keys(rooms).length} rooms for \"`,emerald.configs.ui_white,'');\n  emerald.note.build(roomName, emerald.configs.ui_green, '', '\"...',emerald.configs.ui_white,'');\n  emerald.note.display();\n  let foundRooms = 0;\n  for (const r of Object.keys(rooms)) {\n    if (rooms[r].title.includes(roomName.toLowerCase())) {\n      let area = mapper.findArea(rooms[r].id);\n      emerald.note.clear();\n      emerald.note.build('[Mapper]:','silver','seagreen',' [','silver','');\n      emerald.note.build(`«pathgo ${rooms[r].id}»${rooms[r].id}`,emerald.configs.ui_green,'',']: ',emerald.configs.ui_white,'');\n      emerald.note.build(rooms[r].title,emerald.configs.ui_white,'');\n      emerald.note.build(' [',emerald.configs.ui_blue,'', area,emerald.configs.ui_green,'',']',emerald.configs.ui_blue,'');\n      emerald.note.display();\n      foundRooms++;\n    }\n  }\n  if (foundRooms == 0) {\n    emerald.emnote('ROOM NOT FOUND!','Mapper');\n    emerald.note.clear();\n  } else {\n    emerald.emnote(`Found ${foundRooms} matching rooms.`,'Mapper');\n  }\n}\n\nmapper.saveRoomWeights = () => {\n  set_variable('emerald_mapper_roomweights',JSON.stringify(mapper.roomWeights));\n}\n\nmapper.setRoomWeight = (vnum, value) => {\n  mapper.roomWeights[vnum] = value;\n  mapper.saveRoomWeights();\n}\n\nmapper.getPath = (origin, dest) => {\n  let r = mapper.mapxml.querySelector(`room#${origin}`)\n}\n\nemerald.plugins['mapper'] = true;\nmapper.saveRoomWeights();\nrun_function('loadMap','','EmeraldMapper');\nclient.emerald.emnote(`${mapper.name} v${mapper.version} initialised.`);",
       "enabled": true,
       "name": "onInstall",
+      "type": "function"
+    }, {
+      "code": "let emerald = client.emerald;\nlet mapper = emerald.mapper;\n//Load and parse map\nemerald.emnote('Cartographing the Basin of Life...', 'Mapper');\n\nfetch('https://www.lusternia.com/maps/map.xml')\n.then(res => {\n  if (!res.ok) {\n    emerald.emnote('Error retrieving master map.', 'Mapper');\n  }\n  return res.text();\n})\n.then(mapText => {\n  let t = String(mapText);\n  let parser = new DOMParser();\n  mapper.mapxml = parser.parseFromString(t, \"text/xml\");\n})\n.then(() => {\n  let xmlareas = mapper.mapxml.getElementsByTagName(\"area\");\n  for (let a of xmlareas){\n    mapper.areas[a.getAttribute('id')] = a.getAttribute('name');\n  }\n  let xmlrooms = mapper.mapxml.getElementsByTagName(\"room\");\n  for (let r of xmlrooms) {\n    mapper.rooms[r.getAttribute('id')] = {\n      area: r.getAttribute('area'),\n      title: r.getAttribute('title'),\n      exits: {},\n      weight: mapper.roomWeights[r.id] ? mapper.roomWeights[r.id] : 1\n    };\n    for (let c of r.children) {\n      if (c.tagName === \"exit\") {\n        let dir = c.getAttribute('direction');\n        mapper.rooms[r.id].exits[dir] = {target: c.getAttribute('target')};\n        if (c.getAttribute('tgarea') !== null) {mapper.rooms[r.id].exits[dir][\"tgarea\"] = c.getAttribute('tgarea')}\n      }\n    }\n  }\n  emerald.emnote(`Successfully mapped ${Object.keys(mapper.rooms).length} rooms in ${Object.keys(mapper.areas).length} areas.`,'Mapper');\n})\n.then(() => {\n  delete mapper.mapxml;\n})\n.catch(error => {\n  emerald.emnote(`Error parsing master map: ${error}`,'Mapper');\n});",
+      "enabled": true,
+      "name": "loadMap",
       "type": "function"
     }, {
       "code": "// Place any code here you'd like to autorun when the package is uninstalled",
       "enabled": true,
       "name": "onUninstall",
       "type": "function"
+    }, {
+      "enabled": true,
+      "items": [{
+          "actions": [{
+              "enabled": true,
+              "name": "emerald_mapper_magicmap",
+              "rtype": "trigger",
+              "type": "enable"
+            }
+          ],
+          "case_sensitive": true,
+          "enabled": true,
+          "matching": "regexp",
+          "name": "emerald_mapper_magicmapstart",
+          "text": "^As you inscribe the name of \\w+ with a flourish\\, lines crawl across the surface of the map\\, centered upon .+?\\.",
+          "type": "trigger",
+          "whole_words": true
+        }, {
+          "actions": [{
+              "enabled": true,
+              "script": "if (client.emerald.flags.get('mapgo')) {\n  send_command(`path track ${args[1]}`);\n}",
+              "type": "script"
+            }
+          ],
+          "case_sensitive": true,
+          "enabled": false,
+          "matching": "regexp",
+          "name": "emerald_mapper_magicmap",
+          "text": "^\\-+ Area \\d+\\: .+? \\-+ v(\\d+) \\-+$",
+          "type": "trigger",
+          "whole_words": true
+        }, {
+          "actions": [{
+              "enabled": true,
+              "name": "emerald_mapper_magicmap",
+              "rtype": "trigger",
+              "type": "disable"
+            }
+          ],
+          "case_sensitive": true,
+          "enabled": true,
+          "matching": "regexp",
+          "name": "emerald_mapper_magicmapend",
+          "text": "^(?:\\d+h)?\\,?\\s?(?:\\d+m)?\\,?\\s?(?:\\d+e)?\\,?\\s?(?:\\d+p)?\\s*?(?:\\[(?:N|B|TL|TH|C|SL|SH|K)\\])?\\s?[BelrxsSipdbk]*\\<?\\>?\\-$",
+          "type": "trigger",
+          "whole_words": true
+        }, {
+          "actions": [{
+              "enabled": true,
+              "script": "client.emerald.flags.set('mapgo',true,250);\nsend_command(`inscribe map with ${args[1]}`);",
+              "type": "script"
+            }
+          ],
+          "case_sensitive": true,
+          "enabled": true,
+          "matching": "regexp",
+          "name": "",
+          "prefix_suffix": true,
+          "text": "^mg (\\w+)$",
+          "type": "alias",
+          "whole_words": true
+        }
+      ],
+      "name": "MapGo",
+      "type": "group"
+    }, {
+      "enabled": true,
+      "items": [{
+          "actions": [{
+              "enabled": true,
+              "name": "emerald_mapper_scent",
+              "rtype": "trigger",
+              "type": "enable"
+            }
+          ],
+          "case_sensitive": true,
+          "enabled": true,
+          "matching": "regexp",
+          "name": "emerald_mapper_scentstart",
+          "text": "^(?:You scent at the air,|You tilt back your head and inhale deeply)",
+          "type": "trigger",
+          "whole_words": true
+        }, {
+          "actions": [{
+              "enabled": true,
+              "script": "gag_current_line();\nclient.emerald.mapper.scentGo(args[1],args[2])",
+              "type": "script"
+            }
+          ],
+          "case_sensitive": true,
+          "enabled": false,
+          "matching": "regexp",
+          "name": "emerald_mapper_scent",
+          "text": "^You make out the scent of (\\w+) coming from (.+?)\\.$",
+          "type": "trigger",
+          "whole_words": true
+        }, {
+          "actions": [{
+              "enabled": true,
+              "name": "emerald_mapper_scent",
+              "rtype": "trigger",
+              "type": "disable"
+            }
+          ],
+          "case_sensitive": true,
+          "enabled": true,
+          "matching": "regexp",
+          "name": "emerald_mapper_scentend",
+          "text": "^(?:\\d+h)?\\,?\\s?(?:\\d+m)?\\,?\\s?(?:\\d+e)?\\,?\\s?(?:\\d+p)?\\s*?(?:\\[(?:N|B|TL|TH|C|SL|SH|K)\\])?\\s?[BelrxsSipdbk]*\\<?\\>?\\-$",
+          "type": "trigger",
+          "whole_words": true
+        }, {
+          "actions": [{
+              "enabled": true,
+              "script": "set_variable('emerald_mapper_scenttarget', get_variable('target'));\nclient.emerald.flags.set('scentgo',250)\nsend_command('scent')",
+              "type": "script"
+            }
+          ],
+          "case_sensitive": true,
+          "enabled": true,
+          "matching": "regexp",
+          "name": "",
+          "prefix_suffix": true,
+          "text": "^stg$",
+          "type": "alias",
+          "whole_words": true
+        }, {
+          "actions": [{
+              "enabled": true,
+              "script": "set_variable('emerald_mapper_scenttarget', args[1]);\nclient.emerald.flags.set('scentgo',true,250)\nsend_command('scent')",
+              "type": "script"
+            }
+          ],
+          "case_sensitive": true,
+          "enabled": true,
+          "matching": "regexp",
+          "name": "",
+          "prefix_suffix": true,
+          "text": "^sg (\\w+)$",
+          "type": "alias",
+          "whole_words": true
+        }
+      ],
+      "name": "ScentGo",
+      "type": "group"
+    }, {
+      "enabled": true,
+      "items": [{
+          "code": "/*aerocast sense\nYou reach out and sense who stands within your demesne:\nMachlana (strangely silent swampland)\nFerelith (a gently glowing library)\nEiselle (a gently glowing library)\nFaragan (outside the observatory)\nJaye (outside the observatory)\nNuminous (outside the observatory)*/",
+          "enabled": true,
+          "name": "meldSense",
+          "type": "function"
+        }, {
+          "actions": [],
+          "case_sensitive": true,
+          "enabled": false,
+          "matching": "regexp",
+          "name": "emerald_mapper_callenemies",
+          "text": "^(?:\\d+h)?\\,?\\s?(?:\\d+m)?\\,?\\s?(?:\\d+e)?\\,?\\s?(?:\\d+p)?\\s*?(?:\\[(?:N|B|TL|TH|C|SL|SH|K)\\])?\\s?[BelrxsSipdbk]*\\<?\\>?\\-$",
+          "type": "trigger",
+          "whole_words": true
+        }
+      ],
+      "name": "Sense",
+      "type": "group"
     }
   ],
   "name": "EmeraldMapper",

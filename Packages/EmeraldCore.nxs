@@ -7,7 +7,7 @@
       "name": "emeraldSplash",
       "type": "function"
     }, {
-      "code": "set_variable('_emerald_core_version','0.0.1');\nrun_function('_emerald_core_chkupdates','Core','EmeraldCore')\n\nfunction htmlChars(str) {\n\treturn String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\"/g,'&quot;');\n}\n\nlet nexusVersion = 3\nif (client.version == undefined) nexusVersion = 2;\n\nif (nexusVersion == 3) {\n\n  client.emerald = client.emerald || {};\n  var emerald = client.emerald;\n  \n  emerald.configs = {\n    'debug': false,\n    'ui_white':'silver',\n    'ui_blue': 'steelblue',\n    'ui_green': 'seagreen',\n    'ui_yellow': 'lemonchiffon',\n    'ui_orange': 'sandybrown',\n    'ui_red': 'lightcoral'\n  };\n\n  emerald.cloaked = false;\n  emerald.dreamform = false;\n  emerald.paused = false;\n  \n  let coremodules = ['Note','Vitals','Bals','Flags','Prompt','Queue','Skills'];\n\n  coremodules.forEach(cm => {\n    run_function(`emeraldCoreInit${cm}`,'','EmeraldCore');\n  });\n               \n  \n  emerald.wounds = {};\n  emerald.defs = [];\n\n  // Used to parse and concat a series of strings with various color sets into a single output\n  emerald.html_parse = (...args) => {\n    let fg, bg;\n    let output = '';\n    for (let i = 0; i < args.length; i += 3) {\n      let text = htmlChars(args[i]);\n      let link = '';\n        if (text.startsWith('«') && text.includes('»')) {\n          let a = text.split('»');\n          link = a[0].substring(1);\n          text = a[1];\n        }\n        i+1 < args.length ? fg = args[i+1] : fg = 'grey';\n        i+2 < args.length ? bg = args[i+2] : bg = 'black';\n        if (link != '') output += `<a class=\"mxp.send\" href=\"#\" rel=\"${link}\">`;\n        output += `<span style=\"color:${fg};`;\n        if (bg != 'black') output += ` background-color:${bg};`;\n        output += `\">${text}</span>`;\n        if (link != '') output += '</a>';\n    }\n    return output;\n  };\n  \n  // Outputs an Emerald system notice using html\n  emerald.emnote = (str, tag='Emerald') => {\n    emerald.note.clear();\n    emerald.note.build(`[${tag}]:`,'silver','seagreen',' ','silver','',`${str}`,emerald.configs.ui_white,'');\n    emerald.note.display();\n  }\n\n  // Shorthand function for wrapping debug messages in emnote();\n  emerald.debugmsg = (str) => {\n    if (emerald.configs.debug) emerald.emnote(str,'Debugs');\n  }\n  \n  run_function('emeraldSplash','','EmeraldCore');\n  emerald.emnote('Emerald Core v'+get_variable('_emerald_core_version')+' initialised.');\n  send_command('');\n\n  emerald.plugins = {};\n  ['Bash','Factions'].forEach(p => {\n    run_function('onInstall','',`Emerald${p}`);\n  }); \n} else {\n  /** Handle Nexus 2 client; refer to CrystalNotices\n  *\n  */\n}\n",
+      "code": "set_variable('_emerald_core_version','0.0.1');\nrun_function('_emerald_core_chkupdates','Core','EmeraldCore')\n\nfunction htmlChars(str) {\n\treturn String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\"/g,'&quot;');\n}\n\nlet nexusVersion = 3\nif (client.version == undefined) nexusVersion = 2;\n\nif (nexusVersion == 3) {\n\n  client.emerald = client.emerald || {};\n  var emerald = client.emerald;\n  \n  emerald.configs = {\n    'debug': false,\n    'ui_white':'silver',\n    'ui_blue': 'steelblue',\n    'ui_green': 'seagreen',\n    'ui_yellow': 'lemonchiffon',\n    'ui_orange': 'sandybrown',\n    'ui_red': 'lightcoral'\n  };\n\n  emerald.cloaked = false;\n  emerald.dreamform = false;\n  emerald.paused = false;\n  \n  let coremodules = ['Note','Vitals','Bals','Flags','Prompt','Queue','Skills'];\n\n  coremodules.forEach(cm => {\n    run_function(`emeraldCoreInit${cm}`,'','EmeraldCore');\n  });\n               \n  \n  emerald.wounds = {};\n  emerald.defs = [];\n\n  // Used to parse and concat a series of strings with various color sets into a single output\n  emerald.html_parse = (...args) => {\n    let fg, bg;\n    let output = '';\n    for (let i = 0; i < args.length; i += 3) {\n      let text = htmlChars(args[i]);\n      let link = '';\n        if (text.startsWith('«') && text.includes('»')) {\n          let a = text.split('»');\n          link = a[0].substring(1);\n          text = a[1];\n        }\n        i+1 < args.length ? fg = args[i+1] : fg = 'grey';\n        i+2 < args.length ? bg = args[i+2] : bg = 'black';\n        if (link != '') output += `<a class=\"mxp.send\" href=\"#\" rel=\"${link}\">`;\n        output += `<span style=\"color:${fg};`;\n        if (bg != 'black') output += ` background-color:${bg};`;\n        output += `\">${text}</span>`;\n        if (link != '') output += '</a>';\n    }\n    return output;\n  };\n  \n  // Outputs an Emerald system notice using html\n  emerald.emnote = (str, tag='Emerald') => {\n    emerald.note.clear();\n    emerald.note.build(`[${tag}]:`,'silver','seagreen',' ','silver','',`${str}`,emerald.configs.ui_white,'');\n    emerald.note.display();\n  }\n\n  // Shorthand function for wrapping debug messages in emnote();\n  emerald.debugmsg = (str) => {\n    if (emerald.configs.debug) emerald.emnote(str,'Debugs');\n  }\n\n  \n  run_function('emeraldSplash','','EmeraldCore');\n  emerald.emnote('Emerald Core v'+get_variable('_emerald_core_version')+' initialised.');\n  emerald.plugins = {};\n  ['Bash','Factions','Mapper'].forEach(p => {\n    run_function('onInstall','',`Emerald${p}`);\n  });\n} else {\n  /** Handle Nexus 2 client; refer to CrystalNotices\n  *\n  */\n}\n",
       "enabled": true,
       "name": "onInstall",
       "type": "function"
@@ -29,21 +29,6 @@
     }, {
       "enabled": true,
       "items": [{
-          "actions": [{
-              "enabled": true,
-              "fn": "onInstall",
-              "type": "function"
-            }
-          ],
-          "case_sensitive": true,
-          "enabled": true,
-          "matching": "regexp",
-          "name": "",
-          "prefix_suffix": true,
-          "text": "^(?:emerald|mrd)\\s(?:install|init)$",
-          "type": "alias",
-          "whole_words": true
-        }, {
           "actions": [{
               "enabled": true,
               "script": "client.emerald.paused = args[1] == 'pause';\nclient.emerald.emnote(`${args[1].charAt(0).toUpperCase()+args[1].slice(1)}d`);",
@@ -91,7 +76,7 @@
         }, {
           "actions": [{
               "enabled": true,
-              "script": "if (!client.emerald.paused) {\n  send_command(`${get_variable('emerald_config_announce')} targeting ${args[1]}`);\n  send_command(`t ${args[1]}`);\n}",
+              "script": "if (!client.emerald.paused) {\n  send_command(`${get_variable('emerald_config_announce')} targeting ${args[1].toUpperCase()}`);\n  send_command(`t ${args[1]}`);\n}",
               "type": "script"
             }
           ],
@@ -100,7 +85,7 @@
           "matching": "regexp",
           "name": "",
           "prefix_suffix": true,
-          "text": "^a\\s+(.+?)",
+          "text": "^a\\s+(.+?)$",
           "type": "alias",
           "whole_words": true
         }, {
@@ -190,7 +175,7 @@
               "type": "gag"
             }, {
               "enabled": true,
-              "script": "client.emerald.prompt.onPrompt();",
+              "script": "client.emerald.cloaked = args[1] == '<>'\nclient.emerald.prompt.onPrompt();",
               "type": "script"
             }
           ],
@@ -198,7 +183,7 @@
           "enabled": true,
           "matching": "regexp",
           "name": "emerald_core_prompt",
-          "text": "^(?:\\d+h)?\\,?\\s?(?:\\d+m)?\\,?\\s?(?:\\d+e)?\\,?\\s?(?:\\d+p)?\\s*?(?:\\[(?:N|B|TL|TH|C|SL|SH|K)\\])?\\s?[BelrxsSipdbk]*\\-$",
+          "text": "^(?:\\d+h)?\\,?\\s?(?:\\d+m)?\\,?\\s?(?:\\d+e)?\\,?\\s?(?:\\d+p)?\\s*?(?:\\[(?:N|B|TL|TH|C|SL|SH|K)\\])?\\s?[BelrxsSipdbk]*(<>)?\\-$",
           "type": "trigger",
           "whole_words": true
         }, {
