@@ -82,7 +82,22 @@ emerald.bash.targets = {
   'a giant centipede': {alias:'centipede', threat:0},
   'an inferno beetle': {alias:'beetle', threat:0},
   'a deepstone rockeater': {alias:'rockeater', threat:0},
-  'a land urchin': {alias:'urchin', threat:0}
+  'a land urchin': {alias:'urchin', threat:0},
+
+  //Cankermore
+  'a vicious allisaur': {alias:'allisaur', threat: 1},
+
+  //The Facility
+  'a giant violet slug': {alias:'slug', threat: 0},
+  'a giant yellow slug': {alias:'slug', threat: 0},
+  'a giant green slug': {alias:'slug', threat: 0},
+  'a giant red slug': {alias:'slug', threat: 0},
+  'a giant blue slug': {alias:'slug', threat: 0},
+
+  //Workshop of Xion
+  'a crystal grodak': {alias:'grodak', threat: 0},
+  'an aetherway hynx': {alias:'hynx', threat: 0},
+  'a shadow mordrath': {alias:'mordrath',threat:1}
 }
 
 emerald.emnote(`${Object.keys(emerald.bash.targets).length} bash targets loaded.`,'Bash');

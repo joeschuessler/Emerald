@@ -16,6 +16,7 @@ factions.colors = {
 };
 const isAlpha = (c) => (c >= 65 && c < 91) || (c >= 97 && c < 123)
 
+factions.announceNames = false;
 class TreeNode {
   constructor() {
     this.children = {};

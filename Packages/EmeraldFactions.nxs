@@ -2,7 +2,7 @@
   "description": "Name highlighting based on org",
   "enabled": true,
   "items": [{
-      "code": "let emerald = client.emerald;\nlet factions = emerald.factions = {\n  name: 'EmeraldFactions',\n  version: '0.0.1'\n};\n\nfactions.colors = {\n  'Serenwilde': 'seagreen',\n  'Glomdoring': 'darkviolet',\n  'Celest': 'lightyellow',\n  'Magnagora': 'crimson',\n  'Hallifax': 'dodgerblue',\n  'Gaudiguch': 'orange',\n  'Divine': 'yellow',\n  '(none)': 'olivedrab'\n};\nfactions.names = get_variable('emerald_factions_names') ? JSON.parse(get_variable('emerald_factions_names')) : {};\n\nfactions.save = () => {\n  set_variable('emerald_factions_colors',JSON.stringify(factions.colors));\n  set_variable('emerald_factions_names',JSON.stringify(factions.names));\n}\nfactions.add = (name) => {\n  fetch(`https://api.lusternia.com/characters/${name}.json`)\n  .then(res => {\n    return res.json();\n  }).then(data => {\n    if (String(data).includes(' was not found')) {\n      client.emerald.emnote(`${name} was not found. Removing from name list.`);\n      delete factions.names[name];\n    } else {\n      let org;\n      if (['Spindle','Skein','Bobbins'].includes(name) || data.level == 'Infinite') {\n        org = 'Divine';\n      } else {\n        org = data.faction.charAt(0).toUpperCase() + data.faction.substr(1).toLowerCase();\n      }\n      factions.names[data.name] = org;\n      client.emerald.emnote(`${data.name} is of ${org}`, 'Factions');\n      factions.save();\n    }\n  })\n}\nemerald.plugins['factions'] = true;\nclient.emerald.emnote(`${factions.name} v${factions.version} initialised.`);",
+      "code": "let emerald = client.emerald;\nlet factions = emerald.factions = {\n  name: 'EmeraldFactions',\n  version: '0.0.1'\n};\n\nfactions.announceNames = false;\nfactions.colors = {\n  'Serenwilde': 'seagreen',\n  'Glomdoring': 'darkviolet',\n  'Celest': 'lightyellow',\n  'Magnagora': 'crimson',\n  'Hallifax': 'dodgerblue',\n  'Gaudiguch': 'orange',\n  'Divine': 'yellow',\n  '(none)': 'olivedrab'\n};\nfactions.names = get_variable('emerald_factions_names') ? JSON.parse(get_variable('emerald_factions_names')) : {};\n\nfactions.save = () => {\n  set_variable('emerald_factions_colors',JSON.stringify(factions.colors));\n  set_variable('emerald_factions_names',JSON.stringify(factions.names));\n}\nfactions.add = (name) => {\n  fetch(`https://api.lusternia.com/characters/${name}.json`)\n  .then(res => {\n    return res.json();\n  }).then(data => {\n    if (String(data).includes(' was not found')) {\n      client.emerald.emnote(`${name} was not found. Removing from name list.`);\n      delete factions.names[name];\n    } else {\n      let org;\n      if (['Spindle','Skein','Bobbins'].includes(name) || data.level == 'Infinite') {\n        org = 'Divine';\n      } else {\n        org = data.faction.charAt(0).toUpperCase() + data.faction.substr(1).toLowerCase();\n      }\n      factions.names[data.name] = org;\n      client.emerald.emnote(`${data.name} is of ${org}`, 'Factions');\n      factions.save();\n    }\n  })\n}\nemerald.factions.namesEnteringArea = [];\nemerald.factions.namesLeavingArea = [];\nemerald.factions.namesEnteringMeld = []; \nemerald.factions.namesLeavingMeld = [];\n\nemerald.plugins['factions'] = true;\nclient.emerald.emnote(`${factions.name} v${factions.version} initialised.`);\nif (!emerald.factions.enemies) send_command('enemies');",
       "enabled": true,
       "name": "onInstall",
       "type": "function"
@@ -15,6 +15,11 @@
       "code": "run_function(\"onInstall\",\"\",\"EmeraldFactions\");",
       "enabled": true,
       "name": "onLoad",
+      "type": "function"
+    }, {
+      "code": "let emerald = client.emerald;\nlet nameArrays = [emerald.factions.namesEnteringArea,\n                  emerald.factions.namesLeavingArea,\n                  emerald.factions.namesEnteringMeld,\n                  emerald.factions.namesLeavingMeld];\nlet a;\nlet who = '', aux = 'has', action = '';\nlet ann = get_variable('emerald_config_announce');\nif (emerald.factions.announceNames) {\n  for (let x=0;x <=3;x++) {\n    a = nameArrays[x];\n    if (a.length > 1) aux = 'have';\n    while (a.length > 0) {\n      if (who=='') {\n        who += a.pop();\n      } else {\n        if (a.length > 1) {\n          who += `, ${a.pop()}`;\n        } else {\n          who += `and ${a.pop()}`;\n        }\n      }\n    }\n    switch (x) {\n      case 0:\n        action = `entered ${emerald.plugins['mapper'] ? emerald.mapper.currentArea : 'the area.'}`\n        break;\n      case 1:\n        action = `left ${emerald.plugins['mapper'] ? emerald.mapper.currentArea : 'the area.'}`\n        break;\n      case 2:\n        action = `entered my demesne`\n        break;\n      case 3:\n        action = `left my demesne`\n        break;\n    }\n    if (who != '') send_command(`${ann} ${who} ${aux} ${action}`);\n    a = [];\n    who = ''\n  }\n}",
+      "enabled": true,
+      "name": "announceNames",
       "type": "function"
     }, {
       "actions": [{
@@ -108,6 +113,136 @@
       "name": "",
       "text": "^The Portal of Fate flashes as (\\w+) steps through\\, now ready to begin a fresh life in Lusternia\\.$",
       "type": "trigger",
+      "whole_words": true
+    }, {
+      "enabled": true,
+      "items": [{
+          "actions": [{
+              "enabled": true,
+              "name": "emerald_factions_enemies",
+              "rtype": "trigger",
+              "type": "enable"
+            }, {
+              "enabled": true,
+              "script": "client.emerald.factions.enemies = [];",
+              "type": "script"
+            }
+          ],
+          "case_sensitive": true,
+          "enabled": true,
+          "matching": "regexp",
+          "name": "emerald_factions_enemiesstart",
+          "text": "^You consider the following adventurers your enemies\\:$",
+          "type": "trigger",
+          "whole_words": true
+        }, {
+          "actions": [{
+              "enabled": true,
+              "script": "client.emerald.factions.enemies.push(args[1]);",
+              "type": "script"
+            }
+          ],
+          "case_sensitive": true,
+          "enabled": false,
+          "matching": "regexp",
+          "name": "emerald_factions_enemies",
+          "text": "^(\\w+) is an enemy\\.$",
+          "type": "trigger",
+          "whole_words": true
+        }, {
+          "actions": [{
+              "enabled": true,
+              "name": "emerald_factions_enemies",
+              "rtype": "trigger",
+              "type": "disable"
+            }, {
+              "enabled": true,
+              "script": "set_variable('emerald_factions_enemies', JSON.stringify(client.emerald.factions.enemies))",
+              "type": "script"
+            }
+          ],
+          "case_sensitive": true,
+          "enabled": true,
+          "matching": "regexp",
+          "name": "emerald_factions_enemiesend",
+          "text": "^\\- \\d+ people\\.$",
+          "type": "trigger",
+          "whole_words": true
+        }, {
+          "actions": [{
+              "enabled": true,
+              "script": "if (client.emerald.factions.enemies.includes(args[1])) {\n  args[2] == 'enters'\n    ? client.emerald.factions.namesEnteringMeld.push(args[1])\n    : client.emerald.factions.namesLeavingMeld.push(args[1]);\n}",
+              "type": "script"
+            }
+          ],
+          "case_sensitive": true,
+          "enabled": true,
+          "matching": "regexp",
+          "name": "emerald_factions_meldwatch",
+          "text": "^(\\w+) (enters|leaves) your demesne\\.$",
+          "type": "trigger",
+          "whole_words": true
+        }, {
+          "actions": [{
+              "enabled": true,
+              "fn": "announceNames",
+              "type": "function"
+            }
+          ],
+          "case_sensitive": true,
+          "enabled": true,
+          "matching": "regexp",
+          "name": "emerald_factions_callnames",
+          "text": "^(?:\\d+h)?\\,?\\s?(?:\\d+m)?\\,?\\s?(?:\\d+e)?\\,?\\s?(?:\\d+p)?\\s*?(?:\\[(?:N|B|TL|TH|C|SL|SH|K)\\])?\\s?[BelrxsSipdbk]*\\<?\\>?\\-$",
+          "type": "trigger",
+          "whole_words": true
+        }, {
+          "actions": [{
+              "enabled": true,
+              "script": "client.emerald.factions.namesEnteringArea = [];\nclient.emerald.factions.namesLeavingArea = []\nclient.emerald.factions.namesEnteringMeld = []\nclient.emerald.factions.namesLeavingMeld = []\nclient.emerald.emnote('names cleared')",
+              "type": "script"
+            }
+          ],
+          "case_sensitive": true,
+          "enabled": true,
+          "matching": "exact",
+          "name": "",
+          "prefix_suffix": true,
+          "text": "clearnames",
+          "type": "alias",
+          "whole_words": true
+        }, {
+          "actions": [{
+              "enabled": true,
+              "script": "if (client.emerald.factions.enemies.includes(args[1])) {\n  args[2] == 'entered'\n    ? client.emerald.factions.namesEnteringArea.push(args[1])\n    : client.emerald.factions.namesLeavingArea.push(args[1]);\n}",
+              "type": "script"
+            }
+          ],
+          "case_sensitive": true,
+          "enabled": true,
+          "matching": "regexp",
+          "name": "emerald_factions_areawatch",
+          "text": "^(\\w+) has (entered|left) the area\\.$",
+          "type": "trigger",
+          "whole_words": true
+        }
+      ],
+      "name": "Enemies",
+      "type": "group"
+    }, {
+      "actions": [{
+          "enabled": true,
+          "script": "client.emerald.factions.announceNames = args[1] == 'on';\nclient.emerald.emnote(`${args[1]=='on'?'A':'Not a'}nnouncing names.`,'Factions');",
+          "type": "script"
+        }
+      ],
+      "case_sensitive": true,
+      "enabled": true,
+      "matching": "regexp",
+      "name": "",
+      "prefix_suffix": true,
+      "text": "^cfg factions announce (on|off)$",
+      "type": "alias",
       "whole_words": true
     }
   ],

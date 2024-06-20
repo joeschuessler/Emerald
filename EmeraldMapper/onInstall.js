@@ -27,6 +27,12 @@ if (get_variable('emerald_mapper_roomweights')) {
   }
 }
 
+if (get_variable('emerald_mapper_customexits')) {
+  mapper.customExits = JSON.parse(get_variable('emerald_mapper_customexits'));
+} else {
+  mapper.customExits = {};
+}
+
 mapper.getArea = (vnum) => {
   return mapper.areas[mapper.rooms[vnum].area];
 }
@@ -58,7 +64,11 @@ mapper.scentGo = (name, roomName) => {
   }
 }
 
-mapper.findRoom = (roomName) => {
+Object.filter = (o,p) => {
+  Object.keys(o).filter(k => p(o[k])).reduce((r,k)=> Object.assign(r, {[k]:o[k]}, {}));
+}
+
+mapper.findAllRooms = (roomName) => {
   //let rooms = mapper.mapxml.querySelectorAll("room");
   let rooms = mapper.rooms;
   emerald.note.clear();
@@ -66,24 +76,21 @@ mapper.findRoom = (roomName) => {
   emerald.note.build(`Scanning ${Object.keys(rooms).length} rooms for "`,emerald.configs.ui_white,'');
   emerald.note.build(roomName, emerald.configs.ui_green, '', '"...',emerald.configs.ui_white,'');
   emerald.note.display();
-  let foundRooms = 0;
-  for (const r of Object.keys(rooms)) {
-    if (rooms[r].title.includes(roomName.toLowerCase())) {
-      let area = mapper.findArea(rooms[r].id);
-      emerald.note.clear();
-      emerald.note.build('[Mapper]:','silver','seagreen',' [','silver','');
-      emerald.note.build(`«pathgo ${rooms[r].id}»${rooms[r].id}`,emerald.configs.ui_green,'',']: ',emerald.configs.ui_white,'');
-      emerald.note.build(rooms[r].title,emerald.configs.ui_white,'');
-      emerald.note.build(' [',emerald.configs.ui_blue,'', area,emerald.configs.ui_green,'',']',emerald.configs.ui_blue,'');
-      emerald.note.display();
-      foundRooms++;
-    }
-  }
-  if (foundRooms == 0) {
-    emerald.emnote('ROOM NOT FOUND!','Mapper');
+  let foundRooms = Object.filter(rooms, r=>r.title.toLowerCase().includes(roomName.toLowerCase()));
+  if (Object.keys(foundRooms).length == 0) {
+    emerald.emnote('Room not found.','Mapper');
     emerald.note.clear();
   } else {
-    emerald.emnote(`Found ${foundRooms} matching rooms.`,'Mapper');
+    for (const r of Object.keys(foundRooms)) {
+      let area = mapper.findArea(r);
+      emerald.note.clear();
+      emerald.note.build('[Mapper]:','silver','seagreen',' [','silver','');
+      emerald.note.build(`«path track ${r}»v${r}`,emerald.configs.ui_green,'',']: ',emerald.configs.ui_white,'');
+      emerald.note.build(rooms[r].title + ' ',emerald.configs.ui_white,'');
+      emerald.note.build('[',emerald.configs.ui_blue,'',area,emerald.configs.ui_green,'',']',emerald.configs.ui_blue,'');
+      emerald.note.display();
+      emerald.emnote(`Found ${Object.keys(foundRooms).length} matching rooms.`,'Mapper');
+    }
   }
 }
 
@@ -97,7 +104,6 @@ mapper.setRoomWeight = (vnum, value) => {
 }
 
 mapper.getPath = (origin, dest) => {
-  let r = mapper.mapxml.querySelector(`room#${origin}`)
 }
 
 emerald.plugins['mapper'] = true;
