@@ -97,7 +97,19 @@ emerald.bash.targets = {
   //Workshop of Xion
   'a crystal grodak': {alias:'grodak', threat: 0},
   'an aetherway hynx': {alias:'hynx', threat: 0},
-  'a shadow mordrath': {alias:'mordrath',threat:1}
+  'a shadow mordrath': {alias:'mordrath',threat:1},
+
+  //Great Illithoid Prison
+  'a slithering inner worm': {alias:'worm',threat:1},
+  'an illithoid reaper': {alias:'reaper',threat:1},
+  'an illithoid ravager': {alias:'ravager',threat:1},
+  'an illithoid scavenger': {alias:'scavenger',threat:1},
+  'an illithoid marauder': {alias:'marauder',threat:1},
+  'a bloated illithoid breeder': {alias:'breeder',threat:1},
+  'a gruesome illithoid chef': {alias:'chef',threat:1},
+  'an illithoid sapper': {alias:'sapper',threat:1},
+  'a Grand Illithoid Cenobite': {alias:'cenobite',threat:2},
+  'High Priest Yishughom': {alias:'Yishughom',threat:2}
 }
 
 emerald.emnote(`${Object.keys(emerald.bash.targets).length} bash targets loaded.`,'Bash');

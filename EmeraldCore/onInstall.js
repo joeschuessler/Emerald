@@ -74,12 +74,10 @@ if (nexusVersion == 3) {
   
   run_function('emeraldSplash','','EmeraldCore');
   emerald.emnote('Emerald Core v'+get_variable('_emerald_core_version')+' initialised.');
-  send_command('');
-
   emerald.plugins = {};
-  ['Bash','Factions'].forEach(p => {
+  ['Bash','Factions','Mapper','Affs'].forEach(p => {
     run_function('onInstall','',`Emerald${p}`);
-  }); 
+  });
 } else {
   /** Handle Nexus 2 client; refer to CrystalNotices
   *

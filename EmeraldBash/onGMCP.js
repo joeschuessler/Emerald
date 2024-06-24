@@ -1,17 +1,19 @@
 if (args.gmcp_method == "Char.Items.List") {
   let bash = client.emerald.bash
-  client.emerald.debugmsg('Querying room list');
+  client.emerald.debugmsg(JSON.stringify(args));
   if (bash.active) {
+    client.emerald.bash.reset();
+    bash.active = true;
     args.gmcp_args.items.forEach(item => {
       //If target is on the list
       if (Object.keys(bash.targets).includes(item.name)) {
         client.emerald.debugmsg('scanning target list')
         let targetFound = false; //scan current queue for this room item
         bash.queue.forEach(t => {
-          if (t.id == item.id) targetFound = true; client.emerald.debugmsg(`target identified: ${JSON.stringify(item)}`);
+          if (t.id == item.id) targetFound = true; client.emerald.debugmsg('target identified');
         });
         if (!targetFound) {
-          client.emerald.debugmsg(`target ${item.id} not queued. Adding target`);
+          client.emerald.debugmsg(`target ${item.id} not queued`);
           //Push into queue at defined priority.
           bash.queue.push({
             'id': item.id, //target is attacked by id
@@ -19,18 +21,17 @@ if (args.gmcp_method == "Char.Items.List") {
             'threat': bash.targets[item.name].threat //aggro priority; higher value = target sooner
           });
           client.emerald.debugmsg(JSON.stringify(bash.queue));
-          bash.retarget();
-          bash.try();
         }
       }
     });
+    bash.retarget();
     bash.try();
   }
 }
 
-if (args.gmcp_method == "Char.Items.Add" && args.gmcp_args.location == "room" && args.gmcp_args.item['attrib'].includes('m')) {
+if (args.gmcp_method == "Char.Items.Add") {
   let bash = client.emerald.bash;
-  client.emerald.debugmsg(`Mob arrived ${JSON.stringify(args.gmcp_args.item)}`);
+  client.emerald.debugmsg(JSON.stringify(args));
   if (bash.active) {
     let item = args.gmcp_args.item
     if (bash.targets[item.name] && !bash.queue[item.id]) {

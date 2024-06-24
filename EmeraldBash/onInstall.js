@@ -18,7 +18,11 @@ bash.try = () => {
   if (bash.active && !emerald.flags.get('tryingBash')) {
     if (bash.queue.length > 0){
       let cmd = '';
-      emerald.flags.get('targetshielded') ? cmd = get_variable('emerald_bash_raze') : cmd = get_variable('emerald_bash_attack');
+      emerald.flags.get('targetshielded') 
+        ? cmd = get_variable('emerald_bash_raze') == 'rune' 
+          ? get_variable('emerald_bash_attack') 
+          : get_variable('emerald_bash_raze') 
+        : cmd = get_variable('emerald_bash_attack');
       emerald.debugmsg(`attempting bash command: ${cmd}`);
       if (emerald.bals.onbal) {
         emerald.flags.set('tryingBash',true,250);
