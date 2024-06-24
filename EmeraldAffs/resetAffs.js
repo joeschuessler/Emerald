@@ -139,3 +139,13 @@ let affs = client.emerald.affs
   'mucus',
   'muddy'
 ].forEach(a=>affs[a]={type:'cleanse',value:false});
+
+[
+  'lightheadwounds','heavyheadwounds','criticalheadwounds',
+  'lightchestwounds','heavychestwounds','criticalchestwounds',
+  'lightgutwounds','heavygutwounds','criticalgutwounds',
+  'lightleftarmwounds','heavyleftarmwounds','criticalleftarmwounds',
+  'lightrightarmwounds','heavyrightarmwounds','criticalrightarmwounds',
+  'lightleftlegwounds','heavyleftlegwounds','criticalleftlegwounds',
+  'lightrightlegwounds','heavyrightlegwounds','criticalrightlegwounds'
+].forEach(a=>affs[a]={type:'wounds',value:false});

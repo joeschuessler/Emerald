@@ -55,6 +55,18 @@ affs.canMove = () => {
   ].every(aff => {affs[aff].value == false || affs[aff].value == 0});
 }
 
+affs.hasWounds = () => {
+  return [
+    'lightheadwounds','heavyheadwounds','criticalheadwounds',
+    'lightchestwounds','heavychestwounds','criticalchestwounds',
+    'lightgutwounds','heavygutwounds','criticalgutwounds',
+    'lightleftarmwounds','heavyleftarmwounds','criticalleftarmwounds',
+    'lightrightarmwounds','heavyrightarmwounds','criticalrightarmwounds',
+    'lightleftlegwounds','heavyleftlegwounds','criticalleftlegwounds',
+    'lightrightlegwounds','heavyrightlegwounds','criticalrightlegwounds'
+  ].some(a=>affs.has(a));
+}
+
 affs.reset();
 emerald.plugins['affs'] = true;
 emerald.emnote(`${affs.name} v${affs.version} initialised.`);
