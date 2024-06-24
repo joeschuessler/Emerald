@@ -1,0 +1,141 @@
+let affs = client.emerald.affs
+[
+  'addiction',
+  'allergies',
+  'anorexia',
+  'ataxia',
+  'clumsiness',
+  'confusion',
+  'epilepsy',
+  'hallucinations',
+  'paranoia',
+  'recklessness',
+  'sensitivity',
+  'stupidity',
+  'temporaryinsanity'
+].forEach(a=>affs[a]={type:'mental',value:false});
+
+[
+  'achromaticaura',
+  'aeon',
+  'cloudcoils',
+  'deaf',
+  'disloyalty',
+  'egovice',
+  'healthleech',
+  'holyfire',
+  'jinx',
+  'luminosity',
+  'manabarbs',
+  'pacifism',
+  'powerspikes',
+  'slickness',
+  'timewarp',
+  'warpedaura'
+].forEach(a=>affs[a]={type:'spiritual',value:false});
+
+[
+  'asthenia',
+  'asthma',
+  'blind',
+  'clot',
+  'deathmark',
+  'dysentery',
+  'frostbite',
+  'frozen',
+  'haemophilia',
+  'infestation',
+  'paralysis',
+  'particulates',
+  'powersap',
+  'pox',
+  'relapsing',
+  'rigormortis',
+  'scabies',
+  'shivering',
+  'sickening',
+  'vomiting'
+].forEach(a=>affs[a]={type:'internal',value:false});
+
+[
+  'ablaze',
+  'burns',
+  'collapsedlung',
+  'crushedchest',
+  'damagedleftarm',
+  'damagedleftleg',
+  'damagedorgans',
+  'damagedrightarm',
+  'damagedrightleg',
+  'damagedskull',
+  'damagedthroat',
+  'internalbleeding',
+  'mutilatedleftarm',
+  'mutilatedleftleg',
+  'mutilatedrightarm',
+  'mutilatedrightleg'
+].forEach(a=>affs[a]={type:'physical',value:false});
+
+[
+  'clampedleftarm',
+  'clampedrightarm',
+  'crucified',
+  'entangled',
+  'gored',
+  'grapple',
+  'hoisted',
+  'impaled',
+  'transfixed'
+].forEach(a=>affs[a]={type:'writhe',value:false});
+
+[
+  'amorous',
+  'badluck',
+  'batbane',
+  'bentaura',
+  'blackout',
+  'chasm',
+  'chronicloop',
+  'concussion',
+  'corruptionmark',
+  'crystalspire',
+  'damnationmark',
+  'darknessmark',
+  'darkseed',
+  'despairmark',
+  'echoes',
+  'ectoplasm',
+  'greywhispers',
+  'heatwave',
+  'herbbane',
+  'hypnoticpattern',
+  'incendiary',
+  'malignprophesy',
+  'needlerain',
+  'northwind',
+  'omen',
+  'oracle',
+  'painmark',
+  'paradox',
+  'rainbowpattern',
+  'scarab',
+  'snakebane',
+  'stun',
+  'succumb',
+  'timeechoes'
+].forEach(a=>affs[a]={type:'timed',value:false});
+
+[
+  'amnesia',
+  'asleep',
+  'disrupted',
+  'enfeeble',
+  'fear',
+  'lust',
+  'sprawled'
+].forEach(a=>affs[a]={type:'special',value:false});
+
+[
+  'mucus',
+  'muddy'
+].forEach(a=>affs[a]={type:'cleanse',value:false});
