@@ -5,15 +5,18 @@ let affs = client.emerald.affs = {
 };
 
 affs.set = (aff,val) => {
-  client.emerald.debugmsg(`Setting affs.${aff} to ${val}`);
-  affs[aff].value = val;
-  if (affs.has('mutilatedleftleg') && affs.has('mutilatedrightleg') || affs.has('asleep')) affs.set('sprawled',true);
-  return val;
+  try {
+    client.emerald.debugmsg(`Setting affs.${aff} to ${val}`);
+    affs[aff].value = val;
+    if (affs.has('mutilatedleftleg') && affs.has('mutilatedrightleg') || affs.has('asleep')) affs.set('sprawled',true);
+    return val;
+  } catch (error) {
+    client.emerald.emnote(`Invalid aff set: ${error}`,'Affs');
+  }
 }
 
 affs.has = (aff) => {
-  client.emerald.debugmsg(`Affs.has(${aff}) = ${affs[aff].value}`)
-  return affs[aff].value
+  return affs[aff].value;
 }
 
 affs.clear = (aff) => {
@@ -39,7 +42,7 @@ affs.canAct = () => {
     'paralysis',
     'sprawled',
     'stun',
-  ].every(aff => {affs[aff].value == false || affs[aff].value == 0});
+  ].every(aff => !affs[aff].value);
 }
 
 affs.canMove = () => {
@@ -52,26 +55,26 @@ affs.canMove = () => {
     'paralysis',
     'sprawled',
     'stun'
-  ].every(aff => {affs[aff].value == false || affs[aff].value == 0});
+  ].every(aff => !affs[aff].value);
 }
 
 affs.hasWounds = () => {
   return [
-    'lightheadwounds','heavyheadwounds','criticalheadwounds',
-    'lightchestwounds','heavychestwounds','criticalchestwounds',
-    'lightgutwounds','heavygutwounds','criticalgutwounds',
-    'lightleftarmwounds','heavyleftarmwounds','criticalleftarmwounds',
-    'lightrightarmwounds','heavyrightarmwounds','criticalrightarmwounds',
-    'lightleftlegwounds','heavyleftlegwounds','criticalleftlegwounds',
-    'lightrightlegwounds','heavyrightlegwounds','criticalrightlegwounds'
+    'lightheadwounds','heavyheadwounds','criticalheadwounds','damagedthroat','damagedskull',
+    'lightchestwounds','heavychestwounds','criticalchestwounds','crushedchest','collapsedlung',
+    'lightgutwounds','heavygutwounds','criticalgutwounds','damagedorgans','internalbleeding',
+    'lightleftarmwounds','heavyleftarmwounds','criticalleftarmwounds','damagedleftarm','mutilatedleftarm',
+    'lightrightarmwounds','heavyrightarmwounds','criticalrightarmwounds','damagedrightarm','mutilatedrightarm',
+    'lightleftlegwounds','heavyleftlegwounds','criticalleftlegwounds','damagedleftleg','mutilatedleftleg',
+    'lightrightlegwounds','heavyrightlegwounds','criticalrightlegwounds','damagedrightleg','mutilatedrightleg'
   ].some(a=>affs.has(a));
 }
 
 affs.hasHeadWounds = () => {
-  return ['lightheadwounds','heavyheadwounds','criticalheadwounds'].some(a=>affs.has(a)) || affs.has('damagedthroat') || affs.has('damageskull');
+  return ['lightheadwounds','heavyheadwounds','criticalheadwounds'].some(a=>affs.has(a)) || affs.has('damagedthroat') || affs.has('damagedskull');
 }
 affs.hasChestWounds = () => {
-  return ['lightchestwounds','heavychestwounds','criticalchestwounds'].some(a=>affs.has(a)) || affs.has('creshedchest') || affs.has('collapsedlung');
+  return ['lightchestwounds','heavychestwounds','criticalchestwounds'].some(a=>affs.has(a)) || affs.has('crushedchest') || affs.has('collapsedlung');
 }
 affs.hasGutWounds = () => {
   return ['lightgutwounds','heavygutwounds','criticalgutwounds'].some(a=>affs.has(a)) || affs.has('damagedorgans') || affs.has('internalbleeding');
@@ -95,7 +98,7 @@ affs.checkWoundLevel = (part) => {
     : affs.has(`heavy${part}wounds`)
       ? clr = 'yellow'
       : affs.has(`light${part}wounds`)
-        ? clr = 'lime'
+        ? clr = 'green'
         : clr = 'silver';
   return clr;
 }

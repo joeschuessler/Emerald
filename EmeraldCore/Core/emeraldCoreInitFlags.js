@@ -6,7 +6,7 @@ FlagManager.prototype.set = (name, value, timeout, callback) => {
   const timerHandle = timeout ? setTimeout(() => this.clear(name)) : null;
   const flag = {value, callback, timer: timerHandle};
   this.flags[name] = flag;
-  emerald.debugmsg(`Flag ${flags[name].id} ${name} RAISED: ${val} for ${to_number(timeout)/1000} seconds.`);
+  emerald.debugmsg(`Flag ${this.flags[name].id} ${name} RAISED: ${val} for ${to_number(timeout)/1000} seconds.`);
 }
 
 FlagManager.prototype.get = (name) => {

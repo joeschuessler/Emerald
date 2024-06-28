@@ -71,7 +71,7 @@ if (nexusVersion == 3) {
   emerald.debugmsg = (str) => {
     if (emerald.configs.debug) emerald.emnote(str,'Debugs');
   }
-  
+
   run_function('emeraldSplash','','EmeraldCore');
   emerald.emnote('Emerald Core v'+get_variable('_emerald_core_version')+' initialised.');
   emerald.plugins = {};

@@ -37,6 +37,6 @@ if (emerald.factions.announceNames) {
     }
     if (who != '') send_command(`${ann} ${who} ${aux} ${action}`);
     a = [];
-    who = '';
+    who = ''
   }
 }

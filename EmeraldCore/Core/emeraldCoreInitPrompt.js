@@ -9,7 +9,7 @@ prompt.onPrompt = (gag = false) => {
     if (emerald.skills.has('zarakido') && emerald.bals.ef && emerald.vitals.eflow <= 70 && !emerald.flags.get('tryingtea')) {
       emerald.debugmsg(emerald.skills.has('zarakido'));
       send_command('sip greentea harmonic');
-      emerald.flags.set('tryingtea',500);
+      emerald.flags.set('tryingtea',true,500);
     }
   }
   if (emerald.flags.get('gagPrompt')) emerald.flags.clear('gagPrompt');
@@ -73,7 +73,7 @@ prompt.draw = () => {
   if (emerald.vitals.blind) pflags += 'b';
   if (emerald.vitals.prone) pflags += 'p';
   if (emerald.cloaked) pflags += '<>'
-  emerald.note.build(pflags+'- ',emerald.affs.canAct() ? 'goldenrod' : 'grey','');
+  emerald.note.build(pflags+'- ',emerald.bals.onbal && emerald.affs.canAct() ? 'goldenrod' : 'grey','');
   prompt.drawTags();
   for (const d of ['hp','mp','ego','pow','xp','essence','awp','eflow']) {
     let diff = emerald.vitals['diff'+d]
@@ -94,26 +94,29 @@ prompt.drawTags = () => {
   emerald.paused && emerald.note.build('[PAUSED]','silver','seagreen',' ','silver','');
   emerald.plugins.bash && emerald.bash.active && emerald.note.build('[BASHING]','blue','seagreen',' ',emerald.configs.ui_white,'');
   if (emerald.plugins.affs) {
+    emerald.debugmsg('check aeon/stun/blackout');
     emerald.affs.has('aeon') && emerald.note.build('[AEON]','white','blue',' ',emerald.configs.ui_white,'');
     emerald.affs.has('stun') && emerald.note.build('[STUN]','black','yellow',' ',emerald.configs.ui_white,'');
     emerald.affs.has('blackout') && emerald.note.build('[BLACKOUT]','black','white',' ',emerald.configs.ui_white,'');
+    
     emerald.affs.hasWounds() && emerald.note.build('[WS]:','white','red',' ',emerald.configs.ui_white,'');
+    emerald.debugmsg('check hasHeadWounds');
     if (emerald.affs.hasHeadWounds()) {
-      let str = 'H';
-      if (emerald.affs.has('damagedthroat')) str = '-H-';
-      else if (emerald.affs.has('damagedskull')) str = '>H<';
+      let str = 'HH';
+      if (emerald.affs.has('damagedthroat')) str = '-HH-';
+      else if (emerald.affs.has('damagedskull')) str = '>HH<';
       emerald.note.build(str,emerald.affs.checkWoundLevel('head'),'',' ',emerald.configs.ui_white,'');
     }
     if (emerald.affs.hasChestWounds()) {
-      let str = 'C';
-      if (emerald.affs.has('crushedchest')) str = '-C-';
-      else if (emerald.affs.has('collapsedlung')) str = '>C<';
+      let str = 'CC';
+      if (emerald.affs.has('crushedchest')) str = '-CC-';
+      else if (emerald.affs.has('collapsedlung')) str = '>CC<';
       emerald.note.build(str,emerald.affs.checkWoundLevel('chest'),'',' ',emerald.configs.ui_white,'');
     }
-    if (emerald.affs.hasChestWounds()) {
-      let str = 'C';
-      if (emerald.affs.has('crushedchest')) str = '-C-';
-      else if (emerald.affs.has('collapsedlung')) str = '>C<';
+    if (emerald.affs.hasGutWounds()) {
+      let str = 'GG';
+      if (emerald.affs.has('damagedorgans')) str = '-GG-';
+      else if (emerald.affs.has('internalbleeding')) str = '>GG<';
       emerald.note.build(str,emerald.affs.checkWoundLevel('chest'),'',' ',emerald.configs.ui_white,'');
     }
     if (emerald.affs.hasLeftArmWounds()) {

@@ -1,4 +1,4 @@
-let affs = client.emerald.affs
+let affs = client.emerald.affs;
 [
   'addiction',
   'allergies',

@@ -34,16 +34,7 @@ if (args.gmcp_method == "Char.Vitals") {
   emerald.bals.S = to_number(args.gmcp_args.psisuper) == 1;
   emerald.bals.i = to_number(args.gmcp_args.psiid) == 1;
   emerald.bals.ef = to_number(args.gmcp_args.eflowbal) == 1;
-  emerald.bals.onbal = emerald.bals.eq 
-                        && emerald.bals.x 
-                        && emerald.bals.la 
-                        && emerald.bals.ra 
-                        && emerald.bals.ll 
-                        && emerald.bals.rl 
-                        && emerald.bals.s 
-                        && emerald.bals.S 
-                        && emerald.bals.i 
-                        && affs.canAct();
+  emerald.bals.onbal = emerald.bals.eq && emerald.bals.x && emerald.bals.la && emerald.bals.ra && emerald.bals.ll && emerald.bals.rl && emerald.bals.s && emerald.bals.S && emerald.bals.i;
   for (const b of ["slush","ice","steam","dust","healing","sparkleberry","scroll","allheale"]) {
     emerald.bals[b] = to_number(args.gmcp_args[b]) == 1;
   }
