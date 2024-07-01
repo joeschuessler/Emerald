@@ -103,6 +103,14 @@ affs.checkWoundLevel = (part) => {
   return clr;
 }
 
+affs.hasDeathMark = () => {
+  return affs.has('deathmark');
+}
+
+affs.onPrompt = () => {
+  return true;
+}
+
 affs.reset();
-emerald.plugins['affs'] = true;
+emerald.plugins['affs'] = affs;
 emerald.emnote(`${affs.name} v${affs.version} initialised.`);

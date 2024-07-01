@@ -76,6 +76,6 @@ bash.remove = (id) => {
 }
 
 bash.reset();
-emerald.plugins['bash'] = true;
+emerald.plugins['bash'] = bash;
 run_function('initTargetList','','EmeraldBash');
 client.emerald.emnote(`${bash.name} v${bash.version} initialised.`);

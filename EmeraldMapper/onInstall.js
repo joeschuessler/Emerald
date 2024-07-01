@@ -106,7 +106,11 @@ mapper.setRoomWeight = (vnum, value) => {
 mapper.getPath = (origin, dest) => {
 }
 
-emerald.plugins['mapper'] = true;
+mapper.onPrompt = () => {
+  return true;
+}
+
+emerald.plugins['mapper'] = mapper;
 mapper.saveRoomWeights();
 run_function('loadMap','','EmeraldMapper');
 client.emerald.emnote(`${mapper.name} v${mapper.version} initialised.`);
