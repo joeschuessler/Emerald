@@ -28,10 +28,14 @@ influence.attacks[empowering] = emerald.skills['influence'].filter(s => xlate[s]
 influence.attacks[seduction] = emerald.skills['influence'].filter(s => xlate[s]='seduction');
 influence.attacks[village] = emerald.skills['influence'].filter(s => xlate[s]='village');
 
+influence.try = () => {
+  atkIndex = ++atkIndex % 3;
+  send_command(`influence ${influence.target} with ${influence.attacks[influence.mode][atkIndex]}`);
+}
+
 influence.onPrompt = () => {
   if (influence.active && influence.mode && influence.target && emerald.bals.onbal) {
-    atkIndex = ++atkIndex % 3;
-    send_command(`influence ${influence.target} with ${influence.attacks[influence.mode][atkIndex]}`);
+    influence.try();
   }
   return true;
 }
