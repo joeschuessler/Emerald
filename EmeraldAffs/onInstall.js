@@ -1,14 +1,15 @@
 let emerald = client.emerald;
 let affs = client.emerald.affs = {
   name: 'EmeraldAffs',
-  version: '0.0.1'
+  version: '0.1.0'
 };
+set_variable('emerald_affs_version',affs.version);
 
 affs.set = (aff,val) => {
   try {
     client.emerald.debugmsg(`Setting affs.${aff} to ${val}`);
     affs[aff].value = val;
-    if (affs.has('mutilatedleftleg') && affs.has('mutilatedrightleg') || affs.has('asleep')) affs.set('sprawled',true);
+    if (affs.has('mutilatedleftleg') && affs.has('mutilatedrightleg') || affs.has('asleep')) affs['sprawled']=true;
     return val;
   } catch (error) {
     client.emerald.emnote(`Invalid aff set: ${error}`,'Affs');

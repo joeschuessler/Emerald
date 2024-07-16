@@ -109,7 +109,29 @@ emerald.bash.targets = {
   'a gruesome illithoid chef': {alias:'chef',threat:1},
   'an illithoid sapper': {alias:'sapper',threat:1},
   'a Grand Illithoid Cenobite': {alias:'cenobite',threat:2},
-  'High Priest Yishughom': {alias:'Yishughom',threat:2}
+  'High Priest Yishughom': {alias:'Yishughom',threat:2},
+
+  //Pandaemonium
+  'a contorted minotaur':{alias:'astralbeast',threat:4},
+  'a colossal blistering scorpion':{alias:'astralbeast',threat:4},
+  'a six-legged vulture':{alias:'astralbeast',threat:4},
+  'a broken living amphora':{alias:'astralbeast',threat:4},
+  'a hulking abomination':{alias:'astralbeast',threat:4},
+  'a nine-armed crabstrosity':{alias:'astralbeast',threat:4},
+  'a malevolent adjudicator':{alias:'astralbeast',threat:4},
+  'a leering bakeneko':{alias:'astralbeast',threat:4},
+  'an iron wool three-horned ram':{alias:'astralbeast',threat:4},
+  'an engorged anisakis':{alias:'astralbeast',threat:4},
+  'a wretched damsel':{alias:'astralbeast',threat:4},
+  'a decaying shogothessor':{alias:'astralbeast',threat:4},
+
+  'the Baron of Cancer':{alias:'baron',threat:1},
+  'a Steward of Pincers':{alias:'steward',threat:2},
+  'a Jester of Many Legs':{alias:'jester',threat:3},
+
+  //Project Eternity
+  'a mutated, undead cave-fisher':{alias:'fisher',threat:1},
+  
 }
 
 emerald.emnote(`${Object.keys(emerald.bash.targets).length} bash targets loaded.`,'Bash');

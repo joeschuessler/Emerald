@@ -1,14 +1,14 @@
 let emerald = client.emerald;
-let influence = emerald.influnce = {
+let influence = emerald.influence = {
   name: 'EmeraldInfluence',
   version:'0.0.1',
-  attacks:{charity:[],paranoia:[],weakening:[],empowering:[],seduction:[],village:[]},
+  attacks:{'charity':[],'paranoia':[],'weakening':[],'empowering':[],'seduction':[],'village':[]},
   target: null,
-  mode: null,
+  mode: 'charity',
   active: false,
   atkIndex: 0
 };
-let xlate = {
+influence.xlate = {
   'begging':'charity','supplication':'charity','wheedling':'charity',
   'rumours':'paranoia','distrust':'paranoia','conspiracies':'paranoia',
   'teasing':'weakening','mockery':'weakening','derision':'weakening',
@@ -21,16 +21,20 @@ let xlate = {
   'liberty':'village','freedom':'village','revolution':'village',
   'shock':'village','awe':'village','brainwash':'village'
 }
-influence.attacks[charity] = emerald.skills['influence'].filter(s => xlate[s]='charity');
-influence.attacks[paranoia] = emerald.skills['influence'].filter(s => xlate[s]='paranoia');
-influence.attacks[weakening] = emerald.skills['influence'].filter(s => xlate[s]='weakening');
-influence.attacks[empowering] = emerald.skills['influence'].filter(s => xlate[s]='empowering');
-influence.attacks[seduction] = emerald.skills['influence'].filter(s => xlate[s]='seduction');
-influence.attacks[village] = emerald.skills['influence'].filter(s => xlate[s]='village');
+
+if (get_variable('emerald_skills_influence')) {
+  let infskills = get_variable('emerald_skills_influence').split('|');
+  let xlate = influence.xlate
+  infskills.forEach(s => {
+    let skl = s.toLowerCase()
+    if (xlate.hasOwnProperty(skl)) influence.attacks[xlate[skl]].push(skl);
+  })
+}
 
 influence.try = () => {
-  atkIndex = ++atkIndex % 3;
-  send_command(`influence ${influence.target} with ${influence.attacks[influence.mode][atkIndex]}`);
+  emerald.debugmsg(`Trying influence. Mode:${influence.mode}. Target:${influence.target} Attack count: ${influence.attacks[influence.mode].length}`)
+  influence.atkIndex = ++influence.atkIndex % 3;
+  send_command(`influence ${influence.target} with ${influence.attacks[influence.mode][influence.atkIndex]}`);
 }
 
 influence.onPrompt = () => {
@@ -39,3 +43,6 @@ influence.onPrompt = () => {
   }
   return true;
 }
+
+emerald.plugins['influence'] = influence;
+emerald.emnote(`${influence.name} v${influence.version} initialised.`);

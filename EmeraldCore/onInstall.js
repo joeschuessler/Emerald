@@ -1,6 +1,3 @@
-set_variable('_emerald_core_version','0.0.1');
-run_function('_emerald_core_chkupdates','Core','EmeraldCore')
-
 function htmlChars(str) {
 	return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
@@ -10,8 +7,14 @@ if (client.version == undefined) nexusVersion = 2;
 
 if (nexusVersion == 3) {
 
-  client.emerald = client.emerald || {};
+  client.emerald = client.emerald || {
+    name: 'EmeraldCore',
+    version: '0.1.0'
+  };
   var emerald = client.emerald;
+
+  set_variable('emerald_core_version',emerald.version);
+  emerald.vitals = {};
   
   emerald.configs = {
     'debug': false,
@@ -20,12 +23,29 @@ if (nexusVersion == 3) {
     'ui_green': 'seagreen',
     'ui_yellow': 'lemonchiffon',
     'ui_orange': 'sandybrown',
-    'ui_red': 'lightcoral'
+    'ui_red': 'lightcoral',
+    armBals: get_variable('emerald_configs_armbals') || 'auto',
+    legBals: get_variable('emerald_configs_legbals') || 'auto',
+    psiBals: get_variable('emerald_configs_psibals') || 'auto',
+    tea: ''
   };
 
+  set_variable('emerald_configs_armbals',emerald.configs.armBals);
+  emerald.showArmBals = ['on','auto'].includes(emerald.configs.armBals);
+  set_variable('emerald_configs_legbals',emerald.configs.legBals);
+  emerald.showLegBals = ['on','auto'].includes(emerald.configs.legBals)
+  set_variable('emerald_configs_psibals',emerald.configs.psiBals);
+  emerald.showPsiBals = ['on','auto'].includes(emerald.configs.psiBals)
+  
   emerald.cloaked = false;
   emerald.dreamform = false;
   emerald.paused = false;
+  emerald.showKataStance = false;
+  emerald.showEflow = false;
+  emerald.subLocked = false;
+  emerald.superLocked = false;
+  emerald.idLocked = false
+  emerald.beastFollowing = false;
   
   let coremodules = ['Note','Vitals','Bals','Flags','Prompt','Queue','Skills'];
 
@@ -75,7 +95,7 @@ if (nexusVersion == 3) {
   run_function('emeraldSplash','','EmeraldCore');
   emerald.emnote('Emerald Core v'+get_variable('_emerald_core_version')+' initialised.');
   emerald.plugins = {};
-  ['Bash','Factions','Mapper','Affs'].forEach(p => {
+  ['Bash','Factions','Mapper','Affs','Influence'].forEach(p => {
     run_function('onInstall','',`Emerald${p}`);
   });
 } else {

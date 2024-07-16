@@ -30,11 +30,11 @@ if (args.gmcp_method == "Char.Vitals") {
   emerald.bals.ll = to_number(args.gmcp_args.left_leg) == 1;
   emerald.bals.rl = to_number(args.gmcp_args.right_leg) == 1;
   emerald.bals.x = to_number(args.gmcp_args.balance) == 1;
-  emerald.bals.s = to_number(args.gmcp_args.psisub) == 1;
-  emerald.bals.S = to_number(args.gmcp_args.psisuper) == 1;
-  emerald.bals.i = to_number(args.gmcp_args.psiid) == 1;
+  emerald.bals.s = to_number(args.gmcp_args.psisub);
+  emerald.bals.S = to_number(args.gmcp_args.psisuper);
+  emerald.bals.i = to_number(args.gmcp_args.psiid);
   emerald.bals.ef = to_number(args.gmcp_args.eflowbal) == 1;
-  emerald.bals.onbal = emerald.bals.eq && emerald.bals.x && emerald.bals.la && emerald.bals.ra && emerald.bals.ll && emerald.bals.rl && emerald.bals.s && emerald.bals.S && emerald.bals.i;
+  emerald.bals.onbal = emerald.bals.eq && emerald.bals.x && emerald.bals.la && emerald.bals.ra && emerald.bals.ll && emerald.bals.rl && emerald.bals.s != 0 && emerald.bals.S != 0 && emerald.bals.i != 0;
   for (const b of ["slush","ice","steam","dust","healing","sparkleberry","scroll","allheale"]) {
     emerald.bals[b] = to_number(args.gmcp_args[b]) == 1;
   }
@@ -63,11 +63,23 @@ if (args.gmcp_method == "Char.Skills.Groups") {
     emerald.skills[args.gmcp_args[g].name] = [];
     send_GMCP('Char.Skills.Get', {group:args.gmcp_args[g].name});
   }
+  if (emerald.configs.armBals == 'auto') emerald.showArmBals = false;
+  if (emerald.configs.legBals == 'auto') emerald.showLegBals = false;
+  if (emerald.configs.psiBals == 'auto') emerald.showPsiBals = false;
+  emerald.showKataStance = false;
+  emerald.showEflow = false;
 }
 
 if (args.gmcp_method == "Char.Skills.List") {
-	client.emerald.skills[args.gmcp_args.group] = args.gmcp_args.list;
-	set_variable(`emerald_skills_${args.gmcp_args.group}`,args.gmcp_args.list.join('|'));
+  let emerald = client.emerald;
+  let skill = args.gmcp_args.group;
+  if (['kata','knighthood'].includes(skill) && ['on','auto'].includes(emerald.configs.armBals)) emerald.showArmBals = true;
+  if (skill == 'kata' && ['on','auto'].includes(emerald.configs.legBals)) emerald.showLegBals = true;
+  if (skill == 'psionics' && ['on','auto'].includes(emerald.configs.psiBals)) emerald.showPsiBals = true;
+  if (skill == 'kata') emerald.showKataStance = true;
+  if (skill == 'zarakido') emerald.showEflow = true;
+  emerald.skills[skill] = args.gmcp_args.list;
+  set_variable(`emerald_skills_${skill}`,args.gmcp_args.list.join('|'));
 }
 
   //TODO: aethercraft module

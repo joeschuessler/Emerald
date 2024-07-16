@@ -1,8 +1,9 @@
 let emerald = client.emerald;
 let bash = emerald.bash = {
   name: 'EmeraldBash',
-  version: '0.0.1',
+  version: '0.1.0',
 };
+set_variable('emerald_bash_version', bash.version);
 
 bash.reset = () => {
   bash.active = false;
@@ -15,7 +16,7 @@ bash.reset = () => {
 
 
 bash.try = () => {
-  if (bash.active && !emerald.flags.get('tryingBash')) {
+  if (!emerald.flags.get('tryingBash')) {
     if (bash.queue.length > 0){
       let cmd = '';
       emerald.flags.get('targetshielded') 
@@ -29,14 +30,18 @@ bash.try = () => {
         if (get_variable('emerald_bash_beastatk')=='true' && emerald.bals.B) emerald.queue.add(`beast order attack ${bash.targetalias + bash.targetid}`,true);
         send_command(cmd.replace('@',bash.targetalias).replace('#',bash.targetid));
       } 
-    } else {
+    } else if (emerald.flags.get('gettingGMCP')) {
+      setTimeout(() => {bash.try()}, 300);
+    } else if (bash.mode == 'room') {
       emerald.emnote('No targets found.','Bash');
-      bash.reset();
+      bash.active = false;
+    } else if (bash.noTargetCount >= 2) {
+      bash.retarget();
     }
   }
 }
 bash.retarget = () => {
-  if(bash.queue.length > 0) {
+  if (bash.queue.length > 0) {
     //start scanning queue at 0
     emerald.emnote(`${bash.queue.length} target${bash.queue.length > 1 ? 's' : ''} remaining.`, 'Bash');
     let targetIndex = 0
@@ -53,26 +58,26 @@ bash.retarget = () => {
     bash.targetid = bash.queue[targetIndex].id;
     bash.targetalias = bash.queue[targetIndex].alias;
     bash.try();
+  } else {
+    if (bash.mode != 'wait') bash.active = false;
   }
 }
 
 bash.remove = (id) => {
-  emerald.debugmsg(`Removing target ${id}`);
-  for (let t in bash.queue) {
-    if (bash.queue[t].id == id) {
-      if (t == bash.queue.length-1) {
-        bash.queue.pop();
-      } else {
-        bash.queue[t] = bash.queue.pop();
-      }
+  let bash = client.emerald.bash;
+  if (bash.active) {
+    bash.queue = bash.queue.filter(i => i.id != id);
+    if (bash.queue.length == 0 && bash.mode != 'wait') {
+      client.emerald.emnote('Room cleared of targets.','Bash');
+      bash.active = false;
+    } else {
+      bash.retarget();
     }
   }
-  if (bash.queue.length > 0) {
-    bash.retarget();
-  } else {
-    if (bash.mode == 'room') emerald.emnote('Room cleared.','Bash');
-    bash.reset();
-  }
+}
+
+bash.onPrompt = () => {
+  if (bash.active) bash.try();
 }
 
 bash.reset();

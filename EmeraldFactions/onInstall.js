@@ -1,9 +1,11 @@
 let emerald = client.emerald;
 let factions = emerald.factions = {
   name: 'EmeraldFactions',
-  version: '0.0.2'
+  version: '0.1.0'
 };
+set_variable('emerald_factions_version', factions.version);
 
+factions.announceNames = true;
 factions.colors = {
   'Serenwilde': 'seagreen',
   'Glomdoring': 'darkviolet',
@@ -14,81 +16,7 @@ factions.colors = {
   'Divine': 'yellow',
   '(none)': 'olivedrab'
 };
-const isAlpha = (c) => (c >= 65 && c < 91) || (c >= 97 && c < 123)
-
-factions.announceNames = false;
-class TreeNode {
-  constructor() {
-    this.children = {};
-    this.color = null;
-    this.output = null;
-  }
-}
-
-class Tree {
-  constructor() {
-    this.root = new TreeNode();
-  }
-
-  insert(word, color) {
-    let node = this.root;
-    for (let c of word.toLowerCase()) {
-      if (!node.children[c]) {
-        node.children[c] = new TreeNode();
-      }
-      node = node.children[c];
-    }
-    node.color = color;
-    node.output = word;
-  }
-
-  search(line) {
-    let node = this.root;
-    let results = [];
-
-    for (let i = 0; i < line.length; i++) {
-      let c = line[i].toLowerCase();
-      node = node.children[c]; //move pointer down the node chain
-      if (!node) { //end of chain found
-        node = this.root; //go back to root of tree
-        while (i < line.length && isAlpha(line.charCodeAt(i))) i++; //Skipping past non-alpha chars
-        continue;
-      }
-
-      //if we've reached the end of the word or line, and the node has an output value, then it's a name with a color
-      if (node.output && ((i+1) >= line.length || !isAlpha(line.charCodeAt(i+1)))) { 
-        const word = node.output;
-        let start = i - word.length + 1;
-        if (start === 0 || isAlpha(line.charCodeAt(c))) {
-          results.push({
-            index: start,
-            length: word.length,
-            color: node.color
-          });
-        }
-      }
-    }
-    return results;
-  }
-}
-
-const rawNames = get_variable('emerald_factions_namesjson');
-if (rawNames) {
-  const names = JSON.parse(rawNames);
-  const tree = new Tree();
-  for (let [substring, color] of Object.entries(names)) {
-    tree.insert(substring, color);
-  }
-  emerald.factions.NameManager = tree;
-}
-
-
-/* CHANGES INCOMPLETE!! DO NOT PUSH TO NEXUS YET!! */
-
-
-
-
-//factions.names = get_variable('emerald_factions_names') ? JSON.parse(get_variable('emerald_factions_names')) : {};
+factions.names = get_variable('emerald_factions_names') ? JSON.parse(get_variable('emerald_factions_names')) : {};
 
 factions.save = () => {
   set_variable('emerald_factions_colors',JSON.stringify(factions.colors));
@@ -115,17 +43,25 @@ factions.add = (name) => {
     }
   })
 }
-factions.onPrompt = () => {
+
+factions.clearNames = () => {
+  emerald.factions.namesEnteringArea = [];
+  emerald.factions.namesLeavingArea = [];
+  emerald.factions.namesEnteringMeld = []; 
+  emerald.factions.namesLeavingMeld = [];
+}
+
+factions.callNames = () => {
   let nameArrays = [emerald.factions.namesEnteringArea,
-                    emerald.factions.namesLeavingArea,
-                    emerald.factions.namesEnteringMeld,
-                    emerald.factions.namesLeavingMeld];
+                  emerald.factions.namesLeavingArea,
+                  emerald.factions.namesEnteringMeld,
+                  emerald.factions.namesLeavingMeld];
   let a;
   let who = '', aux = 'has', action = '';
   let ann = get_variable('emerald_config_announce');
-  for (let x=0;x <=3;x++) {
-    a = nameArrays[x];
-    if (emerald.factions.announceNames) {
+  if (emerald.factions.announceNames) {
+    for (let x=0;x <=3;x++) {
+      a = nameArrays[x];
       if (a.length > 1) aux = 'have';
       while (a.length > 0) {
         if (who=='') {
@@ -134,7 +70,7 @@ factions.onPrompt = () => {
           if (a.length > 1) {
             who += `, ${a.pop()}`;
           } else {
-            who += `and ${a.pop()}`;
+            who += ` and ${a.pop()}`;
           }
         }
       }
@@ -153,11 +89,22 @@ factions.onPrompt = () => {
           break;
       }
       if (who != '') send_command(`${ann} ${who} ${aux} ${action}`);
+      a = [];
+      who = ''
     }
-    a = [];
-    who = ''
   }
+}
+
+factions.onPrompt = () => {
+  factions.callNames();
+  factions.clearNames();
 }
 
 emerald.plugins['factions'] = factions;
 client.emerald.emnote(`${factions.name} v${factions.version} initialised.`);
+if (!emerald.factions.enemies) {
+  get_variable('emerald_factions_enemies')
+    ? emerald.factions.enemies = JSON.parse(get_variable('emerald_factions_enemies'))
+    : send_command('enemies');
+}
+factions.clearNames();
