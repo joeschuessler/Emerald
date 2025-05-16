@@ -1,0 +1,1 @@
+client.emerald.bash = {};

@@ -12,8 +12,14 @@ fetch('https://www.lusternia.com/maps/map.xml')
 })
 .then(mapText => {
   let t = String(mapText);
-  let parser = new DOMParser();
-  mapper.mapxml = parser.parseFromString(t, "text/xml");
+  if (window.DOMParser) {
+    let parser = new DOMParser();
+    mapper.mapxml = parser.parseFromString(t, "text/xml");
+  } else {
+    mapper.mapxml = new ActiveXObject("Microsoft.XMLDOM");
+    mapper.mapxml.async = false;
+    mapper.mapxml.loadXML(t);
+  }
 })
 .then(() => {
   let xmlareas = mapper.mapxml.getElementsByTagName("area");

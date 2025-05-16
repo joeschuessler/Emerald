@@ -2,6 +2,14 @@ let emerald = client.emerald;
 
 emerald.bash.targets = {
 
+  //
+  'a mighty quinotaur':{alias: 'quinotaur', threat:0},
+  'an anglerfish':{alias: 'anglerfish', threat:0},
+  'a marine rockeater':{alias: 'rockeater', threat:0},
+  'a grinning gulper eel':{alias: 'gulper', threat:0},
+  'a sinuous dragonfish':{alias: 'dragonfish',threat:0},
+  'a blue-ringed octopus':{alias: 'octopus', threat:0},
+
   //Grimkeep
   'a stonewrought sentinel':{alias: 'sentinel', threat:1},
   'a misshapen koirakko':{alias: 'koirakko', threat: 2},
@@ -70,7 +78,7 @@ emerald.bash.targets = {
   'an ice blue skara': {alias:'skara', threat: 0},
   'a crimson-scaled skara': {alias:'skara', threat: 1},
   'a black-scaled skara': {alias:'skara', threat:0},
-  'a beastial garul': {alias:'garul', threat: 2},
+  'a bestial garul': {alias:'garul', threat: 2},
   'a massive ice worm': {alias:'worm', threat: 1},
   'an enormous white garul': {alias:'garul', threat:3},
   'Rawari, a wiry garul': {alias:'garul', threat: 3},
@@ -86,6 +94,9 @@ emerald.bash.targets = {
 
   //Cankermore
   'a vicious allisaur': {alias:'allisaur', threat: 1},
+
+  //Mucklemarsh
+  'a bulbous swamp slug': {alias:'slug', threat: 1},
 
   //The Facility
   'a giant violet slug': {alias:'slug', threat: 0},
@@ -131,7 +142,31 @@ emerald.bash.targets = {
 
   //Project Eternity
   'a mutated, undead cave-fisher':{alias:'fisher',threat:1},
-  
+
+  //Lucidian Mesa Compound
+  'a twisted dracnari':{alias:'twisted',threat:1},
+
+  //Transphenortex Grid
+  'a crackling red joule':{alias:'joule',threat:0},
+  'a crackling blue joule':{alias:'joule',threat:0},
+  'a crackling yellow joule':{alias:'joule',threat:0},
+  'a crackling black joule':{alias:'joule',threat:0},
+  'a crackling white joule':{alias:'joule',threat:0},
+  'a diamond luminox':{alias:'luminox',threat:0},
+  'an emerald luminox':{alias:'luminox',threat:0},
+  'an amethyst luminox':{alias:'luminox',threat:0},
+  'an onyx luminox':{alias:'luminox',threat:0},
+  'a ruby luminox':{alias:'luminox',threat:0},
+  'a beryl luminox':{alias:'luminox',threat:0},
+
+  //Skarch Desert
+  'a lumbering sandojin':{alias:'sandojin',threat:0},
+  'a sand cobra':{alias:'cobra',threat:0},
+  'a gila lizard':{alias:'gila',threat:0},
+
+  //Upper Peaks of the Razines
+  'a fierce and enormous roc':{alias:'roc',threat:0},
+  'an adolescent roc':{alias:'roc',threat:0}
 }
 
 emerald.emnote(`${Object.keys(emerald.bash.targets).length} bash targets loaded.`,'Bash');

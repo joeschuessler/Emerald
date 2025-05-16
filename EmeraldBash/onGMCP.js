@@ -23,20 +23,8 @@ if (args.gmcp_method == "Char.Items.List") {
   }
 }
 
-if (args.gmcp_method == "Char.Items.Add" && args.gmcp_args.location == "room") {
-  let bash = client.emerald.bash;
-  client.emerald.debugmsg(JSON.stringify(args));
-  if (bash.active) {
-    let item = args.gmcp_args.item
-    if (bash.targets[item.name] && !bash.queue[item.id]) {
-      bash.queue.push({
-        'id': item.id,
-        'alias': bash.targets[item.name].alias,
-        'priority': bash.targets[item.name].priority
-      });
-    }
-    if (bash.mode == 'wait') bash.retarget();
-  }
+if (client.emerald.bash.active && args.gmcp_method == "Char.Items.Add" && args.gmcp_args.location == "room") {
+  if (client.emerald.bash.targets[args.gmcp_args.item.name]) client.emerald.bash.add(args.gmcp_args.item);
 }
 
 if (client.emerald.bash.active && (args.gmcp_method == "Char.Items.Remove" || args.gmcp_method == 'Char.Items.Update') && args.gmcp_args.location == "room") {

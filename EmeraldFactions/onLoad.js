@@ -1,0 +1,1 @@
+run_function("onInstall","","EmeraldFactions");

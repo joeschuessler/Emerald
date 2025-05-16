@@ -14,40 +14,40 @@ bash.reset = () => {
   bash.targetid = '';
 }
 
-
 bash.try = () => {
   if (!emerald.flags.get('tryingBash')) {
-    if (bash.queue.length > 0){
+    if (bash.queue.length > 0) {
       let cmd = '';
       emerald.flags.get('targetshielded') 
         ? cmd = get_variable('emerald_bash_raze') == 'rune' 
           ? get_variable('emerald_bash_attack') 
           : get_variable('emerald_bash_raze') 
         : cmd = get_variable('emerald_bash_attack');
-      emerald.debugmsg(`attempting bash command: ${cmd}`);
-      if (emerald.bals.onbal) {
+      if (emerald.bals.onbal && (emerald.plugins.affs ? !emerald.affs.has('entangled') : true)) {
         emerald.flags.set('tryingBash',true,250);
-        if (get_variable('emerald_bash_beastatk')=='true' && emerald.bals.B) emerald.queue.add(`beast order attack ${bash.targetalias + bash.targetid}`,true);
-        send_command(cmd.replace('@',bash.targetalias).replace('#',bash.targetid));
+        let atk = cmd.replace('@',bash.targetalias).replace('#',bash.targetid)
+        emerald.debugmsg(`attempting bash command: ${atk}`);
+        send_command(`sm replace 1 ${get_variable('emerald_bash_beastatk') && emerald.bals.B ? `beast order attack ${bash.targetalias}|` : ''}${atk}`);
       } 
     } else if (emerald.flags.get('gettingGMCP')) {
       setTimeout(() => {bash.try()}, 300);
-    } else if (bash.mode == 'room') {
+    } else if (bash.noTargetCount >= 3) {
+      bash.retarget();
+    } else if (bash.mode != 'wait') {
       emerald.emnote('No targets found.','Bash');
       bash.active = false;
-    } else if (bash.noTargetCount >= 2) {
-      bash.retarget();
     }
   }
 }
 bash.retarget = () => {
   if (bash.queue.length > 0) {
+    bash.noTargetCount = 0;
     //start scanning queue at 0
     emerald.emnote(`${bash.queue.length} target${bash.queue.length > 1 ? 's' : ''} remaining.`, 'Bash');
     let targetIndex = 0
     if(bash.queue.length > 1) {
       let currentThreat = bash.queue[targetIndex].threat;
-      for (let t in bash.queue) {
+      for (let t=0;t<bash.queue.length;t++) {
         //If any target in the queue has a higher threat, that resets the bar.
         if (bash.queue[t].threat > currentThreat) {
           targetIndex = t;
@@ -63,21 +63,27 @@ bash.retarget = () => {
   }
 }
 
+bash.add = (item) => {
+  bash.queue.push({
+    'id': item.id, //target is attacked by id
+    'alias': bash.targets[item.name].alias, //to watch for kills/shield
+    'threat': bash.targets[item.name].threat //aggro priority; higher value = target sooner
+  });
+  bash.retarget();
+}
+
 bash.remove = (id) => {
   let bash = client.emerald.bash;
-  if (bash.active) {
-    bash.queue = bash.queue.filter(i => i.id != id);
-    if (bash.queue.length == 0 && bash.mode != 'wait') {
-      client.emerald.emnote('Room cleared of targets.','Bash');
-      bash.active = false;
-    } else {
-      bash.retarget();
-    }
+  bash.queue = bash.queue.filter(i => i.id != id);
+  if (bash.queue.length == 0) {
+    client.emerald.emnote('Room cleared of targets.','Bash');
+    if (bash.mode != 'wait') bash.active = false;
   }
+  bash.retarget();
 }
 
 bash.onPrompt = () => {
-  if (bash.active) bash.try();
+  if (bash.active && (emerald.plugins.affs ? !emerald.affs.has('aeon') : true)) bash.try();
 }
 
 bash.reset();

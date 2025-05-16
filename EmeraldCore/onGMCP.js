@@ -35,12 +35,18 @@ if (args.gmcp_method == "Char.Vitals") {
   emerald.bals.i = to_number(args.gmcp_args.psiid);
   emerald.bals.ef = to_number(args.gmcp_args.eflowbal) == 1;
   emerald.bals.onbal = emerald.bals.eq && emerald.bals.x && emerald.bals.la && emerald.bals.ra && emerald.bals.ll && emerald.bals.rl && emerald.bals.s != 0 && emerald.bals.S != 0 && emerald.bals.i != 0;
+  if (emerald.plugins['Ship']) {
+    let m = to_number(args.gmcp_args.modulebal);
+    emerald.bals.aether = m == 1;
+    emerald.ship.locked = m > -1;
+  }
   for (const b of ["slush","ice","steam","dust","healing","sparkleberry","scroll","allheale"]) {
     emerald.bals[b] = to_number(args.gmcp_args[b]) == 1;
   }
   for (const v of ["blind","deaf","prone","kafe"]) {
     emerald.vitals[v] = to_number(args.gmcp_args[v]) == 1;
   }
+  emerald.mounted = to_number(args.gmcp_args.mount) > 0;
 }
 
 if (args.gmcp_method == "Char.Skills.Groups") {
@@ -80,6 +86,13 @@ if (args.gmcp_method == "Char.Skills.List") {
   if (skill == 'zarakido') emerald.showEflow = true;
   emerald.skills[skill] = args.gmcp_args.list;
   set_variable(`emerald_skills_${skill}`,args.gmcp_args.list.join('|'));
+}
+
+if (args.gmcp_method == "Comm.Channel.Players") {
+  let emerald = client.emerald;
+  let people = args.gmcp_args;
+  emerald.who = [];
+  people.forEach(p => emerald.who.push(p.name));
 }
 
   //TODO: aethercraft module

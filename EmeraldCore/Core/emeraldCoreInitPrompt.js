@@ -8,8 +8,9 @@ prompt.onPrompt = (gag = false) => {
     for (const p of Object.keys(emerald.plugins)) {
       emerald.plugins[p].onPrompt();
     }
-    if (emerald.bals.brew && emerald.configs.brew != 'none' & !emerald.flags.get('tryingbrew')) {
+    if (emerald.bals.brew && emerald.configs.brew != 'none' && !emerald.flags.get('tryingbrew') && !(emerald.plugins['Affs'] && emerald.affs.has('aeon'))) {
       send_command(`sip ${emerald.configs.brew}`);
+      emerald.flags.set('tryingbrew',true,250);
     }
     if (emerald.showEflow && emerald.bals.ef && emerald.vitals.eflow <= 70 && !emerald.flags.get('tryingtea')) {
       send_command('sip greentea harmonic');
@@ -21,6 +22,19 @@ prompt.onPrompt = (gag = false) => {
 
 prompt.draw = () => {
   emerald.note.clear();
+  if (emerald.plugins['mapper']) {
+    switch(emerald.mapper.elevation) {
+      case 'trees':
+        emerald.note.build('[TREES]','white','seagreen');
+        break;
+      case 'flying':
+        emerald.note.build('[SKIES]','white','dodgerblue');
+        break;
+      case 'pit':
+        emerald.note.build('[ PIT ]','white','brown');
+        break;
+    }
+  }
   emerald.note.build('[',emerald.configs.ui_white,'');
   emerald.note.build(emerald.vitals.hp,emerald.note.pctcolor(emerald.vitals.pcthp),'','h',emerald.configs.ui_white,'');
   emerald.note.build('|',emerald.configs.ui_white,'');
@@ -79,6 +93,9 @@ prompt.draw = () => {
   if (emerald.vitals.blind) pflags += 'b';
   if (emerald.vitals.prone) pflags += 'p';
   if (emerald.cloaked) pflags += '<>'
+  if (emerald.skills.has('Cavalier')) {
+    emerald.note.build(`M`, !emerald.mounted ?  'red' : (emerald.bals.onbal && (emerald.plugins.affs ? emerald.affs.canAct() : true)) ? 'goldenrod' : 'grey');
+  }
   emerald.note.build(`${emerald.bals.B ? 'B' : '-'}`,(emerald.bals.onbal && (emerald.plugins.affs ? emerald.affs.canAct() : true)) ? emerald.beastFollowing ? 'goldenrod' : 'red' : 'grey');
   emerald.note.build(pflags+'- ',(emerald.bals.onbal && (emerald.plugins.affs ? emerald.affs.canAct() : true)) ? 'goldenrod' : 'grey','');
   prompt.drawTags();
@@ -92,6 +109,7 @@ prompt.draw = () => {
       }
     }
   }
+  //emerald.note.build('\n',emerald.configs.ui_white,'');
   emerald.note.display();
 }
 
@@ -104,6 +122,18 @@ prompt.drawTags = () => {
     emerald.affs.has('aeon') && emerald.note.build('[AEON]','white','blue',' ',emerald.configs.ui_white,'');
     emerald.affs.has('stun') && emerald.note.build('[STUN]','black','yellow',' ',emerald.configs.ui_white,'');
     emerald.affs.has('blackout') && emerald.note.build('[BLACKOUT]','black','white',' ',emerald.configs.ui_white,'');
+    emerald.affs.has('crucified') && emerald.note.build('[CRUCIFIED]','black','RED',' ',emerald.configs.ui_white,'');
+
+    if (emerald.incombat) {
+      emerald.note.build('[TARG:',emerald.configs.ui_white,'');
+      if (emerald.skills.has('music')) {
+        emerald.note.build(` ${emerald.target.has('manabarbs') ? 'MB' : '--'}`,emerald.configs.ui_white,'');
+        emerald.note.build(` ${emerald.target.has('egovice') ? 'EV' : '--'}`,emerald.configs.ui_white,'');
+        emerald.note.build(` ${emerald.target.has('powerspikes') ? 'PS' : '--'}`,emerald.configs.ui_white,'');
+        emerald.note.build(` ${emerald.target.has('warpedaura') ? 'AW' : '--'}`,emerald.configs.ui_white,'');
+      }
+      emerald.note.build('] ',emerald.configs.ui_white,'');
+    }
     
     if (emerald.affs.hasWounds()) { 
       emerald.note.build('[WS]:','white','red',' ',emerald.configs.ui_white,'');
@@ -151,7 +181,7 @@ prompt.drawTags = () => {
       }
     }
     if (emerald.affs.hasDeathMark()) {
-      emerald.note.build(`[DEATHMARK]:${emerald.affs.has('deathmark')}/5`,'black','saddlebrown',' ',emerald.configs.ui_white,'');
+      emerald.note.build(`[DEATHMARK]:${emerald.affs.has('deathmark')}/5`,'white','saddlebrown',' ',emerald.configs.ui_white,'');
     }
   }
 }

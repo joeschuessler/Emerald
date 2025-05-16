@@ -27,7 +27,7 @@ if (nexusVersion == 3) {
     armBals: get_variable('emerald_configs_armbals') || 'auto',
     legBals: get_variable('emerald_configs_legbals') || 'auto',
     psiBals: get_variable('emerald_configs_psibals') || 'auto',
-    tea: ''
+    brew: get_variable('emerald_configs_brew') || false
   };
 
   set_variable('emerald_configs_armbals',emerald.configs.armBals);
@@ -38,6 +38,7 @@ if (nexusVersion == 3) {
   emerald.showPsiBals = ['on','auto'].includes(emerald.configs.psiBals)
   
   emerald.cloaked = false;
+  emerald.mounted = false;
   emerald.dreamform = false;
   emerald.paused = false;
   emerald.showKataStance = false;
@@ -46,6 +47,7 @@ if (nexusVersion == 3) {
   emerald.superLocked = false;
   emerald.idLocked = false
   emerald.beastFollowing = false;
+  emerald.who = [];
   
   let coremodules = ['Note','Vitals','Bals','Flags','Prompt','Queue','Skills'];
 
@@ -90,6 +92,20 @@ if (nexusVersion == 3) {
   // Shorthand function for wrapping debug messages in emnote();
   emerald.debugmsg = (str) => {
     if (emerald.configs.debug) emerald.emnote(str,'Debugs');
+  }
+
+  emerald.smarttarget = (name) => {
+    let fullname = '';
+    if (emerald.who.length == 0) {
+      emerald.emnote('WHO list is empty!');
+    } else {
+      emerald.who.forEach(n => {
+        if (n.toLowerCase().startsWith(name.toLowerCase())) {
+          fullname = n;
+        }
+      });
+    }
+    return fullname !== '' ? fullname : name;
   }
 
   run_function('emeraldSplash','','EmeraldCore');
